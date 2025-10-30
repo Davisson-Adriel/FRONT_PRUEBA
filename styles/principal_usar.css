@@ -227,25 +227,6 @@ body {
     opacity: 0.9;
 }
 
-/* Indicador visual para imágenes clickeables de restaurantes */
-#seccionRestaurantes .imagen-container::after {
-    content: '👆 Haz clic para ver detalles';
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(78, 67, 62, 0.9);
-    color: white;
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    white-space: nowrap;
-}
-
 #seccionRestaurantes .tarjeta-item:hover .imagen-container::after {
     opacity: 1;
 }

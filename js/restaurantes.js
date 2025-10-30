@@ -22,7 +22,7 @@ const CATEGORIAS_MAP = {
  */
 async function inicializarRestaurantes() {
     console.log('🍽️ Inicializando sistema de restaurantes...');
-    
+
     try {
         await cargarRestaurantes();
         configurarEventos();
@@ -81,10 +81,10 @@ function renderizarRestaurantes(restaurantes) {
  */
 function crearTarjetaRestaurante(restaurante) {
     const categoria = CATEGORIAS_MAP[restaurante.categoriaId] || { nombre: 'General', clase: 'general' };
-    
+
     // Imagen por defecto si no existe
     const imagen = restaurante.imagen_url || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=250&fit=crop&crop=center';
-    
+
     return `
         <div class="tarjeta-item" data-categoria="${categoria.clase}" data-id="${restaurante.id}">
             <div class="imagen-container">
@@ -122,7 +122,7 @@ function configurarEventos() {
     // Filtro de categorías
     const filtroSelect = document.getElementById('filtroRestaurantes');
     if (filtroSelect) {
-        filtroSelect.addEventListener('change', function() {
+        filtroSelect.addEventListener('change', function () {
             filtroActivo = this.value;
             aplicarFiltros();
         });
@@ -159,7 +159,7 @@ function verDetalleRestaurante(id) {
     }
 
     console.log('🔍 Ver detalles de:', restaurante);
-    
+
     // Aquí puedes implementar la navegación a una página de detalles
     // o mostrar un modal con información detallada
     alert(`Detalles de ${restaurante.nombre}\n\n${restaurante.descripcion}\n\nDirección: ${restaurante.direccion}`);
@@ -176,7 +176,7 @@ function verResenasRestaurante(id) {
     }
 
     console.log('⭐ Ver reseñas de:', restaurante);
-    
+
     // Integrar con el sistema de reseñas existente si existe
     if (typeof mostrarModalResenas === 'function') {
         mostrarModalResenas(restaurante.nombre);
