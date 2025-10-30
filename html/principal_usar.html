@@ -43,77 +43,18 @@
                     <div class="filtros-container">
                         <select class="filtro-categoria" id="filtroRestaurantes">
                             <option value="todos">Todas las categorías</option>
-                            <option value="italiana">Comida Italiana</option>
-                            <option value="mexicana">Comida Mexicana</option>
-                            <option value="americana">Comida Americana</option>
-                            <option value="asiatica">Comida Asiática</option>
-                            <option value="postres">Postres y Dulces</option>
-                            <option value="vegetariana">Vegetariana</option>
+                            <option value="fast-food">Fast Food</option>
+                            <option value="gourmet">Gourmet</option>
+                            <option value="vegetariano">Vegetariano</option>
+                            <option value="parrilla">Parrilla</option>
+                            <option value="ensaladas">Ensaladas</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="grid-contenido" id="gridRestaurantes">
-                    <!-- Restaurante 1 -->
-                    <div class="tarjeta-item" data-categoria="italiana">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop&crop=center" alt="Pasta Roma" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Restaurante</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Pasta Roma</h3>
-                            <p class="descripcion-item">Auténtica cocina italiana con pasta fresca y ingredientes importados desde Italia</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.8</span>
-                                <span class="categoria-tag">Italiana</span>
-                                <span class="tiempo-entrega">🕒 25-30 min</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-menu">Visualizar</button>
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurante 2 -->
-                    <div class="tarjeta-item" data-categoria="mexicana">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=250&fit=crop&crop=center" alt="Tacos Del Sol" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Restaurante</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Tacos Del Sol</h3>
-                            <p class="descripcion-item">Sabores tradicionales mexicanos con recetas familiares transmitidas por generaciones</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.6</span>
-                                <span class="categoria-tag">Mexicana</span>
-                                <span class="tiempo-entrega">🕒 15-20 min</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-menu">Visualizar</button>
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurante 3 -->
-                    <div class="tarjeta-item" data-categoria="americana">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=250&fit=crop&crop=center" alt="Burger House" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Burger House</h3>
-                            <p class="descripcion-item">Hamburguesas gourmet con carne premium Angus y ingredientes frescos locales</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.7</span>
-                                <span class="categoria-tag">Americana</span>
+                    <!-- Los restaurantes se cargarán dinámicamente desde el backend -->
+                    <div class="loading">🍽️ Cargando restaurantes...</div>
                                 <span class="tiempo-entrega">🕒 20-25 min</span>
                             </div>
                             <div class="acciones-item">
@@ -270,32 +211,18 @@
                     <div class="filtros-container">
                         <select class="filtro-categoria" id="filtroPlatos">
                             <option value="todos">Todas las categorías</option>
-                            <option value="entradas">Entradas</option>
-                            <option value="principales">Platos Principales</option>
+                            <option value="fast-food">Fast Food</option>
+                            <option value="gourmet">Gourmet</option>
                             <option value="postres">Postres</option>
-                            <option value="bebidas">Bebidas</option>
+                            <option value="parrilla">Parrilla</option>
                             <option value="ensaladas">Ensaladas</option>
-                            <option value="pizzas">Pizzas</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="grid-contenido" id="gridPlatos">
-                    <!-- Plato 1 -->
-                    <div class="tarjeta-item" data-categoria="pizzas">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=400&h=250&fit=crop&crop=center" alt="Pizza Margarita" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Pizza Margarita</h3>
-                            <p class="descripcion-item">Pizza clásica napolitana con tomate San Marzano, mozzarella di bufala y albahaca fresca</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.8</span>
-                                <span class="categoria-tag">Pizza</span>
-                                <span class="precio">💰 $18.99</span>
+                    <!-- Los platos se cargarán dinámicamente desde el backend -->
+                    <div class="loading">🍕 Cargando platos...</div>
                             </div>
                             <div class="acciones-item">
                                 <button class="boton-ver-resenas">Ver Reseñas</button>
@@ -928,5 +855,10 @@
             });
         });
     </script>
+    
+    <!-- Scripts para conexión con el backend -->
+    <script src="../js/api.js"></script>
+    <script src="../js/restaurantes.js"></script>
+    <script src="../js/platos.js"></script>
 </body>
 </html>
