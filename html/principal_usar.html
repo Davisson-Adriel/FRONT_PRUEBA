@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio - Restaurantes y Platos</title>
     <link rel="stylesheet" href="../styles/principal_usar.css">
 </head>
+
 <body>
     <!-- Header con bienvenida y logo -->
     <header class="encabezado-principal">
@@ -35,7 +37,7 @@
     <!-- Contenido principal -->
     <main class="contenido-principal">
         <div class="contenedor-principal">
-            
+
             <!-- Sección de Restaurantes -->
             <section class="seccion-contenido activa" id="seccionRestaurantes">
                 <div class="encabezado-seccion">
@@ -55,152 +57,6 @@
                 <div class="grid-contenido" id="gridRestaurantes">
                     <!-- Los restaurantes se cargarán dinámicamente desde el backend -->
                     <div class="loading">🍽️ Cargando restaurantes...</div>
-                                <span class="tiempo-entrega">🕒 20-25 min</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-menu">Visualizar</button>
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurante 4 -->
-                    <div class="tarjeta-item" data-categoria="asiatica">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=400&h=250&fit=crop&crop=center" alt="Dragon Wok" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Dragon Wok</h3>
-                            <p class="descripcion-item">Cocina asiática fusión combinando platos tradicionales chinos con toques modernos</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.9</span>
-                                <span class="categoria-tag">Asiática</span>
-                                <span class="tiempo-entrega">🕒 30-35 min</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-menu">Visualizar</button>
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurante 5 -->
-                    <div class="tarjeta-item" data-categoria="postres">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=250&fit=crop&crop=center" alt="Sweet Dreams" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Sweet Dreams</h3>
-                            <p class="descripcion-item">Postres artesanales y repostería fina creados por chef pastelero premiado</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.8</span>
-                                <span class="categoria-tag">Postres</span>
-                                <span class="tiempo-entrega">🕒 10-15 min</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-menu">Visualizar</button>
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurante 6 -->
-                    <div class="tarjeta-item" data-categoria="vegetariana">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=250&fit=crop&crop=center" alt="Green Garden" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Green Garden</h3>
-                            <p class="descripcion-item">Comida vegetariana y vegana saludable con ingredientes orgánicos de la región</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.5</span>
-                                <span class="categoria-tag">Vegetariana</span>
-                                <span class="tiempo-entrega">🕒 20-25 min</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-menu">Visualizar</button>
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurante 7 -->
-                    <div class="tarjeta-item" data-categoria="italiana">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=250&fit=crop&crop=center" alt="Pizzeria Napoli" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Pizzeria Napoli</h3>
-                            <p class="descripcion-item">Pizza napoletana auténtica horneada en horno de leña a 900°F</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.9</span>
-                                <span class="categoria-tag">Italiana</span>
-                                <span class="tiempo-entrega">🕒 35-40 min</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-menu">Visualizar</button>
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurante 8 -->
-                    <div class="tarjeta-item" data-categoria="asiatica">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=250&fit=crop&crop=center" alt="Sakura Sushi" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Sakura Sushi</h3>
-                            <p class="descripcion-item">Sushi fresco preparado por chef japonés con pescado importado diariamente</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.7</span>
-                                <span class="categoria-tag">Asiática</span>
-                                <span class="tiempo-entrega">🕒 25-30 min</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-menu">Visualizar</button>
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Restaurante 9 -->
-                    <div class="tarjeta-item" data-categoria="americana">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=250&fit=crop&crop=center" alt="BBQ Master" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">BBQ Master</h3>
-                            <p class="descripcion-item">Barbacoa tradicional americana con carnes ahumadas por 12 horas</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.6</span>
-                                <span class="categoria-tag">Americana</span>
-                                <span class="tiempo-entrega">🕒 30-35 min</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-menu">Visualizar</button>
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
 
@@ -213,7 +69,7 @@
                             <option value="todos">Todas las categorías</option>
                             <option value="fast-food">Fast Food</option>
                             <option value="gourmet">Gourmet</option>
-                            <option value="postres">Postres</option>
+                            <option value="vegetariano">Vegetariano</option>
                             <option value="parrilla">Parrilla</option>
                             <option value="ensaladas">Ensaladas</option>
                         </select>
@@ -223,254 +79,6 @@
                 <div class="grid-contenido" id="gridPlatos">
                     <!-- Los platos se cargarán dinámicamente desde el backend -->
                     <div class="loading">🍕 Cargando platos...</div>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Plato 2 -->
-                    <div class="tarjeta-item" data-categoria="principales">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=400&h=250&fit=crop&crop=center" alt="Tacos Al Pastor" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Tacos Al Pastor</h3>
-                            <p class="descripcion-item">Tacos tradicionales con carne de cerdo marinada, piña, cebolla y cilantro fresco</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.7</span>
-                                <span class="categoria-tag">Principal</span>
-                                <span class="precio">💰 $12.99</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Plato 3 -->
-                    <div class="tarjeta-item" data-categoria="postres">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=250&fit=crop&crop=center" alt="Tiramisu" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Tiramisu</h3>
-                            <p class="descripcion-item">Postre italiano tradicional con café espresso, mascarpone, huevos frescos y cacao</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.9</span>
-                                <span class="categoria-tag">Postre</span>
-                                <span class="precio">💰 $8.99</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Plato 4 -->
-                    <div class="tarjeta-item" data-categoria="ensaladas">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=250&fit=crop&crop=center" alt="Ensalada Caesar" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Ensalada Caesar</h3>
-                            <p class="descripcion-item">Ensalada fresca con lechuga romana, parmesano reggiano, croutones y aderezo caesar casero</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.5</span>
-                                <span class="categoria-tag">Ensalada</span>
-                                <span class="precio">💰 $14.99</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Plato 5 -->
-                    <div class="tarjeta-item" data-categoria="bebidas">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=400&h=250&fit=crop&crop=center" alt="Smoothie Tropical" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Smoothie Tropical</h3>
-                            <p class="descripcion-item">Batido refrescante con mango, piña, maracuyá, yogurt griego y miel de abeja</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.6</span>
-                                <span class="categoria-tag">Bebida</span>
-                                <span class="precio">💰 $6.99</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Plato 6 -->
-                    <div class="tarjeta-item" data-categoria="entradas">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?w=400&h=250&fit=crop&crop=center" alt="Nachos Supreme" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Nachos Supreme</h3>
-                            <p class="descripcion-item">Nachos crujientes con queso cheddar derretido, guacamole casero, jalapeños y crema ácida</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.4</span>
-                                <span class="categoria-tag">Entrada</span>
-                                <span class="precio">💰 $10.99</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Plato 7 -->
-                    <div class="tarjeta-item" data-categoria="principales">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=250&fit=crop&crop=center" alt="Hamburguesa Gourmet" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Hamburguesa Gourmet</h3>
-                            <p class="descripcion-item">Hamburguesa de carne Angus con queso suizo, tocino, lechuga y tomate en pan brioche</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.7</span>
-                                <span class="categoria-tag">Principal</span>
-                                <span class="precio">💰 $16.99</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Plato 8 -->
-                    <div class="tarjeta-item" data-categoria="principales">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1563379091339-03246963d29c?w=400&h=250&fit=crop&crop=center" alt="Sushi Roll" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Dragon Roll</h3>
-                            <p class="descripcion-item">Rollo de sushi con tempura de camarón, aguacate, anguila y salsa teriyaki</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.8</span>
-                                <span class="categoria-tag">Principal</span>
-                                <span class="precio">💰 $22.99</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Plato 9 -->
-                    <div class="tarjeta-item" data-categoria="postres">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&h=250&fit=crop&crop=center" alt="Cheesecake" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Cheesecake de Frutos Rojos</h3>
-                            <p class="descripcion-item">Cheesecake cremoso de vainilla con coulis de frutos rojos y base de galleta graham</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.6</span>
-                                <span class="categoria-tag">Postre</span>
-                                <span class="precio">💰 $9.99</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Plato 10 -->
-                    <div class="tarjeta-item" data-categoria="principales">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=400&h=250&fit=crop&crop=center" alt="Pasta Carbonara" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Pasta Carbonara</h3>
-                            <p class="descripcion-item">Spaghetti al dente con pancetta, huevo, parmesano y pimienta negra recién molida</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.8</span>
-                                <span class="categoria-tag">Principal</span>
-                                <span class="precio">💰 $19.99</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Plato 11 -->
-                    <div class="tarjeta-item" data-categoria="bebidas">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=250&fit=crop&crop=center" alt="Café Latte" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Café Latte Artístico</h3>
-                            <p class="descripcion-item">Café espresso con leche vaporizada y arte latte, preparado con granos premium</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.5</span>
-                                <span class="categoria-tag">Bebida</span>
-                                <span class="precio">💰 $4.99</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Plato 12 -->
-                    <div class="tarjeta-item" data-categoria="entradas">
-                        <div class="imagen-container">
-                            <img src="https://images.unsplash.com/photo-1541014741259-de529411b96a?w=400&h=250&fit=crop&crop=center" alt="Alitas BBQ" class="imagen-item">
-                            <div class="overlay-item">
-                                <button class="boton-ver-detalle">Ver Detalles</button>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <h3 class="nombre-item">Alitas BBQ Picantes</h3>
-                            <p class="descripcion-item">Alitas de pollo crujientes bañadas en salsa BBQ picante con apio y aderezo ranch</p>
-                            <div class="detalles-item">
-                                <span class="calificacion">⭐ 4.6</span>
-                                <span class="categoria-tag">Entrada</span>
-                                <span class="precio">💰 $13.99</span>
-                            </div>
-                            <div class="acciones-item">
-                                <button class="boton-ver-resenas">Ver Reseñas</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
 
@@ -521,7 +129,8 @@
                     </div>
                     <div class="campo-form">
                         <label for="comentarioResena">Tu reseña:</label>
-                        <textarea id="comentarioResena" rows="4" placeholder="Escribe tu experiencia aquí..." required></textarea>
+                        <textarea id="comentarioResena" rows="4" placeholder="Escribe tu experiencia aquí..."
+                            required></textarea>
                     </div>
                     <div class="acciones-form">
                         <button type="button" class="boton-cancelar" id="cancelarResena">Cancelar</button>
@@ -534,7 +143,7 @@
 
     <script>
         // Obtener nombre de usuario
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Usuario';
             document.getElementById('nombreUsuario').textContent = nombreUsuario;
         });
@@ -544,20 +153,20 @@
         const seccionesContenido = document.querySelectorAll('.seccion-contenido');
 
         botonesNavegacion.forEach(boton => {
-            boton.addEventListener('click', function() {
+            boton.addEventListener('click', function () {
                 // Remover clase activa de todos los botones
                 botonesNavegacion.forEach(b => b.classList.remove('activo'));
                 // Agregar clase activa al botón clickeado
                 this.classList.add('activo');
 
                 const seccion = this.getAttribute('data-seccion');
-                
+
                 // Ocultar todas las secciones
                 seccionesContenido.forEach(s => {
                     s.style.display = 'none';
                     s.classList.remove('activa');
                 });
-                
+
                 // Mostrar la sección seleccionada
                 const seccionMostrar = document.getElementById(`seccion${seccion.charAt(0).toUpperCase() + seccion.slice(1)}`);
                 seccionMostrar.style.display = 'block';
@@ -568,10 +177,10 @@
         // Filtros
         function aplicarFiltro(filtro, grid) {
             const tarjetas = grid.querySelectorAll('.tarjeta-item');
-            
+
             tarjetas.forEach(tarjeta => {
                 const categoria = tarjeta.getAttribute('data-categoria');
-                
+
                 if (filtro === 'todos' || categoria === filtro) {
                     tarjeta.style.display = 'block';
                     tarjeta.style.animation = 'fadeIn 0.3s ease';
@@ -582,14 +191,14 @@
         }
 
         // Filtro de restaurantes
-        document.getElementById('filtroRestaurantes').addEventListener('change', function() {
+        document.getElementById('filtroRestaurantes').addEventListener('change', function () {
             const filtro = this.value;
             const grid = document.getElementById('gridRestaurantes');
             aplicarFiltro(filtro, grid);
         });
 
         // Filtro de platos
-        document.getElementById('filtroPlatos').addEventListener('change', function() {
+        document.getElementById('filtroPlatos').addEventListener('change', function () {
             const filtro = this.value;
             const grid = document.getElementById('gridPlatos');
             aplicarFiltro(filtro, grid);
@@ -618,14 +227,14 @@
         let itemActual = '';
 
         // Funcionalidad de botones
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             console.log('Clic detectado en:', e.target.className);
-            
+
             if (e.target.classList.contains('boton-ver-detalle')) {
                 const tarjeta = e.target.closest('.tarjeta-item');
                 const nombreItem = tarjeta.querySelector('.nombre-item').textContent;
                 const seccionActiva = document.querySelector('.seccion-contenido.activa');
-                
+
                 // Si estamos en la sección de restaurantes, navegar a detalles
                 if (seccionActiva && seccionActiva.id === 'seccionRestaurantes') {
                     console.log('Navegando a detalles de restaurante:', nombreItem);
@@ -636,12 +245,12 @@
                     alert(`Viendo detalles de: ${nombreItem}`);
                 }
             }
-            
+
             if (e.target.classList.contains('boton-ver-menu')) {
                 const nombreItem = e.target.closest('.tarjeta-item').querySelector('.nombre-item').textContent;
                 alert(`Visualizando: ${nombreItem}`);
             }
-            
+
             if (e.target.classList.contains('boton-ver-resenas')) {
                 const nombreItem = e.target.closest('.tarjeta-item').querySelector('.nombre-item').textContent;
                 mostrarModalResenas(nombreItem);
@@ -652,9 +261,9 @@
                 console.log('Clic en imagen detectado');
                 const tarjeta = e.target.closest('.tarjeta-item');
                 const seccionActiva = document.querySelector('.seccion-contenido.activa');
-                
+
                 console.log('Sección activa:', seccionActiva ? seccionActiva.id : 'No encontrada');
-                
+
                 // Solo proceder si estamos en la sección de restaurantes
                 if (seccionActiva && seccionActiva.id === 'seccionRestaurantes') {
                     const nombreRestaurante = tarjeta.querySelector('.nombre-item').textContent;
@@ -677,15 +286,15 @@
             const modal = document.getElementById('modalResenas');
             const titulo = document.getElementById('tituloModal');
             const container = document.getElementById('resenasContainer');
-            
+
             titulo.textContent = `Reseñas de ${nombreItem}`;
-            
+
             // Limpiar container
             container.innerHTML = '';
-            
+
             // Obtener reseñas del item
             const resenas = resenasData[nombreItem] || [];
-            
+
             if (resenas.length === 0) {
                 container.innerHTML = '<p class="sin-resenas">Aún no hay reseñas para este item. ¡Sé el primero en crear una!</p>';
             } else {
@@ -694,7 +303,7 @@
                     container.appendChild(resenaElement);
                 });
             }
-            
+
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
@@ -703,9 +312,9 @@
         function crearElementoResena(resena) {
             const div = document.createElement('div');
             div.className = 'resena-item';
-            
+
             const estrellas = '★'.repeat(resena.calificacion) + '☆'.repeat(5 - resena.calificacion);
-            
+
             div.innerHTML = `
                 <div class="resena-header">
                     <h4 class="nombre-usuario">${resena.nombre}</h4>
@@ -714,32 +323,32 @@
                 </div>
                 <p class="comentario-resena">${resena.comentario}</p>
             `;
-            
+
             return div;
         }
 
         // Cerrar modal de reseñas
-        document.getElementById('cerrarModal').addEventListener('click', function() {
+        document.getElementById('cerrarModal').addEventListener('click', function () {
             document.getElementById('modalResenas').style.display = 'none';
             document.body.style.overflow = 'auto';
         });
 
         // Abrir modal de crear reseña
-        document.getElementById('btnCrearResena').addEventListener('click', function() {
+        document.getElementById('btnCrearResena').addEventListener('click', function () {
             document.getElementById('modalResenas').style.display = 'none';
             document.getElementById('modalCrearResena').style.display = 'flex';
-            
+
             // Llenar el nombre del usuario si está disponible
             const nombreUsuario = localStorage.getItem('nombreUsuario') || '';
             document.getElementById('nombreUsuarioResena').value = nombreUsuario;
         });
 
         // Cerrar modal de crear reseña
-        document.getElementById('cerrarModalCrear').addEventListener('click', function() {
+        document.getElementById('cerrarModalCrear').addEventListener('click', function () {
             cerrarModalCrearResena();
         });
 
-        document.getElementById('cancelarResena').addEventListener('click', function() {
+        document.getElementById('cancelarResena').addEventListener('click', function () {
             cerrarModalCrearResena();
         });
 
@@ -754,19 +363,19 @@
         let calificacionSeleccionada = 0;
 
         estrellas.forEach(estrella => {
-            estrella.addEventListener('click', function() {
+            estrella.addEventListener('click', function () {
                 calificacionSeleccionada = parseInt(this.getAttribute('data-rating'));
                 document.getElementById('calificacionResena').value = calificacionSeleccionada;
                 actualizarEstrellas();
             });
 
-            estrella.addEventListener('mouseover', function() {
+            estrella.addEventListener('mouseover', function () {
                 const rating = parseInt(this.getAttribute('data-rating'));
                 destacarEstrellas(rating);
             });
         });
 
-        document.querySelector('.estrellas-container').addEventListener('mouseleave', function() {
+        document.querySelector('.estrellas-container').addEventListener('mouseleave', function () {
             actualizarEstrellas();
         });
 
@@ -787,18 +396,18 @@
         }
 
         // Enviar reseña
-        document.getElementById('formCrearResena').addEventListener('submit', function(e) {
+        document.getElementById('formCrearResena').addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             const nombre = document.getElementById('nombreUsuarioResena').value.trim();
             const calificacion = parseInt(document.getElementById('calificacionResena').value);
             const comentario = document.getElementById('comentarioResena').value.trim();
-            
+
             if (!nombre || !calificacion || !comentario) {
                 alert('Por favor, completa todos los campos');
                 return;
             }
-            
+
             // Crear nueva reseña
             const nuevaResena = {
                 nombre: nombre,
@@ -806,17 +415,17 @@
                 comentario: comentario,
                 fecha: new Date().toISOString().split('T')[0]
             };
-            
+
             // Agregar a la base de datos
             if (!resenasData[itemActual]) {
                 resenasData[itemActual] = [];
             }
             resenasData[itemActual].unshift(nuevaResena);
-            
+
             // Cerrar modal y mostrar confirmación
             cerrarModalCrearResena();
             alert('¡Reseña creada exitosamente!');
-            
+
             // Volver a mostrar el modal de reseñas actualizado
             setTimeout(() => {
                 mostrarModalResenas(itemActual);
@@ -830,22 +439,22 @@
         }
 
         // Cerrar modales al hacer clic fuera
-        window.addEventListener('click', function(e) {
+        window.addEventListener('click', function (e) {
             const modalResenas = document.getElementById('modalResenas');
             const modalCrear = document.getElementById('modalCrearResena');
-            
+
             if (e.target === modalResenas) {
                 modalResenas.style.display = 'none';
                 document.body.style.overflow = 'auto';
             }
-            
+
             if (e.target === modalCrear) {
                 cerrarModalCrearResena();
             }
         });
 
         // Animación de entrada
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             const tarjetas = document.querySelectorAll('.tarjeta-item');
             tarjetas.forEach((tarjeta, index) => {
                 setTimeout(() => {
@@ -855,10 +464,12 @@
             });
         });
     </script>
-    
+
     <!-- Scripts para conexión con el backend -->
     <script src="../js/api.js"></script>
     <script src="../js/restaurantes.js"></script>
     <script src="../js/platos.js"></script>
+
 </body>
+
 </html>

@@ -194,8 +194,8 @@ body {
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     position: relative;
-    opacity: 0;
-    transform: translateY(30px);
+    opacity: 1;  /* Cambiado de 0 a 1 para hacer visibles las tarjetas */
+    transform: translateY(0);  /* Cambiado de 30px a 0 para posición normal */
 }
 
 .tarjeta-item:hover {
