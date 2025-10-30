@@ -111,3 +111,53 @@ const PlatosAPI = {
         });
     }
 };
+
+// API para reseñas de restaurantes
+const ResenasRestaurantesAPI = {
+    async obtenerTodas() {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_restaurantes`);
+    },
+
+    async obtenerPorRestaurante(restauranteId) {
+        const todasLasResenas = await this.obtenerTodas();
+        return todasLasResenas.filter(resena => resena.restauranteId === parseInt(restauranteId));
+    },
+
+    async crear(resenaData) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_restaurantes`, {
+            method: 'POST',
+            body: JSON.stringify(resenaData)
+        });
+    }
+};
+
+// API para reseñas de platos
+const ReseñasPlatosAPI = {
+    async obtenerTodas() {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_platos`);
+    },
+
+    async obtenerPorPlato(platoId) {
+        const todasLasResenas = await this.obtenerTodas();
+        return todasLasResenas.filter(resena => resena.platoId === parseInt(platoId));
+    },
+
+    async crear(resenaData) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_platos`, {
+            method: 'POST',
+            body: JSON.stringify(resenaData)
+        });
+    }
+};
+
+// API para usuarios
+const UsuariosAPI = {
+    async obtenerTodos() {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/usuarios`);
+    },
+
+    async obtenerPorId(id) {
+        const usuarios = await this.obtenerTodos();
+        return usuarios.find(usuario => usuario.id === parseInt(id));
+    }
+};

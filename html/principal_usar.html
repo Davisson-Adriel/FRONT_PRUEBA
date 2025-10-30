@@ -204,27 +204,31 @@
             aplicarFiltro(filtro, grid);
         });
 
-        // Base de datos simulada de reseñas
-        let resenasData = {
-            // Restaurantes
-            'Pasta Roma': [
-                { nombre: 'María González', calificacion: 5, comentario: 'Excelente pasta italiana, ambiente muy acogedor', fecha: '2024-10-20' },
-                { nombre: 'Carlos López', calificacion: 4, comentario: 'Muy buena comida, servicio rápido y amable', fecha: '2024-10-18' }
-            ],
-            'Tacos Del Sol': [
-                { nombre: 'Ana Martín', calificacion: 5, comentario: 'Los mejores tacos de la ciudad, totalmente recomendado', fecha: '2024-10-22' }
-            ],
-            // Platos
-            'Pizza Margarita': [
-                { nombre: 'Luis Rodríguez', calificacion: 5, comentario: 'Pizza perfecta, ingredientes frescos y masa crujiente', fecha: '2024-10-21' },
-                { nombre: 'Sofia Chen', calificacion: 4, comentario: 'Muy rica, el queso estaba perfecto', fecha: '2024-10-19' }
-            ],
-            'Tiramisu': [
-                { nombre: 'Roberto Silva', calificacion: 5, comentario: 'El mejor tiramisú que he probado, textura cremosa perfecta', fecha: '2024-10-17' }
-            ]
-        };
-
+        // Variables globales para el sistema de reseñas
         let itemActual = '';
+        let tipoItemActual = ''; // 'restaurante' o 'plato'
+        let idItemActual = null;
+        let cacheUsuarios = {}; // Cache para evitar múltiples llamadas al backend
+
+        // Función para cargar usuarios en cache
+        async function cargarUsuariosEnCache() {
+            if (Object.keys(cacheUsuarios).length === 0) {
+                try {
+                    const usuarios = await UsuariosAPI.obtenerTodos();
+                    usuarios.forEach(usuario => {
+                        cacheUsuarios[usuario.id] = usuario.username;
+                    });
+                    console.log('✅ Usuarios cargados en cache:', cacheUsuarios);
+                } catch (error) {
+                    console.error('❌ Error cargando usuarios:', error);
+                }
+            }
+        }
+
+        // Función para obtener nombre de usuario desde cache
+        function obtenerNombreUsuario(usuarioId) {
+            return cacheUsuarios[usuarioId] || `Usuario ${usuarioId}`;
+        }
 
         // Funcionalidad de botones
         document.addEventListener('click', function (e) {
@@ -280,51 +284,104 @@
             }
         });
 
-        // Función para mostrar el modal de reseñas
-        function mostrarModalResenas(nombreItem) {
+        // Función para mostrar el modal de reseñas conectado al backend
+        async function mostrarModalResenas(nombreItem, tipo = null, id = null) {
+            // Detectar automáticamente el tipo si no se proporciona
+            if (!tipo) {
+                const seccionActiva = document.querySelector('.seccion-contenido.activa');
+                tipo = seccionActiva?.id === 'seccionRestaurantes' ? 'restaurante' : 'plato';
+            }
+
+            // Buscar el ID si no se proporciona
+            if (!id) {
+                const tarjetas = document.querySelectorAll('.tarjeta-item');
+                for (let tarjeta of tarjetas) {
+                    const nombre = tarjeta.querySelector('.nombre-item')?.textContent;
+                    if (nombre === nombreItem) {
+                        id = parseInt(tarjeta.getAttribute('data-id'));
+                        break;
+                    }
+                }
+            }
+
             itemActual = nombreItem;
+            tipoItemActual = tipo;
+            idItemActual = id;
+
             const modal = document.getElementById('modalResenas');
             const titulo = document.getElementById('tituloModal');
             const container = document.getElementById('resenasContainer');
 
             titulo.textContent = `Reseñas de ${nombreItem}`;
-
-            // Limpiar container
-            container.innerHTML = '';
-
-            // Obtener reseñas del item
-            const resenas = resenasData[nombreItem] || [];
-
-            if (resenas.length === 0) {
-                container.innerHTML = '<p class="sin-resenas">Aún no hay reseñas para este item. ¡Sé el primero en crear una!</p>';
-            } else {
-                resenas.forEach(resena => {
-                    const resenaElement = crearElementoResena(resena);
-                    container.appendChild(resenaElement);
-                });
-            }
+            container.innerHTML = '<div class="loading">🔄 Cargando reseñas...</div>';
 
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+
+            try {
+                // Cargar usuarios en cache si no están cargados
+                await cargarUsuariosEnCache();
+
+                let resenas = [];
+
+                if (tipo === 'restaurante') {
+                    resenas = await ResenasRestaurantesAPI.obtenerPorRestaurante(id);
+                } else if (tipo === 'plato') {
+                    resenas = await ReseñasPlatosAPI.obtenerPorPlato(id);
+                }
+
+                // Limpiar container
+                container.innerHTML = '';
+
+                if (resenas.length === 0) {
+                    container.innerHTML = '<p class="sin-resenas">Aún no hay reseñas para este item. ¡Sé el primero en crear una!</p>';
+                } else {
+                    // Crear elementos de reseña usando el cache de usuarios
+                    resenas.forEach(resena => {
+                        const resenaElement = crearElementoResenaBackend(resena);
+                        container.appendChild(resenaElement);
+                    });
+                }
+
+            } catch (error) {
+                console.error('Error al cargar reseñas:', error);
+                container.innerHTML = '<p class="error-resenas">❌ Error al cargar las reseñas. Intenta de nuevo.</p>';
+            }
         }
 
-        // Función para crear elemento de reseña
-        function crearElementoResena(resena) {
+        // Función para crear elemento de reseña del backend con nombre de usuario
+        function crearElementoResenaBackend(resena) {
             const div = document.createElement('div');
             div.className = 'resena-item';
 
             const estrellas = '★'.repeat(resena.calificacion) + '☆'.repeat(5 - resena.calificacion);
+            
+            // Formatear la fecha
+            const fecha = new Date(resena.fecha).toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'short',    
+                day: 'numeric'
+            });
+
+            // Obtener el nombre del usuario desde cache
+            const nombreUsuario = obtenerNombreUsuario(resena.usuarioId);
 
             div.innerHTML = `
                 <div class="resena-header">
-                    <h4 class="nombre-usuario">${resena.nombre}</h4>
+                    <h4 class="nombre-usuario">${nombreUsuario}</h4>
                     <div class="calificacion-estrellas">${estrellas}</div>
-                    <span class="fecha-resena">${resena.fecha}</span>
+                    <span class="fecha-resena">${fecha}</span>
+                    <span class="likes-resena">👍 ${resena.likes}</span>
                 </div>
                 <p class="comentario-resena">${resena.comentario}</p>
             `;
 
             return div;
+        }
+
+        // Función legacy para compatibilidad (mantener por si se usa en otro lugar)
+        function crearElementoResena(resena) {
+            return crearElementoResenaBackend(resena);
         }
 
         // Cerrar modal de reseñas
@@ -395,8 +452,8 @@
             destacarEstrellas(calificacionSeleccionada);
         }
 
-        // Enviar reseña
-        document.getElementById('formCrearResena').addEventListener('submit', function (e) {
+        // Enviar reseña al backend
+        document.getElementById('formCrearResena').addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const nombre = document.getElementById('nombreUsuarioResena').value.trim();
@@ -408,28 +465,38 @@
                 return;
             }
 
-            // Crear nueva reseña
-            const nuevaResena = {
-                nombre: nombre,
-                calificacion: calificacion,
-                comentario: comentario,
-                fecha: new Date().toISOString().split('T')[0]
-            };
+            try {
+                // Crear datos de la reseña para el backend
+                const nuevaResena = {
+                    usuarioId: Math.floor(Math.random() * 1000) + 1, // ID temporal aleatorio
+                    calificacion: calificacion,
+                    comentario: comentario,
+                    fecha: new Date().toISOString(),
+                    likes: 0
+                };
 
-            // Agregar a la base de datos
-            if (!resenasData[itemActual]) {
-                resenasData[itemActual] = [];
+                // Agregar el ID específico según el tipo
+                if (tipoItemActual === 'restaurante') {
+                    nuevaResena.restauranteId = idItemActual;
+                    await ResenasRestaurantesAPI.crear(nuevaResena);
+                } else if (tipoItemActual === 'plato') {
+                    nuevaResena.platoId = idItemActual;
+                    await ReseñasPlatosAPI.crear(nuevaResena);
+                }
+
+                // Cerrar modal y mostrar confirmación
+                cerrarModalCrearResena();
+                alert('¡Reseña creada exitosamente!');
+
+                // Volver a mostrar el modal de reseñas actualizado
+                setTimeout(() => {
+                    mostrarModalResenas(itemActual, tipoItemActual, idItemActual);
+                }, 500);
+
+            } catch (error) {
+                console.error('Error al crear reseña:', error);
+                alert('❌ Error al crear la reseña. Intenta de nuevo.');
             }
-            resenasData[itemActual].unshift(nuevaResena);
-
-            // Cerrar modal y mostrar confirmación
-            cerrarModalCrearResena();
-            alert('¡Reseña creada exitosamente!');
-
-            // Volver a mostrar el modal de reseñas actualizado
-            setTimeout(() => {
-                mostrarModalResenas(itemActual);
-            }, 500);
         });
 
         function limpiarFormularioResena() {
@@ -453,8 +520,11 @@
             }
         });
 
-        // Animación de entrada
+        // Animación de entrada y carga inicial
         window.addEventListener('load', function () {
+            // Cargar usuarios en cache al inicio para mejorar rendimiento
+            cargarUsuariosEnCache();
+            
             const tarjetas = document.querySelectorAll('.tarjeta-item');
             tarjetas.forEach((tarjeta, index) => {
                 setTimeout(() => {

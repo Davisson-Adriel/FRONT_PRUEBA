@@ -177,9 +177,9 @@ function verResenasRestaurante(id) {
 
     console.log('⭐ Ver reseñas de:', restaurante);
 
-    // Integrar con el sistema de reseñas existente si existe
+    // Integrar con el sistema de reseñas del backend
     if (typeof mostrarModalResenas === 'function') {
-        mostrarModalResenas(restaurante.nombre);
+        mostrarModalResenas(restaurante.nombre, 'restaurante', restaurante.id);
     } else {
         alert(`Reseñas de ${restaurante.nombre}\n\n(Sistema de reseñas en desarrollo)`);
     }

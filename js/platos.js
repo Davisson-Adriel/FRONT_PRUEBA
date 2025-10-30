@@ -179,9 +179,9 @@ function verResenasPlato(id) {
 
     console.log('⭐ Ver reseñas de:', plato);
     
-    // Integrar con el sistema de reseñas existente si existe
+    // Integrar con el sistema de reseñas del backend
     if (typeof mostrarModalResenas === 'function') {
-        mostrarModalResenas(plato.nombre);
+        mostrarModalResenas(plato.nombre, 'plato', plato.id);
     } else {
         alert(`Reseñas de ${plato.nombre}\n\n(Sistema de reseñas en desarrollo)`);
     }
