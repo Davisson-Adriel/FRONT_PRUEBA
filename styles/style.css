@@ -1,0 +1,266 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle, #fed87b 0%, #4e433e 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.contenedor-pagina {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    justify-content: center;
+    max-height: 95vh;
+}
+
+.caja-inicio-sesion {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    overflow: hidden;
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.seccion-imagen {
+    background: white;
+    padding: 15px 10px 10px 10px;
+    text-align: center;
+}
+
+.imagen-logo {
+    max-width: 120px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.formulario-contenedor {
+    padding: 20px 25px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.titulo-inicio {
+    text-align: center;
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.formulario-login {
+    margin-bottom: 20px;
+}
+
+.grupo-campo {
+    margin-bottom: 15px;
+}
+
+.etiqueta-campo {
+    display: block;
+    margin-bottom: 6px;
+    color: #555;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.campo-entrada {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.3s ease;
+    background: #fafafa;
+}
+
+.campo-entrada:focus {
+    outline: none;
+    border-color: #2a5298;
+    background: white;
+}
+
+.campo-entrada::placeholder {
+    color: #999;
+}
+
+.boton-login {
+    width: 100%;
+    padding: 12px;
+    background: #4e433e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 8px;
+}
+
+
+.boton-login:hover {
+    background:#ad9863;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(42, 82, 152, 0.3);
+}
+
+.boton-login:active {
+    transform: translateY(0);
+}
+
+.seccion-crear-cuenta {
+    text-align: center;
+    padding-top: 12px;
+    border-top: 1px solid #e0e0e0;
+    margin-top: auto;
+}
+
+.boton-crear-cuenta {
+    background: #4e433e;
+    color:white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton-crear-cuenta:hover {
+    background: #ad9863;
+    border: none;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.boton-crear-cuenta:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .contenedor-pagina {
+        max-width: 350px;
+        padding: 10px;
+    }
+    
+    .caja-inicio-sesion {
+        border-radius: 12px;
+    }
+    
+    .seccion-imagen {
+        padding: 25px;
+    }
+    
+    .imagen-logo {
+        max-width: 130px;
+    }
+    
+    .formulario-contenedor {
+        padding: 25px;
+    }
+    
+    .titulo-inicio {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+    
+    .contenedor-pagina {
+        max-width: 100%;
+    }
+    
+    .caja-inicio-sesion {
+        border-radius: 10px;
+    }
+    
+    .seccion-imagen {
+        padding: 20px;
+    }
+    
+    .imagen-logo {
+        max-width: 120px;
+    }
+    
+    .formulario-contenedor {
+        padding: 20px;
+    }
+    
+    .titulo-inicio {
+        font-size: 20px;
+        margin-bottom: 18px;
+    }
+    
+    .grupo-campo {
+        margin-bottom: 18px;
+    }
+    
+    .campo-entrada {
+        padding: 10px 12px;
+        font-size: 15px;
+    }
+    
+    .boton-login {
+        padding: 12px;
+        font-size: 15px;
+    }
+    
+    .boton-crear-cuenta {
+        padding: 8px 20px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 320px) {
+    .seccion-imagen {
+        padding: 15px;
+    }
+    
+    .imagen-logo {
+        max-width: 100px;
+    }
+    
+    .formulario-contenedor {
+        padding: 15px;
+    }
+    
+    .titulo-inicio {
+        font-size: 18px;
+    }
+    
+    .etiqueta-campo {
+        font-size: 13px;
+    }
+    
+    .campo-entrada {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+    
+    .boton-login {
+        padding: 10px;
+        font-size: 14px;
+    }
+}

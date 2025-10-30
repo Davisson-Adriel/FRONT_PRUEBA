@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Pasta Roma</title>
+    <link rel="stylesheet" href="../styles/detalle_restaurante.css">
+</head>
+<body>
+    <!-- Header con información del restaurante -->
+    <header class="encabezado-detalle">
+        <div class="contenedor-header">
+            <button class="boton-volver" onclick="alert('Volver a la página principal')">
+                <span class="flecha-volver">←</span>
+                <span class="texto-volver">Volver</span>
+            </button>
+            <div class="info-restaurante-header">
+                <div class="imagen-header-container">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=400&fit=crop&crop=center" alt="Pasta Roma" class="imagen-header">
+                </div>
+                <div class="info-header-texto">
+                    <h1 class="nombre-restaurante">Pasta Roma</h1>
+                    <div class="calificacion-header">★★★★★ 4.8</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="contenido-principal">
+        <div class="contenedor-principal">
+            
+            <!-- Sección de información detallada del restaurante -->
+            <section class="seccion-info-restaurante">
+                <div class="tarjeta-info-completa">
+                    <div class="info-principal">
+                        <div class="imagen-principal-container">
+                            <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=400&fit=crop&crop=center" alt="Pasta Roma" class="imagen-principal">
+                        </div>
+                        <div class="detalles-restaurante">
+                            <h2 class="nombre-restaurante-detalle">Pasta Roma</h2>
+                            <p class="descripcion-restaurante">Auténtica cocina italiana en el corazón de la ciudad. Especialistas en pasta fresca hecha a mano y salsas tradicionales de la Toscana.</p>
+                            
+                            <div class="info-contacto">
+                                <div class="item-contacto">
+                                    <strong>📍 Dirección:</strong> Calle Principal 123, Centro Histórico
+                                </div>
+                                <div class="item-contacto">
+                                    <strong>📞 Teléfono:</strong> +1 (555) 123-4567
+                                </div>
+                                <div class="item-contacto">
+                                    <strong>🕒 Horarios:</strong> Lunes a Domingo: 12:00 PM - 11:00 PM
+                                </div>
+                                <div class="item-contacto">
+                                    <strong>⭐ Calificación:</strong> 4.8/5.0
+                                </div>
+                            </div>
+
+                            <div class="especialidades">
+                                <h3>🍽️ Nuestras Especialidades:</h3>
+                                <ul class="lista-especialidades">
+                                    <li>Pasta Carbonara</li>
+                                    <li>Lasagna Bolognesa</li>
+                                    <li>Risotto de Mariscos</li>
+                                    <li>Tiramisu Casero</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de platos del restaurante -->
+            <section class="seccion-platos-restaurante">
+                <div class="encabezado-seccion">
+                    <h2 class="titulo-seccion">Nuestros Platos</h2>
+                    <div class="filtros-container">
+                        <select class="filtro-categoria">
+                            <option value="todos">Todas las categorías</option>
+                            <option value="entradas">Entradas</option>
+                            <option value="principales">Platos Principales</option>
+                            <option value="postres">Postres</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid-contenido">
+                    <!-- Plato 1 -->
+                    <div class="tarjeta-item" data-categoria="principales">
+                        <div class="imagen-container">
+                            <img src="https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=400&h=250&fit=crop&crop=center" alt="Pasta Carbonara" class="imagen-item">
+                            <div class="overlay-item">
+                                <button class="boton-ver-detalle">Ver Detalles</button>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <h3 class="nombre-item">Pasta Carbonara</h3>
+                            <p class="descripcion-item">Spaghetti al dente con pancetta, huevo, parmesano y pimienta negra recién molida</p>
+                            <div class="detalles-item">
+                                <span class="calificacion">⭐ 4.8</span>
+                                <span class="categoria-tag">Principal</span>
+                                <span class="precio">💰 $19.99</span>
+                            </div>
+                            <div class="acciones-item">
+                                <button class="boton-ver-resenas" onclick="alert('Modal de reseñas de Pasta Carbonara')">Ver Reseñas</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plato 2 -->   
+                    <div class="tarjeta-item" data-categoria="principales">
+                        <div class="imagen-container">
+                            <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&h=250&fit=crop&crop=center" alt="Lasagna Bolognesa" class="imagen-item">
+                            <div class="overlay-item">
+                                <button class="boton-ver-detalle">Ver Detalles</button>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <h3 class="nombre-item">Lasagna Bolognesa</h3>
+                            <p class="descripcion-item">Lasagna tradicional con carne de res, salsa bechamel y quesos italianos</p>
+                            <div class="detalles-item">
+                                <span class="calificacion">⭐ 4.9</span>
+                                <span class="categoria-tag">Principal</span>
+                                <span class="precio">💰 $22.99</span>
+                            </div>
+                            <div class="acciones-item">
+                                <button class="boton-ver-resenas" onclick="alert('Modal de reseñas de Lasagna')">Ver Reseñas</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plato 3 -->
+                    <div class="tarjeta-item" data-categoria="postres">
+                        <div class="imagen-container">
+                            <img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=250&fit=crop&crop=center" alt="Tiramisu" class="imagen-item">
+                            <div class="overlay-item">
+                                <button class="boton-ver-detalle">Ver Detalles</button>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <h3 class="nombre-item">Tiramisu Italiano</h3>
+                            <p class="descripcion-item">Postre italiano tradicional con café espresso, mascarpone y cacao</p>
+                            <div class="detalles-item">
+                                <span class="calificacion">⭐ 4.9</span>
+                                <span class="categoria-tag">Postre</span>
+                                <span class="precio">💰 $8.99</span>
+                            </div>
+                            <div class="acciones-item">
+                                <button class="boton-ver-resenas" onclick="alert('Modal de reseñas de Tiramisu')">Ver Reseñas</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de reseñas del restaurante -->
+            <section class="seccion-resenas-restaurante">
+                <div class="encabezado-seccion">
+                    <h2 class="titulo-seccion">Reseñas del Restaurante</h2>
+                    <button class="boton-crear-resena-restaurante" onclick="alert('Modal de crear reseña')">
+                        Escribir Reseña
+                    </button>
+                </div>
+                <div class="contenedor-resenas">
+                    <div class="resena-item">
+                        <div class="resena-header">
+                            <h4 class="nombre-usuario">María González</h4>
+                            <div class="calificacion-estrellas">★★★★★</div>
+                            <span class="fecha-resena">2024-10-20</span>
+                        </div>
+                        <p class="comentario-resena">Excelente pasta italiana, ambiente muy acogedor y servicio impecable. La carbonara es espectacular, totalmente recomendado.</p>
+                    </div>
+
+                    <div class="resena-item">
+                        <div class="resena-header">
+                            <h4 class="nombre-usuario">Carlos López</h4>
+                            <div class="calificacion-estrellas">★★★★☆</div>
+                            <span class="fecha-resena">2024-10-18</span>
+                        </div>
+                        <p class="comentario-resena">Muy buena comida, el tiramisu es espectacular. El ambiente es perfecto para una cena romántica.</p>
+                    </div>
+
+                    <div class="resena-item">
+                        <div class="resena-header">
+                            <h4 class="nombre-usuario">Ana Martínez</h4>
+                            <div class="calificacion-estrellas">★★★★★</div>
+                            <span class="fecha-resena">2024-10-15</span>
+                        </div>
+                        <p class="comentario-resena">La mejor carbonara que he probado, totalmente auténtica. Los ingredientes son de primera calidad y el servicio es excelente.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,849 @@
+/* Reseteo básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+/* ===== HEADER DETALLE ===== */
+.encabezado-detalle {
+    background: linear-gradient(135deg, #4e433e 0%, #ad9863 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.contenedor-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 30px;
+}
+
+.boton-volver {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.boton-volver:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.flecha-volver {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.info-restaurante-header {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.imagen-header-container {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.imagen-header {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-header-texto {
+    color: white;
+}
+
+.nombre-restaurante {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.calificacion-header {
+    font-size: 18px;
+    color: #fed87b;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.contenido-principal {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.contenedor-principal {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* ===== SECCIÓN INFO RESTAURANTE ===== */
+.seccion-info-restaurante {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.tarjeta-info-completa {
+    padding: 0;
+}
+
+.info-principal {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 400px;
+}
+
+.imagen-principal-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.imagen-principal {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.imagen-principal:hover {
+    transform: scale(1.05);
+}
+
+.detalles-restaurante {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+}
+
+.nombre-restaurante-detalle {
+    font-size: 32px;
+    font-weight: 700;
+    color: #4e433e;
+    margin-bottom: 15px;
+}
+
+.descripcion-restaurante {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.info-contacto {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.item-contacto {
+    font-size: 14px;
+    color: #666;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.item-contacto strong {
+    color: #4e433e;
+    margin-right: 8px;
+}
+
+.especialidades h3 {
+    color: #4e433e;
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.lista-especialidades {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.lista-especialidades li {
+    background: linear-gradient(135deg, #ad9863 0%, #fed87b 100%);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(173, 152, 99, 0.3);
+}
+
+/* ===== SECCIÓN PLATOS ===== */
+.seccion-platos-restaurante {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.encabezado-seccion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.titulo-seccion {
+    font-size: 28px;
+    font-weight: 700;
+    color: #4e433e;
+    position: relative;
+}
+
+.titulo-seccion::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(135deg, #ad9863 0%, #fed87b 100%);
+    border-radius: 2px;
+}
+
+.filtros-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.filtro-categoria {
+    padding: 10px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 25px;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.filtro-categoria:focus,
+.filtro-categoria:hover {
+    border-color: #ad9863;
+    box-shadow: 0 0 0 3px rgba(173, 152, 99, 0.1);
+}
+
+/* ===== GRID DE PLATOS ===== */
+.grid-contenido {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.tarjeta-item {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.tarjeta-item:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.imagen-container {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.imagen-item {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.overlay-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tarjeta-item:hover .overlay-item {
+    opacity: 1;
+}
+
+.boton-ver-detalle {
+    background: linear-gradient(135deg, #ad9863 0%, #fed87b 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton-ver-detalle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+}
+
+.info-item {
+    padding: 20px;
+}
+
+.nombre-item {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4e433e;
+    margin-bottom: 8px;
+}
+
+.descripcion-item {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.detalles-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.calificacion {
+    color: #ffc107;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.categoria-tag {
+    background: linear-gradient(135deg, #ad9863 0%, #fed87b 100%);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.precio {
+    color: #4e433e;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.acciones-item {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.boton-ver-resenas {
+    background: linear-gradient(135deg, #4e433e 0%, #ad9863 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+}
+
+.boton-ver-resenas:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(78, 67, 62, 0.3);
+}
+
+/* ===== SECCIÓN RESEÑAS RESTAURANTE ===== */
+.seccion-resenas-restaurante {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.boton-crear-resena-restaurante {
+    background: linear-gradient(135deg, #4e433e 0%, #ad9863 100%);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(173, 152, 99, 0.3);
+}
+
+.boton-crear-resena-restaurante:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(173, 152, 99, 0.4);
+}
+
+.contenedor-resenas {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sin-resenas {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 40px 20px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    border: 2px dashed #ddd;
+}
+
+.resena-item {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 25px;
+    border-left: 4px solid #ad9863;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resena-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.resena-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.nombre-usuario {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4e433e;
+    margin: 0;
+}
+
+.calificacion-estrellas {
+    color: #ffc107;
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+
+.fecha-resena {
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.comentario-resena {
+    color: #555;
+    line-height: 1.7;
+    margin: 0;
+    font-size: 16px;
+}
+
+/* ===== MODALES ===== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow: hidden;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #4e433e 0%, #ad9863 100%);
+    color: white;
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.boton-cerrar-modal {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.boton-cerrar-modal:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.modal-body {
+    padding: 25px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* Reutilizar estilos de modal de la página principal */
+.resenas-container {
+    margin-bottom: 20px;
+}
+
+.acciones-modal {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.boton-crear-resena {
+    background: linear-gradient(135deg, #4e433e 0%, #ad9863 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(173, 152, 99, 0.3);
+}
+
+.boton-crear-resena:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(173, 152, 99, 0.4);
+}
+
+/* ===== FORMULARIO DE CREAR RESEÑA ===== */
+.form-resena {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.campo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo-form label {
+    font-weight: 600;
+    color: #4e433e;
+    font-size: 14px;
+}
+
+.campo-form input[type="text"],
+.campo-form textarea {
+    padding: 12px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    font-family: inherit;
+}
+
+.campo-form input[type="text"]:focus,
+.campo-form textarea:focus {
+    outline: none;
+    border-color: #ad9863;
+    box-shadow: 0 0 0 3px rgba(173, 152, 99, 0.1);
+}
+
+.campo-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* ===== SISTEMA DE ESTRELLAS ===== */
+.estrellas-container {
+    display: flex;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.estrella {
+    font-size: 24px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    user-select: none;
+}
+
+.estrella:hover {
+    transform: scale(1.2);
+}
+
+/* ===== ACCIONES DEL FORMULARIO ===== */
+.acciones-form {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.boton-cancelar {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.boton-cancelar:hover {
+    background: #5a6268;
+}
+
+.boton-enviar {
+    background: linear-gradient(135deg, #4e433e 0%, #ad9863 100%);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton-enviar:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(173, 152, 99, 0.3);
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tarjeta-item {
+    animation: fadeIn 0.6s ease forwards;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .contenedor-header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .info-restaurante-header {
+        justify-content: center;
+    }
+
+    .nombre-restaurante {
+        font-size: 24px;
+    }
+
+    .info-principal {
+        grid-template-columns: 1fr;
+    }
+
+    .imagen-principal-container {
+        min-height: 250px;
+    }
+
+    .detalles-restaurante {
+        padding: 25px;
+    }
+
+    .nombre-restaurante-detalle {
+        font-size: 26px;
+    }
+
+    .lista-especialidades {
+        grid-template-columns: 1fr;
+    }
+
+    .encabezado-seccion {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .titulo-seccion {
+        font-size: 24px;
+    }
+
+    .grid-contenido {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .resena-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .modal-content {
+        width: 95%;
+        max-width: none;
+        max-height: 90vh;
+    }
+
+    .modal-header {
+        padding: 15px 20px;
+    }
+
+    .modal-header h2 {
+        font-size: 18px;
+    }
+
+    .modal-body {
+        padding: 20px;
+        max-height: 70vh;
+    }
+
+    .acciones-form {
+        flex-direction: column;
+    }
+
+    .boton-cancelar,
+    .boton-enviar {
+        width: 100%;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contenido-principal {
+        padding: 20px 15px;
+    }
+
+    .seccion-info-restaurante,
+    .seccion-platos-restaurante,
+    .seccion-resenas-restaurante {
+        padding: 20px;
+    }
+
+    .detalles-restaurante {
+        padding: 20px;
+    }
+
+    .nombre-restaurante-detalle {
+        font-size: 22px;
+    }
+
+    .info-item {
+        padding: 15px;
+    }
+
+    .resena-item {
+        padding: 20px;
+    }
+}

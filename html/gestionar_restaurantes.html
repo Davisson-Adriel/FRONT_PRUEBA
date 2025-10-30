@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Restaurantes - Panel Administrativo</title>
+    <link rel="stylesheet" href="../styles/gestionar_restaurantes.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="encabezado-gestion">
+        <div class="contenedor-header">
+            <div class="info-seccion">
+                <button class="boton-volver" onclick="volverAdmin()">
+                    ← Volver al Panel
+                </button>
+                <div class="titulo-seccion">
+                    <h1>Gestión de Restaurantes</h1>
+                    <p>Administra todos los restaurantes de la plataforma</p>
+                </div>
+            </div>
+            <div class="usuario-info">
+                <span class="nombre-usuario" id="nombreUsuarioGestion">Administrador</span>
+                <button class="boton-cerrar-sesion" onclick="cerrarSesion()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="contenido-principal">
+        <!-- Estadísticas Rápidas -->
+        <section class="estadisticas-rapidas">
+            <div class="stat-card">
+                <div class="stat-icono">🏪</div>
+                <div class="stat-info">
+                    <div class="stat-numero" id="totalRestaurantes">8</div>
+                    <div class="stat-label">Total Restaurantes</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Acciones Principales -->
+        <section class="acciones-principales">
+            <div class="tarjeta-accion" onclick="mostrarModalCrearRestaurante()">
+                <div class="icono-accion">➕</div>
+                <div class="contenido-accion">
+                    <h3>Crear Nuevo Restaurante</h3>
+                    <p>Agrega un nuevo restaurante a la plataforma</p>
+                </div>
+                <div class="flecha-accion">→</div>
+            </div>
+            
+            <div class="tarjeta-accion" onclick="mostrarListaEditar()">
+                <div class="icono-accion">✏️</div>
+                <div class="contenido-accion">
+                    <h3>Editar Información</h3>
+                    <p>Modifica los datos existentes de los restaurantes</p>
+                </div>
+                <div class="flecha-accion">→</div>
+            </div>
+        </section>
+
+        <!-- Lista de Restaurantes -->
+        <section class="seccion-lista" id="seccionLista" style="display: none;">
+            <div class="header-lista">
+                <h2>Lista de Restaurantes</h2>
+                <div class="controles-lista">
+                    <input type="text" id="buscarRestaurante" placeholder="Buscar restaurante..." class="input-buscar">
+                    <button class="boton-actualizar" onclick="cargarRestaurantes()">🔄 Actualizar</button>
+                </div>
+            </div>
+
+            <div class="contenedor-restaurantes" id="contenedorRestaurantes">
+                <!-- Los restaurantes se cargarán dinámicamente -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Crear/Editar Restaurante -->
+    <div id="modalRestaurante" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="tituloModal">Crear Nuevo Restaurante</h2>
+                <button class="boton-cerrar-modal" onclick="cerrarModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formRestaurante" class="form-restaurante">
+                    <input type="hidden" id="restauranteId" value="">
+                    
+                    <!-- Información Básica -->
+                    <div class="seccion-form">
+                        <h3>📋 Información Básica</h3>
+                        <div class="form-row">
+                            <div class="campo-form">
+                                <label for="nombreRestaurante">Nombre del Restaurante *</label>
+                                <input type="text" id="nombreRestaurante" name="nombre" required placeholder="Ej: Pasta Italia">
+                            </div>
+                            <div class="campo-form">
+                                <label for="categoriaRestaurante">Categoría *</label>
+                                <select id="categoriaRestaurante" name="categoria" required>
+                                    <option value="">Seleccionar categoría</option>
+                                    <option value="italiana">Italiana</option>
+                                    <option value="mexicana">Mexicana</option>
+                                    <option value="americana">Americana</option>
+                                    <option value="asiatica">Asiática</option>
+                                    <option value="postres">Postres</option>
+                                    <option value="vegetariana">Vegetariana</option>
+                                    <option value="cafeteria">Cafetería</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="campo-form">
+                            <label for="descripcionRestaurante">Descripción *</label>
+                            <textarea id="descripcionRestaurante" name="descripcion" rows="3" required placeholder="Descripción del restaurante y su especialidad..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Contacto y Ubicación -->
+                    <div class="seccion-form">
+                        <h3>📍 Contacto y Ubicación</h3>
+                        <div class="form-row">
+                            <div class="campo-form">
+                                <label for="direccionRestaurante">Dirección *</label>
+                                <input type="text" id="direccionRestaurante" name="direccion" required placeholder="Calle, número, ciudad">
+                            </div>
+                            <div class="campo-form">
+                                <label for="telefonoRestaurante">Teléfono *</label>
+                                <input type="tel" id="telefonoRestaurante" name="telefono" required placeholder="+1 (555) 123-4567">
+                            </div>
+                        </div>
+
+                        <div class="campo-form">
+                            <label for="horariosRestaurante">Horarios de Atención *</label>
+                            <input type="text" id="horariosRestaurante" name="horarios" required placeholder="Ej: Lunes a Domingo: 12:00 PM - 11:00 PM">
+                        </div>
+                    </div>
+
+                    <!-- Información Adicional -->
+                    <div class="seccion-form">
+                        <h3>🖼️ Información Adicional</h3>
+                        <div class="campo-form">
+                            <label for="imagenRestaurante">URL de Imagen</label>
+                            <input type="url" id="imagenRestaurante" name="imagen" placeholder="https://ejemplo.com/imagen.jpg">
+                            <small>Deja vacío para usar imagen por defecto</small>
+                        </div>
+
+                        <div class="campo-form">
+                            <label for="especialidadesRestaurante">Especialidades (separadas por comas)</label>
+                            <input type="text" id="especialidadesRestaurante" name="especialidades" placeholder="Pizza Margherita, Pasta Carbonara, Tiramisu">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="campo-form">
+                                <label for="estadoRestaurante">Estado</label>
+                                <select id="estadoRestaurante" name="estado">
+                                    <option value="activo">Activo</option>
+                                    <option value="pausado">Pausado</option>
+                                </select>
+                            </div>
+                            <div class="campo-form">
+                                <label for="calificacionRestaurante">Calificación Inicial</label>
+                                <select id="calificacionRestaurante" name="calificacion">
+                                    <option value="5">⭐⭐⭐⭐⭐ (5.0)</option>
+                                    <option value="4">⭐⭐⭐⭐ (4.0)</option>
+                                    <option value="3">⭐⭐⭐ (3.0)</option>
+                                    <option value="2">⭐⭐ (2.0)</option>
+                                    <option value="1">⭐ (1.0)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de Acción -->
+                    <div class="acciones-form">
+                        <button type="button" class="boton-cancelar" onclick="cerrarModal()">Cancelar</button>
+                        <button type="button" class="boton-guardar" onclick="guardarRestaurante()">
+                            <span id="textoBotonGuardar">Crear Restaurante</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let modoEdicion = false;
+        let restauranteEditando = null;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            verificarSesion();
+            cargarEstadisticas();
+        });
+
+        function verificarSesion() {
+            const tipoUsuario = localStorage.getItem('tipoUsuario');
+            const nombreUsuario = localStorage.getItem('nombreUsuario');
+            
+            // Comentado temporalmente para permitir acceso libre
+            /*
+            if (tipoUsuario !== 'administrador') {
+                alert('Acceso denegado. Solo administradores pueden acceder a esta sección.');
+                window.location.href = '../index.html';
+                return;
+            }
+            */
+            
+            document.getElementById('nombreUsuarioGestion').textContent = nombreUsuario || 'Administrador';
+        }
+
+        function volverAdmin() {
+            window.location.href = 'admin_panel.html';
+        }
+
+        function cerrarSesion() {
+            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                localStorage.removeItem('nombreUsuario');
+                localStorage.removeItem('tipoUsuario');
+                window.location.href = '../index.html';
+            }
+        }
+
+        function cargarEstadisticas() {
+            const restaurantes = JSON.parse(localStorage.getItem('restaurantes')) || obtenerRestaurantesEjemplo();
+            animarNumero('totalRestaurantes', restaurantes.length);
+        }
+
+        function animarNumero(id, valorFinal) {
+            const elemento = document.getElementById(id);
+            let valorActual = 0;
+            const incremento = valorFinal / 20;
+            
+            const timer = setInterval(() => {
+                valorActual += incremento;
+                if (valorActual >= valorFinal) {
+                    elemento.textContent = valorFinal;
+                    clearInterval(timer);
+                } else {
+                    elemento.textContent = Math.floor(valorActual);
+                }
+            }, 50);
+        }
+
+        function obtenerRestaurantesEjemplo() {
+            return [
+                {
+                    id: 1,
+                    nombre: "Pasta Roma",
+                    categoria: "italiana",
+                    descripcion: "Auténtica comida italiana con recetas tradicionales",
+                    direccion: "Calle Principal 123, Centro",
+                    telefono: "+1 (555) 123-4567",
+                    horarios: "11:00 AM - 10:00 PM",
+                    imagen: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&w=400",
+                    especialidades: ["Pasta Carbonara", "Pizza Margherita", "Risotto"],
+                    estado: "activo",
+                    calificacion: 5
+                },
+                {
+                    id: 2,
+                    nombre: "El Asador Argentino",
+                    categoria: "americana",
+                    descripcion: "Las mejores carnes a la parrilla al estilo argentino",
+                    direccion: "Avenida Central 456, Zona Rosa",
+                    telefono: "+1 (555) 987-6543",
+                    horarios: "12:00 PM - 11:00 PM",
+                    imagen: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&w=400",
+                    especialidades: ["Asado", "Bife de Chorizo", "Empanadas"],
+                    estado: "activo",
+                    calificacion: 4
+                },
+                {
+                    id: 3,
+                    nombre: "Sushi Zen",
+                    categoria: "asiatica",
+                    descripcion: "Sushi fresco y auténtica cocina japonesa",
+                    direccion: "Plaza Comercial 789, Piso 2",
+                    telefono: "+1 (555) 246-8135",
+                    horarios: "1:00 PM - 10:30 PM",
+                    imagen: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?ixlib=rb-4.0.3&w=400",
+                    especialidades: ["Sashimi", "Rolls Especiales", "Tempura"],
+                    estado: "pausado",
+                    calificacion: 5
+                }
+            ];
+        }
+
+        function mostrarModalCrearRestaurante() {
+            modoEdicion = false;
+            restauranteEditando = null;
+            document.getElementById('tituloModal').textContent = 'Crear Nuevo Restaurante';
+            document.getElementById('textoBotonGuardar').textContent = 'Crear Restaurante';
+            document.getElementById('formRestaurante').reset();
+            document.getElementById('restauranteId').value = '';
+            document.getElementById('modalRestaurante').style.display = 'block';
+        }
+
+        function mostrarListaEditar() {
+            document.getElementById('seccionLista').style.display = 'block';
+            document.getElementById('seccionLista').scrollIntoView({ behavior: 'smooth' });
+            cargarRestaurantes();
+        }
+
+        function cargarRestaurantes() {
+            const restaurantes = JSON.parse(localStorage.getItem('restaurantes')) || obtenerRestaurantesEjemplo();
+            const contenedor = document.getElementById('contenedorRestaurantes');
+            
+            contenedor.innerHTML = '<div class="loading">Cargando restaurantes...</div>';
+            
+            setTimeout(() => {
+                if (restaurantes.length === 0) {
+                    contenedor.innerHTML = `
+                        <div class="sin-resultados">
+                            <div class="icono-vacio">🏪</div>
+                            <h3>No hay restaurantes registrados</h3>
+                            <p>Crea tu primer restaurante para comenzar</p>
+                            <button class="boton-crear" onclick="mostrarModalCrearRestaurante()">Crear Restaurante</button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                contenedor.innerHTML = '';
+                restaurantes.forEach(restaurante => {
+                    const card = crearTarjetaRestaurante(restaurante);
+                    contenedor.appendChild(card);
+                });
+            }, 500);
+        }
+
+        function crearTarjetaRestaurante(restaurante) {
+            const card = document.createElement('div');
+            card.className = 'tarjeta-restaurante';
+            
+            const imagenUrl = restaurante.imagen || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&w=400';
+            const especialidades = Array.isArray(restaurante.especialidades) 
+                ? restaurante.especialidades.join(', ') 
+                : restaurante.especialidades || 'Sin especialidades';
+            
+            const estrellas = '⭐'.repeat(restaurante.calificacion || 5);
+            
+            card.innerHTML = `
+                <div class="imagen-restaurante">
+                    <img src="${imagenUrl}" alt="${restaurante.nombre}" onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&w=400'">
+                </div>
+                <div class="info-restaurante">
+                    <div class="header-info">
+                        <h3>${restaurante.nombre}</h3>
+                        <div class="calificacion">${estrellas}</div>
+                    </div>
+                    <div class="categoria">${restaurante.categoria}</div>
+                    <p class="descripcion">${restaurante.descripcion}</p>
+                    <div class="detalles">
+                        <div class="detalle">
+                            <span class="icono">📍</span>
+                            <span>${restaurante.direccion}</span>
+                        </div>
+                        <div class="detalle">
+                            <span class="icono">📞</span>
+                            <span>${restaurante.telefono}</span>
+                        </div>
+                        <div class="detalle">
+                            <span class="icono">🕒</span>
+                            <span>${restaurante.horarios}</span>
+                        </div>
+                        <div class="detalle">
+                            <span class="icono">🍽️</span>
+                            <span>${especialidades}</span>
+                        </div>
+                    </div>
+                    <div class="acciones-restaurante">
+                        <button class="boton-editar" onclick="editarRestaurante(${restaurante.id})">
+                            ✏️ Editar
+                        </button>
+                        <button class="boton-eliminar" onclick="eliminarRestaurante(${restaurante.id})">
+                            🗑️ Eliminar
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function editarRestaurante(id) {
+            const restaurantes = JSON.parse(localStorage.getItem('restaurantes')) || obtenerRestaurantesEjemplo();
+            const restaurante = restaurantes.find(r => r.id === id);
+            
+            if (!restaurante) {
+                alert('Restaurante no encontrado');
+                return;
+            }
+            
+            modoEdicion = true;
+            restauranteEditando = restaurante;
+            
+            // Llenar el formulario
+            document.getElementById('restauranteId').value = restaurante.id;
+            document.getElementById('nombreRestaurante').value = restaurante.nombre;
+            document.getElementById('categoriaRestaurante').value = restaurante.categoria;
+            document.getElementById('descripcionRestaurante').value = restaurante.descripcion;
+            document.getElementById('direccionRestaurante').value = restaurante.direccion;
+            document.getElementById('telefonoRestaurante').value = restaurante.telefono;
+            document.getElementById('horariosRestaurante').value = restaurante.horarios;
+            document.getElementById('imagenRestaurante').value = restaurante.imagen || '';
+            document.getElementById('especialidadesRestaurante').value = Array.isArray(restaurante.especialidades) 
+                ? restaurante.especialidades.join(', ') 
+                : restaurante.especialidades || '';
+            document.getElementById('estadoRestaurante').value = restaurante.estado || 'activo';
+            document.getElementById('calificacionRestaurante').value = restaurante.calificacion || 5;
+            
+            // Cambiar títulos
+            document.getElementById('tituloModal').textContent = `Editar: ${restaurante.nombre}`;
+            document.getElementById('textoBotonGuardar').textContent = 'Guardar Cambios';
+            
+            // Mostrar modal
+            document.getElementById('modalRestaurante').style.display = 'block';
+        }
+
+        function eliminarRestaurante(id) {
+            const restaurantes = JSON.parse(localStorage.getItem('restaurantes')) || obtenerRestaurantesEjemplo();
+            const restaurante = restaurantes.find(r => r.id === id);
+            
+            if (!restaurante) {
+                alert('Restaurante no encontrado');
+                return;
+            }
+            
+            if (confirm(`¿Estás seguro de que deseas eliminar "${restaurante.nombre}"?\n\nEsta acción no se puede deshacer.`)) {
+                const restaurantesActualizados = restaurantes.filter(r => r.id !== id);
+                localStorage.setItem('restaurantes', JSON.stringify(restaurantesActualizados));
+                
+                mostrarNotificación(`"${restaurante.nombre}" ha sido eliminado exitosamente`, 'success');
+                cargarRestaurantes();
+                cargarEstadisticas();
+            }
+        }
+
+        function guardarRestaurante() {
+            const form = document.getElementById('formRestaurante');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const formData = new FormData(form);
+            const restaurante = {
+                id: modoEdicion ? parseInt(document.getElementById('restauranteId').value) : Date.now(),
+                nombre: formData.get('nombre'),
+                categoria: formData.get('categoria'),
+                descripcion: formData.get('descripcion'),
+                direccion: formData.get('direccion'),
+                telefono: formData.get('telefono'),
+                horarios: formData.get('horarios'),
+                imagen: formData.get('imagen') || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&w=400',
+                especialidades: formData.get('especialidades').split(',').map(e => e.trim()).filter(e => e),
+                estado: formData.get('estado'),
+                calificacion: parseInt(formData.get('calificacion'))
+            };
+            
+            let restaurantes = JSON.parse(localStorage.getItem('restaurantes')) || obtenerRestaurantesEjemplo();
+            
+            if (modoEdicion) {
+                const index = restaurantes.findIndex(r => r.id === restaurante.id);
+                if (index !== -1) {
+                    restaurantes[index] = restaurante;
+                    mostrarNotificación(`"${restaurante.nombre}" ha sido actualizado exitosamente`, 'success');
+                }
+            } else {
+                restaurantes.push(restaurante);
+                mostrarNotificación(`"${restaurante.nombre}" ha sido creado exitosamente`, 'success');
+            }
+            
+            localStorage.setItem('restaurantes', JSON.stringify(restaurantes));
+            cerrarModal();
+            cargarRestaurantes();
+            cargarEstadisticas();
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalRestaurante').style.display = 'none';
+            document.getElementById('formRestaurante').reset();
+            modoEdicion = false;
+            restauranteEditando = null;
+        }
+
+        function mostrarNotificación(mensaje, tipo = 'info') {
+            const notificacion = document.createElement('div');
+            notificacion.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${tipo === 'success' ? '#4caf50' : '#2196f3'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideInRight 0.3s ease;
+                max-width: 300px;
+                font-size: 14px;
+            `;
+            notificacion.textContent = mensaje;
+            
+            document.body.appendChild(notificacion);
+            
+            setTimeout(() => {
+                notificacion.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (document.body.contains(notificacion)) {
+                        document.body.removeChild(notificacion);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Búsqueda de restaurantes
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputBuscar = document.getElementById('buscarRestaurante');
+            if (inputBuscar) {
+                inputBuscar.addEventListener('input', buscarRestaurantes);
+            }
+        });
+
+        function buscarRestaurantes() {
+            const termino = document.getElementById('buscarRestaurante').value.toLowerCase();
+            const tarjetas = document.querySelectorAll('.tarjeta-restaurante');
+            
+            tarjetas.forEach(tarjeta => {
+                const nombre = tarjeta.querySelector('h3').textContent.toLowerCase();
+                const categoria = tarjeta.querySelector('.categoria').textContent.toLowerCase();
+                const descripcion = tarjeta.querySelector('.descripcion').textContent.toLowerCase();
+                
+                const coincide = nombre.includes(termino) || categoria.includes(termino) || descripcion.includes(termino);
+                
+                if (coincide) {
+                    tarjeta.style.display = 'block';
+                    tarjeta.style.animation = 'fadeIn 0.3s ease';
+                } else {
+                    tarjeta.style.display = 'none';
+                }
+            });
+        }
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalRestaurante');
+            if (event.target === modal) {
+                cerrarModal();
+            }
+        }
+    </script>
+</body>
+</html>

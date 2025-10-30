@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="./styles/style_index.css">
+</head>
+<body>
+    <div class="contenedor-pagina">
+        <div class="caja-inicio-sesion">
+            <div class="seccion-imagen">
+                <img src="./IMG/logo.png" alt="Logo" class="imagen-logo">
+            </div>
+            
+            <!-- Formulario de inicio de sesión -->
+            <div class="formulario-contenedor">
+                <form class="formulario-login" id="formularioLogin">
+                    <div class="grupo-campo">
+                        <label for="nombreUsuario" class="etiqueta-campo"></label>
+                        <input 
+                            type="text" 
+                            id="nombreUsuario" 
+                            name="nombreUsuario" 
+                            class="campo-entrada" 
+                            placeholder="Ingresa tu usuario"
+                            required>
+                    </div>
+                    
+                    <div class="grupo-campo">
+                        <label for="contrasena" class="etiqueta-campo"></label>
+                        <input 
+                            type="password" 
+                            id="contrasena" 
+                            name="contrasena" 
+                            class="campo-entrada" 
+                            placeholder="Ingresa tu contraseña"
+                            required>
+                    </div>
+                    
+                    <button type="submit" class="boton-login">LOGIN</button>
+                </form>
+                
+                <div class="seccion-crear-cuenta">
+                    <button type="button" class="boton-crear-cuenta" id="botonCrearCuenta" onclick="window.location.href='html/crear_usuario.html'">
+                        Crear Cuenta
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+    <div class="contenedor-pagina">
+        <div class="caja-inicio-sesion">
+            
+            <div class="formulario-contenedor">
+                <form class="formulario-login" id="formularioLogin">
+                    <div class="grupo-campo">
+                        <label for="nombreUsuario" class="etiqueta-campo"></label>
+                        <input 
+                            type="text" 
+                            id="nombreUsuario" 
+                            name="nombreUsuario" 
+                            class="campo-entrada" 
+                            placeholder="Ingresa tu nombre"
+                            required>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label for="email" class="etiqueta-campo"></label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="campo-entrada" 
+                            placeholder="Ingresa tu email"
+                            required>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label for="telefono" class="etiqueta-campo"></label>
+                        <input 
+                            type="tel" 
+                            id="telefono" 
+                            name="telefono" 
+                            class="campo-entrada" 
+                            placeholder="Ingresa tu teléfono"
+                            required>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label for="contrasena" class="etiqueta-campo"></label>
+                        <input 
+                            type="password" 
+                            id="contrasena" 
+                            name="contrasena" 
+                            class="campo-entrada" 
+                            placeholder="Crea tu contraseña"
+                            required>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label for="seleccionarrol" class="etiqueta-campo">Tipo de Usuario</label>
+                        <select id="seleccionarrol" name="seleccionarrol" class="campo-entrada campo-seleccion" required>
+                            <option value="" disabled selected>Selecciona un rol</option>
+                            <option value="usuario">Usuario</option>
+                            <option value="administrador">Administrador</option>
+                        </select>
+                    </div>
+
+                    <!-- Campo de contraseña de administrador (oculto por defecto) -->
+                    <div class="grupo-campo campo-admin-oculto" id="campoContrasenaAdmin" style="display: none;">
+                        <label for="contrasenaAdmin" class="etiqueta-campo">Contraseña de Administrador</label>
+                        <input 
+                            type="password" 
+                            id="contrasenaAdmin" 
+                            name="contrasenaAdmin" 
+                            class="campo-entrada" 
+                            placeholder="Ingresa la contraseña de administrador">
+                    </div>
+
+                    <button type="submit" class="boton-login" onclick="crearCuenta()">CREAR CUENTA</button>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        const selectRol = document.getElementById('seleccionarrol');
+        const campoContrasenaAdmin = document.getElementById('campoContrasenaAdmin');
+        const inputContrasenaAdmin = document.getElementById('contrasenaAdmin');
+
+
+        function toggleCampoAdmin() {
+            if (selectRol.value === 'administrador') {
+
+                campoContrasenaAdmin.style.display = 'block';
+                campoContrasenaAdmin.style.opacity = '0';
+                campoContrasenaAdmin.style.transform = 'translateY(-10px)';
+                
+                setTimeout(() => {
+                    campoContrasenaAdmin.style.transition = 'all 0.3s ease';
+                    campoContrasenaAdmin.style.opacity = '1';
+                    campoContrasenaAdmin.style.transform = 'translateY(0)';
+                }, 10);
+                
+
+                inputContrasenaAdmin.setAttribute('required', 'required');
+            } else {
+
+                campoContrasenaAdmin.style.transition = 'all 0.3s ease';
+                campoContrasenaAdmin.style.opacity = '0';
+                campoContrasenaAdmin.style.transform = 'translateY(-10px)';
+                
+
+                setTimeout(() => {
+                    campoContrasenaAdmin.style.display = 'none';
+                }, 300);
+                
+
+                inputContrasenaAdmin.removeAttribute('required');
+                inputContrasenaAdmin.value = '';
+            }
+        }
+
+        selectRol.addEventListener('change', toggleCampoAdmin);
+
+        document.getElementById('formularioLogin').addEventListener('submit', function(evento) {
+            
+            const nombre = document.getElementById('nombreUsuario').value;
+            const email = document.getElementById('email').value;
+            const telefono = document.getElementById('telefono').value;
+            const contrasena = document.getElementById('contrasena').value;
+            const rol = selectRol.value;
+            const contrasenaAdmin = inputContrasenaAdmin.value;
+            
+            if (rol === 'administrador') {
+                if (!contrasenaAdmin) {
+                    alert('Debes ingresar la contraseña de administrador');
+                    inputContrasenaAdmin.focus();
+                    return;
+                }
+                
+                const contrasenaAdminCorrecta = 'admin123'; 
+                if (contrasenaAdmin !== contrasenaAdminCorrecta) {
+                    alert('Contraseña de administrador incorrecta');
+                    inputContrasenaAdmin.focus();
+                    inputContrasenaAdmin.select();
+                    return;
+                }
+            }
+            
+            console.log('Datos del formulario:', {
+                nombre,
+                email,
+                telefono,
+                contrasena,
+                rol,
+                contrasenaAdmin: rol === 'administrador' ? '[PROTEGIDA]' : null
+            });
+            
+            alert('¡Cuenta creada exitosamente!');
+        });
+    </script>
+</body>
+</html>

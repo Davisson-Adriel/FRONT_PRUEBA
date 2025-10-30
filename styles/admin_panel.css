@@ -1,0 +1,974 @@
+/* Reseteo básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+/* ===== HEADER ADMINISTRADOR ===== */
+.encabezado-admin {
+    background: linear-gradient(135deg, #4e433e 0%, #ad9863 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.contenedor-header {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.seccion-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-principal {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    filter: brightness(1.2) drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.seccion-bienvenida {
+    text-align: center;
+    color: white;
+    flex: 1;
+}
+
+.mensaje-bienvenida {
+    font-size: 32px;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 5px;
+}
+
+.subtitulo-bienvenida {
+    font-size: 16px;
+    opacity: 0.9;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    color: #fed87b;
+}
+
+.seccion-acciones {
+    display: flex;
+    align-items: center;
+}
+
+.boton-cerrar-sesion {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.boton-cerrar-sesion:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.icono-cerrar {
+    font-size: 16px;
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.contenido-principal {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.contenedor-principal {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* ===== SECCIÓN ESTADÍSTICAS ===== */
+.seccion-estadisticas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.estadistica-item {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+    border: 2px solid #fed87b;
+}
+
+.estadistica-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(173, 152, 99, 0.2);
+    border-color: #ad9863;
+}
+
+.icono-estadistica {
+    font-size: 48px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.numero-estadistica {
+    font-size: 36px;
+    font-weight: 700;
+    color: #4e433e;
+    margin-bottom: 10px;
+}
+
+.texto-estadistica {
+    font-size: 16px;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ===== SECCIÓN GESTIÓN ===== */
+.seccion-gestion {
+    background: white;
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0;
+}
+
+.titulo-seccion {
+    font-size: 32px;
+    font-weight: 700;
+    color: #4e433e;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.titulo-seccion::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, #ad9863 0%, #fed87b 100%);
+    border-radius: 2px;
+}
+
+.grid-gestion {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* ===== TARJETAS DE GESTIÓN ===== */
+.tarjeta-gestion {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    border: 2px solid #e9ecef;
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.tarjeta-gestion:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(173, 152, 99, 0.2);
+    border-color: #ad9863;
+}
+
+.imagen-gestion {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.imagen-modulo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.tarjeta-gestion:hover .imagen-modulo {
+    transform: scale(1.1);
+}
+
+.overlay-gestion {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(78, 67, 62, 0.9) 0%, rgba(173, 152, 99, 0.8) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tarjeta-gestion:hover .overlay-gestion {
+    opacity: 1;
+}
+
+.contenido-overlay {
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.titulo-overlay {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.descripcion-overlay {
+    font-size: 16px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.boton-acceder {
+    background: linear-gradient(135deg, #fed87b 0%, #ad9863 100%);
+    border: none;
+    color: #4e433e;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(254, 216, 123, 0.4);
+}
+
+.boton-acceder:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(254, 216, 123, 0.6);
+    background: linear-gradient(135deg, #fed87b 0%, #f5c842 100%);
+}
+
+.icono-boton {
+    font-size: 18px;
+}
+
+/* ===== INFO GESTIÓN ===== */
+.info-gestion {
+    padding: 30px;
+}
+
+.nombre-modulo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #4e433e;
+    margin-bottom: 12px;
+}
+
+.descripcion-modulo {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.acciones-rapidas {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.boton-accion-rapida {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border: 2px solid #ad9863;
+    color: #4e433e;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.boton-accion-rapida:hover {
+    background: linear-gradient(135deg, #ad9863 0%, #fed87b 100%);
+    color: white;
+    border-color: #fed87b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(173, 152, 99, 0.3);
+}
+
+.icono-accion {
+    font-size: 16px;
+}
+
+/* ===== SECCIÓN ACTIVIDAD ===== */
+.seccion-actividad {
+    background: white;
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0;
+}
+
+.contenedor-actividad {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.item-actividad {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.item-actividad:hover {
+    background: #fff;
+    transform: translateX(5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-left-color: #ad9863;
+}
+
+.icono-actividad {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+}
+
+.icono-actividad.nuevo {
+    background: linear-gradient(135deg, #ad9863 0%, #fed87b 100%);
+}
+
+.icono-actividad.resena {
+    background: linear-gradient(135deg, #fed87b 0%, #ffc107 100%);
+}
+
+.icono-actividad.edicion {
+    background: linear-gradient(135deg, #4e433e 0%, #ad9863 100%);
+}
+
+.info-actividad {
+    flex: 1;
+}
+
+.titulo-actividad {
+    font-size: 16px;
+    font-weight: 600;
+    color: #4e433e;
+    margin-bottom: 5px;
+}
+
+.descripcion-actividad {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.tiempo-actividad {
+    font-size: 12px;
+    color: #95a5a6;
+    font-weight: 500;
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1200px) {
+    .grid-gestion {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .contenedor-header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .mensaje-bienvenida {
+        font-size: 24px;
+    }
+
+    .seccion-estadisticas {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .seccion-gestion,
+    .seccion-actividad {
+        padding: 25px;
+    }
+
+    .titulo-seccion {
+        font-size: 26px;
+    }
+
+    .grid-gestion {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .tarjeta-gestion {
+        margin: 0;
+    }
+
+    .imagen-gestion {
+        height: 200px;
+    }
+
+    .info-gestion {
+        padding: 20px;
+    }
+
+    .acciones-rapidas {
+        flex-direction: column;
+    }
+
+    .boton-accion-rapida {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .item-actividad {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contenido-principal {
+        padding: 20px 15px;
+    }
+
+    .seccion-gestion,
+    .seccion-actividad {
+        padding: 20px;
+    }
+
+    .estadistica-item {
+        padding: 20px;
+    }
+
+    .numero-estadistica {
+        font-size: 28px;
+    }
+
+    .icono-estadistica {
+        font-size: 36px;
+    }
+}
+
+/* ===== ESTILOS PARA MODALES ===== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 3% auto;
+    padding: 0;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease;
+    position: relative;
+}
+
+@keyframes slideIn {
+    from { 
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to { 
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content.modal-lista {
+    max-width: 1200px;
+    width: 95%;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #4e433e 0%, #ad9863 100%);
+    color: white;
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #fed87b;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.boton-cerrar-modal {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 12px;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.boton-cerrar-modal:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 25px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* ===== FORMULARIO RESTAURANTE ===== */
+.form-restaurante {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.campo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo-form label {
+    font-weight: 600;
+    color: #4e433e;
+    font-size: 14px;
+}
+
+.campo-form input,
+.campo-form select,
+.campo-form textarea {
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+.campo-form input:focus,
+.campo-form select:focus,
+.campo-form textarea:focus {
+    outline: none;
+    border-color: #ad9863;
+    box-shadow: 0 0 0 3px rgba(173, 152, 99, 0.1);
+}
+
+.campo-form textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+.acciones-form {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.boton-cancelar,
+.boton-guardar {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.boton-cancelar {
+    background: #f5f5f5;
+    color: #666;
+    border: 2px solid #ddd;
+}
+
+.boton-cancelar:hover {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.boton-guardar {
+    background: linear-gradient(135deg, #4e433e 0%, #ad9863 100%);
+    color: white;
+}
+
+.boton-guardar:hover {
+    background: linear-gradient(135deg, #3d332f 0%, #98854a 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(78, 67, 62, 0.3);
+}
+
+/* ===== MODAL LISTA RESTAURANTES ===== */
+.controles-lista {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.busqueda-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.input-busqueda {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.input-busqueda:focus {
+    outline: none;
+    border-color: #ad9863;
+}
+
+.boton-buscar {
+    padding: 12px 15px;
+    background: #ad9863;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.filtros-container {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.filtros-container label {
+    font-weight: 600;
+    color: #4e433e;
+}
+
+.filtros-container select {
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+}
+
+/* ===== TABLA RESTAURANTES ===== */
+.tabla-container {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-restaurantes {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-restaurantes thead {
+    background: linear-gradient(135deg, #4e433e 0%, #ad9863 100%);
+    color: white;
+}
+
+.tabla-restaurantes th,
+.tabla-restaurantes td {
+    padding: 15px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.tabla-restaurantes th {
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tabla-restaurantes tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.tabla-restaurantes tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.tabla-restaurantes td {
+    vertical-align: middle;
+}
+
+/* ===== RESPONSIVE MODALES ===== */
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 5% auto;
+        width: 95%;
+        max-height: 90vh;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .acciones-form {
+        flex-direction: column;
+    }
+    
+    .boton-cancelar,
+    .boton-guardar {
+        width: 100%;
+    }
+    
+    .busqueda-container {
+        flex-direction: column;
+    }
+    
+    .filtros-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .tabla-restaurantes {
+        font-size: 12px;
+    }
+    
+    .tabla-restaurantes th,
+    .tabla-restaurantes td {
+        padding: 10px 8px;
+    }
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* ===== LISTA SIMPLE DE RESTAURANTES ===== */
+.busqueda-simple {
+    margin-bottom: 20px;
+}
+
+.input-busqueda-simple {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.input-busqueda-simple:focus {
+    outline: none;
+    border-color: #ad9863;
+    box-shadow: 0 0 0 3px rgba(173, 152, 99, 0.1);
+}
+
+.lista-restaurantes-simple {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: white;
+}
+
+.item-restaurante-simple {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+.item-restaurante-simple:last-child {
+    border-bottom: none;
+}
+
+.item-restaurante-simple:hover {
+    background-color: #f8f9fa;
+}
+
+.nombre-restaurante {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    flex: 1;
+}
+
+.boton-eliminar-simple {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.boton-eliminar-simple:hover {
+    background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);
+}
+
+.boton-eliminar-simple:active {
+    transform: translateY(0);
+}
+
+/* ===== RESPONSIVE LISTA SIMPLE ===== */
+@media (max-width: 600px) {
+    .item-restaurante-simple {
+        padding: 12px 15px;
+    }
+    
+    .nombre-restaurante {
+        font-size: 14px;
+    }
+    
+    .boton-eliminar-simple {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
