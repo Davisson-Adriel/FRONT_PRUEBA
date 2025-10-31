@@ -578,9 +578,9 @@
         // Función para cerrar sesión
         function cerrarSesion() {
             if (confirm('¿Estás seguro que deseas cerrar sesión?')) {
+                localStorage.removeItem('authToken');
                 localStorage.removeItem('nombreUsuario');
                 localStorage.removeItem('tipoUsuario');
-                alert('Sesión cerrada exitosamente');
                 window.location.href = '../index.html';
             }
         }
