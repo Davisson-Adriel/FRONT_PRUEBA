@@ -103,9 +103,9 @@ document.addEventListener('click', function (e) {
         const seccionActiva = document.querySelector('.seccion-contenido.activa');
 
         if (seccionActiva && seccionActiva.id === 'seccionRestaurantes') {
-            const nombreItem = tarjeta.querySelector('.nombre-item').textContent;
-            console.log('Navegando a detalles de restaurante:', nombreItem);
-            localStorage.setItem('restauranteSeleccionado', nombreItem);
+            const restauranteId = tarjeta.getAttribute('data-id'); 
+            console.log('Navegando a detalles de restaurante por ID:', restauranteId);
+            localStorage.setItem('restauranteSeleccionado', restauranteId);
             window.location.href = 'detalle_restaurante.html';
         } else if (seccionActiva && seccionActiva.id === 'seccionPlatos') {
             console.log('Clic en plato - delegando a verDetallePlato()');
@@ -132,9 +132,10 @@ document.addEventListener('click', function (e) {
         console.log('Sección activa:', seccionActiva ? seccionActiva.id : 'No encontrada');
 
         if (seccionActiva && seccionActiva.id === 'seccionRestaurantes') {
+            const restauranteId = tarjeta.getAttribute('data-id');
             const nombreRestaurante = tarjeta.querySelector('.nombre-item').textContent;
-            console.log('Restaurante seleccionado:', nombreRestaurante);
-            localStorage.setItem('restauranteSeleccionado', nombreRestaurante);
+            console.log('Restaurante seleccionado por ID:', restauranteId);
+            localStorage.setItem('restauranteSeleccionado', restauranteId); 
             alert(`Navegando a detalles de: ${nombreRestaurante}`);
             window.location.href = 'detalle_restaurante.html';
         } else {
@@ -367,16 +368,21 @@ window.addEventListener('click', function (e) {
     }
 });
 
-// Animación de entrada y carga inicial
-window.addEventListener('load', function () {
-    // Cargar usuarios en cache al inicio para mejorar rendimiento
-    cargarUsuariosEnCache();
-    
-    const tarjetas = document.querySelectorAll('.tarjeta-item');
+/**
+ * Aplica una animación de entrada a las tarjetas de una sección.
+ * @param {string} gridSelector - El selector CSS del grid que contiene las tarjetas.
+ */
+export function animarTarjetas(gridSelector) {
+    const grid = document.querySelector(gridSelector);
+    if (!grid) return;
+    const tarjetas = grid.querySelectorAll('.tarjeta-item');
     tarjetas.forEach((tarjeta, index) => {
         setTimeout(() => {
             tarjeta.style.opacity = '1';
             tarjeta.style.transform = 'translateY(0)';
         }, index * 100);
     });
-});
+}
+
+// Carga inicial de datos de usuario
+window.addEventListener('load', cargarUsuariosEnCache);

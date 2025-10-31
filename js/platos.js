@@ -4,6 +4,7 @@
  */
 
 import { PlatosAPI } from './api.js';
+import { animarTarjetas } from './principal.js';
 
 // Estado global
 let platosData = [];
@@ -76,6 +77,7 @@ function renderizarPlatos(platos) {
 
     const platosHTML = platos.map(crearTarjetaPlato).join('');
     container.innerHTML = platosHTML;
+    animarTarjetas('#gridPlatos');
 }
 
 /**

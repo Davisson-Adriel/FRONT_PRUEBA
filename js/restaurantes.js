@@ -4,6 +4,7 @@
  */
 
 import { RestaurantesAPI } from './api.js';
+import { animarTarjetas } from './principal.js';
 
 // Estado global
 let restaurantesData = [];
@@ -76,6 +77,9 @@ function renderizarRestaurantes(restaurantes) {
 
     const restaurantesHTML = restaurantes.map(crearTarjetaRestaurante).join('');
     container.innerHTML = restaurantesHTML;
+
+    // Aplicar animación de entrada a las tarjetas recién creadas
+    animarTarjetas('#gridRestaurantes');
 }
 
 /**
