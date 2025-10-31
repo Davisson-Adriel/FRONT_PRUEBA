@@ -250,7 +250,7 @@ function crearElementoResenaBackend(resena) {
             <span class="likes-resena">👍 ${resena.likes}</span>
             ${esMiResena ? `
                 <div class="acciones-resena">
-                    <button class="boton-editar-resena" data-id="${resena.id}">✏️ Editar</button>
+                    <button class="boton-editar-resena" data-id="${resena.id}">Editar</button>
                 </div>
             ` : ''}
         </div>

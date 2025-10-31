@@ -755,6 +755,26 @@ body {
     font-size: 14px;
 }
 
+.acciones-resena {
+    margin-left: auto; 
+}
+
+.boton-editar-resena {
+    background: #e9ecef;
+    color: #495057;
+    border: 1px solid #dee2e6;
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.boton-editar-resena:hover {
+    background: #dee2e6;
+}
+
 .acciones-modal {
     text-align: center;
     padding-top: 20px;
