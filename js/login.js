@@ -1,7 +1,7 @@
 import { AuthAPI } from './api.js';
 
 document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('formularioLogin');
+    const loginForm = document.querySelector('.formulario-login'); // CORRECCIÓN: Buscar por clase en lugar de ID
 
     if (loginForm) {
         loginForm.addEventListener('submit', async function(evento) {
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 localStorage.setItem('authToken', response.token);
                 localStorage.setItem('nombreUsuario', response.username);
+                localStorage.setItem('userId', response.id);
                 localStorage.setItem('tipoUsuario', response.role);
 
                 alert(`¡Bienvenido, ${response.username}!`);
