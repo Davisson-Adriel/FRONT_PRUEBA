@@ -757,6 +757,8 @@ body {
 
 .acciones-resena {
     margin-left: auto; 
+    display: flex;
+    gap: 8px;
 }
 
 .boton-editar-resena {
@@ -773,6 +775,22 @@ body {
 
 .boton-editar-resena:hover {
     background: #dee2e6;
+}
+
+.boton-eliminar-resena {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.boton-eliminar-resena:hover {
+    background: #f5c6cb;
 }
 
 .acciones-modal {
