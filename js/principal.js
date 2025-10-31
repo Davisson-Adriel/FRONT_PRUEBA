@@ -120,8 +120,10 @@ document.addEventListener('click', async function (e) {
     }
 
     if (e.target.classList.contains('boton-ver-resenas')) {
-        const nombreItem = e.target.closest('.tarjeta-item').querySelector('.nombre-item').textContent;
-        mostrarModalResenas(nombreItem);
+        const tarjeta = e.target.closest('.tarjeta-item');
+        const nombreItem = tarjeta.querySelector('.nombre-item').textContent;
+        const idItem = tarjeta.getAttribute('data-id');
+        mostrarModalResenas(nombreItem, null, idItem);
     }
 
     // Clic en imagen de restaurante - solo para la sección de restaurantes
