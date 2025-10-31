@@ -1,46 +1,4 @@
-const API_CONFIG = {
-    BASE_URL: 'http://localhost:5000',
-    HEADERS: {
-        'Content-Type': 'application/json'
-    }
-};
-
-async function fetchAPI(url, options = {}) {
-    try {
-        const response = await fetch(url, {
-            headers: API_CONFIG.HEADERS,
-            ...options
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            const errorMessage = errorData.error || errorData.message || `HTTP ${response.status}: ${response.statusText}`;
-            throw new Error(errorMessage);
-        }
-
-        return await response.json();
-    } catch (error) {
-        if (error.name === 'TypeError' && error.message.includes('fetch')) {
-            throw new Error('No se puede conectar al servidor. Verifica que el backend esté ejecutándose.');
-        }
-        throw error;
-    }
-}
-
-const AuthAPI = {
-    register: async function(userData) {
-        const payload = { ...userData };
-        if (payload.contrasena) {
-            payload.password = payload.contrasena;
-            delete payload.contrasena;
-        }
-
-        return await fetchAPI(`${API_CONFIG.BASE_URL}/auth/register`, {
-            method: 'POST',
-            body: JSON.stringify(payload)
-        });
-    }
-};
+import { fetchAPI } from './api.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const selectRol = document.getElementById('seleccionarrol');
@@ -74,7 +32,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const rolBackend = (rol === 'administrador') ? 'admin' : 'user';
 
-        const userData = { username: nombre, correo: email, telefono: telefono, contrasena: contrasena, role: rolBackend };
+        const userData = {
+            username: nombre,
+            correo: email,
+            telefono: telefono,
+            password: contrasena, // Cambiado de 'contrasena' a 'password'
+            role: rolBackend
+        };
 
         if (rol === 'administrador') {
             userData.adminPassword = contrasenaAdmin;
@@ -84,7 +48,10 @@ document.addEventListener('DOMContentLoaded', function() {
         botonSubmit.textContent = 'CREANDO CUENTA...';
 
         try {
-            const response = await AuthAPI.register(userData);
+            const response = await fetchAPI('http://localhost:5000/auth/register', {
+                method: 'POST',
+                body: JSON.stringify(userData)
+            });
             alert('¡Cuenta creada exitosamente! Serás redirigido para iniciar sesión.');
             window.location.href = '../index.html';
         } catch (error) {

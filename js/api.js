@@ -6,7 +6,7 @@ const API_CONFIG = {
     }
 };
 
-async function fetchAPI(url, options = {}) {
+export async function fetchAPI(url, options = {}) {
     try {
         console.log('🔄 Petición API:', url);
         const response = await fetch(url, {
