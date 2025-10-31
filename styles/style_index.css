@@ -93,7 +93,7 @@ body {
 .campo-entrada:focus {
     outline: none;
     border-color: #2a5298;
-    background: white;
+    background-color: white;
 }
 
 .campo-entrada::placeholder {
