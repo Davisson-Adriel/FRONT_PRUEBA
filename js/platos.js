@@ -3,22 +3,14 @@
  * Conectado directamente con el backend - Sin datos hardcodeados
  */
 
-import { PlatosAPI } from './api.js';
+import { PlatosAPI, CategoriasPlatosAPI, RestaurantesAPI } from './api.js';
 import { animarTarjetas } from './principal.js';
 
 // Estado global
 let platosData = [];
+let restaurantesData = [];
+let categoriasPlatosData = [];
 let filtroActivoPlatos = 'todos';
-
-// Mapeo de categorías del backend a nombres legibles
-const CATEGORIAS_PLATOS_MAP = {
-    1: { nombre: 'Fast Food', clase: 'fast-food' },
-    2: { nombre: 'Gourmet', clase: 'gourmet' },
-    3: { nombre: 'Postres', clase: 'postres' },
-    4: { nombre: 'Italiano', clase: 'italiano' },
-    5: { nombre: 'Parrilla', clase: 'parrilla' },
-    6: { nombre: 'Ensaladas', clase: 'ensaladas' }
-};
 
 /**
  * Inicializa el sistema de platos
@@ -37,7 +29,7 @@ async function inicializarPlatos() {
 }
 
 /**
- * Carga platos desde el backend
+ * Carga platos, restaurantes y categorías desde el backend
  */
 async function cargarPlatos() {
     const container = document.getElementById('gridPlatos');
@@ -50,9 +42,20 @@ async function cargarPlatos() {
         // Mostrar loading
         container.innerHTML = '<div class="loading">🍕 Cargando platos...</div>';
 
-        // Cargar desde API
-        platosData = await PlatosAPI.getAll();
+        // Cargar platos, restaurantes y categorías en paralelo
+        const [platos, restaurantes, categorias] = await Promise.all([
+            PlatosAPI.getAll(),
+            RestaurantesAPI.getAll(),
+            CategoriasPlatosAPI.obtenerTodas()
+        ]);
+
+        platosData = platos;
+        restaurantesData = restaurantes;
+        categoriasPlatosData = categorias;
+        
         console.log(`📊 ${platosData.length} platos cargados`);
+        console.log(`🍽️ ${restaurantesData.length} restaurantes cargados`);
+        console.log(`🏷️ ${categoriasPlatosData.length} categorías de platos cargadas`);
 
         // Renderizar
         renderizarPlatos(platosData);
@@ -81,26 +84,44 @@ function renderizarPlatos(platos) {
 }
 
 /**
+ * Obtiene el nombre del restaurante por su ID
+ */
+function obtenerNombreRestaurante(restauranteId) {
+    const restaurante = restaurantesData.find(r => r.id == restauranteId);
+    return restaurante ? restaurante.nombre : 'Restaurante no encontrado';
+}
+
+/**
+ * Obtiene el nombre de la categoría de plato por su ID
+ */
+function obtenerNombreCategoriaPlato(categoriaId) {
+    const categoria = categoriasPlatosData.find(c => c.id == categoriaId);
+    return categoria ? categoria.nombre : 'Categoría no encontrada';
+}
+
+/**
  * Crea el HTML para una tarjeta de plato
  */
 function crearTarjetaPlato(plato) {
-    const categoria = CATEGORIAS_PLATOS_MAP[plato.categoriaId] || { nombre: 'General', clase: 'general' };
-    
     // Imagen por defecto si no existe
     const imagen = plato.imagen_url || 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=250&fit=crop&crop=center';
     
     // Formatear precio
     const precio = parseFloat(plato.precio || 0).toFixed(2);
     
+    // Obtener nombres dinámicamente desde el backend
+    const nombreCategoria = obtenerNombreCategoriaPlato(plato.categoriaId);
+    const nombreRestaurante = obtenerNombreRestaurante(plato.id_restaurante);
+    
     return `
-        <div class="tarjeta-item" data-categoria="${categoria.clase}" data-id="${plato.id}">
+        <div class="tarjeta-item" data-categoria-id="${plato.categoriaId}" data-id="${plato.id}">
             <div class="imagen-container">
                 <img src="${imagen}" 
                      alt="${plato.nombre}" 
                      class="imagen-item"
                      onerror="this.src='https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=250&fit=crop&crop=center'">
                 <div class="overlay-item">
-                    <button class="boton-ver-detalle" onclick="verDetallePlato('${plato.id}')">
+                    <button class="boton-ver-detalle" onclick="verDetallePlato(${plato.id})">
                         Conocer Restaurante
                     </button>
                 </div>
@@ -109,11 +130,12 @@ function crearTarjetaPlato(plato) {
                 <h3 class="nombre-item">${plato.nombre}</h3>
                 <p class="descripcion-item">${plato.descripcion}</p>
                 <div class="detalles-item">
-                    <span class="categoria-tag">${categoria.nombre}</span>
+                    <span class="categoria-tag">${nombreCategoria}</span>
                     <span class="precio">💰 $${precio}</span>
+                    <span class="restaurante-tag">🍽️ ${nombreRestaurante}</span>
                 </div>
                 <div class="acciones-item">
-                    <button class="boton-ver-resenas" onclick="verResenasPlato('${plato.id}')">
+                    <button class="boton-ver-resenas" onclick="verResenasPlato(${plato.id})">
                         Ver Reseñas
                     </button>
                 </div>
@@ -144,11 +166,10 @@ function aplicarFiltrosPlatos() {
 
     let platosFiltrados = [...platosData];
 
-    // Filtrar por categoría
+    // Filtrar por categoría usando IDs numéricos
     if (filtroActivoPlatos !== 'todos') {
         platosFiltrados = platosFiltrados.filter(plato => {
-            const categoria = CATEGORIAS_PLATOS_MAP[plato.categoriaId];
-            return categoria && categoria.clase === filtroActivoPlatos;
+            return plato.categoriaId == filtroActivoPlatos;
         });
     }
 

@@ -1,6 +1,54 @@
-import { UsuariosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI } from './api.js';
+import { UsuariosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI, CategoriasRestaurantesAPI, CategoriasPlatosAPI } from './api.js';
 
-document.addEventListener('DOMContentLoaded', function () {
+// Función para cargar categorías de restaurantes dinámicamente
+async function cargarCategoriasRestaurantes() {
+    try {
+        console.log('🍽️ Cargando categorías de restaurantes...');
+        const categorias = await CategoriasRestaurantesAPI.obtenerTodas();
+        const selectRestaurantes = document.getElementById('filtroRestaurantes');
+        
+        // Limpiar opciones existentes (excepto "Todas las categorías")
+        selectRestaurantes.innerHTML = '<option value="todos">Todas las categorías</option>';
+        
+        // Agregar categorías dinámicamente
+        categorias.forEach(categoria => {
+            const option = document.createElement('option');
+            option.value = categoria.id;
+            option.textContent = categoria.nombre;
+            selectRestaurantes.appendChild(option);
+        });
+        
+        console.log(`✅ ${categorias.length} categorías de restaurantes cargadas`);
+    } catch (error) {
+        console.error('❌ Error cargando categorías de restaurantes:', error);
+    }
+}
+
+// Función para cargar categorías de platos dinámicamente
+async function cargarCategoriasPlatos() {
+    try {
+        console.log('🍕 Cargando categorías de platos...');
+        const categorias = await CategoriasPlatosAPI.obtenerTodas();
+        const selectPlatos = document.getElementById('filtroPlatos');
+        
+        // Limpiar opciones existentes (excepto "Todas las categorías")
+        selectPlatos.innerHTML = '<option value="todos">Todas las categorías</option>';
+        
+        // Agregar categorías dinámicamente
+        categorias.forEach(categoria => {
+            const option = document.createElement('option');
+            option.value = categoria.id;
+            option.textContent = categoria.nombre;
+            selectPlatos.appendChild(option);
+        });
+        
+        console.log(`✅ ${categorias.length} categorías de platos cargadas`);
+    } catch (error) {
+        console.error('❌ Error cargando categorías de platos:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async function () {
     const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Usuario';
     document.getElementById('nombreUsuario').textContent = nombreUsuario;
 
@@ -13,6 +61,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    // Cargar categorías dinámicamente
+    await cargarCategoriasRestaurantes();
+    await cargarCategoriasPlatos();
 });
 
 // Navegación entre secciones
@@ -43,9 +95,10 @@ function aplicarFiltro(filtro, grid) {
     const tarjetas = grid.querySelectorAll('.tarjeta-item');
 
     tarjetas.forEach(tarjeta => {
-        const categoria = tarjeta.getAttribute('data-categoria');
+        // Obtener el categoriaId del data attribute
+        const categoriaId = tarjeta.getAttribute('data-categoria-id');
 
-        if (filtro === 'todos' || categoria === filtro) {
+        if (filtro === 'todos' || categoriaId === filtro) {
             tarjeta.style.display = 'block';
             tarjeta.style.animation = 'fadeIn 0.3s ease';
         } else {

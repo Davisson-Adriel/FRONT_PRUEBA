@@ -217,3 +217,25 @@ export const AuthAPI = {
         });
     }
 };
+
+// API para categorías de restaurantes
+export const CategoriasRestaurantesAPI = {
+    async obtenerTodas() {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_restaurantes`);
+    },
+
+    async obtenerPorId(id) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_restaurantes/${id}`);
+    }
+};
+
+// API para categorías de platos
+export const CategoriasPlatosAPI = {
+    async obtenerTodas() {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_platos`);
+    },
+
+    async obtenerPorId(id) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_platos/${id}`);
+    }
+};

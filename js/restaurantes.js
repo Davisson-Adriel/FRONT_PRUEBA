@@ -3,22 +3,13 @@
  * Conectado directamente con el backend - Sin datos hardcodeados
  */
 
-import { RestaurantesAPI } from './api.js';
+import { RestaurantesAPI, CategoriasRestaurantesAPI } from './api.js';
 import { animarTarjetas } from './principal.js';
 
 // Estado global
 let restaurantesData = [];
+let categoriasRestaurantesData = [];
 let filtroActivo = 'todos';
-
-// Mapeo de categorías del backend a nombres legibles
-const CATEGORIAS_MAP = {
-    1: { nombre: 'Fast Food', clase: 'fast-food' },
-    2: { nombre: 'Gourmet', clase: 'gourmet' },
-    3: { nombre: 'Vegetariano', clase: 'vegetariano' },
-    4: { nombre: 'Italiano', clase: 'italiano' },
-    5: { nombre: 'Parrilla', clase: 'parrilla' },
-    6: { nombre: 'Ensaladas', clase: 'ensaladas' }
-};
 
 /**
  * Inicializa el sistema de restaurantes
@@ -37,7 +28,7 @@ async function inicializarRestaurantes() {
 }
 
 /**
- * Carga restaurantes desde el backend
+ * Carga restaurantes y categorías desde el backend
  */
 async function cargarRestaurantes() {
     const container = document.getElementById('gridRestaurantes');
@@ -50,9 +41,17 @@ async function cargarRestaurantes() {
         // Mostrar loading
         container.innerHTML = '<div class="loading">🍽️ Cargando restaurantes...</div>';
 
-        // Cargar desde API
-        restaurantesData = await RestaurantesAPI.getAll();
+        // Cargar restaurantes y categorías en paralelo
+        const [restaurantes, categorias] = await Promise.all([
+            RestaurantesAPI.getAll(),
+            CategoriasRestaurantesAPI.obtenerTodas()
+        ]);
+
+        restaurantesData = restaurantes;
+        categoriasRestaurantesData = categorias;
+        
         console.log(`📊 ${restaurantesData.length} restaurantes cargados`);
+        console.log(`🏷️ ${categoriasRestaurantesData.length} categorías de restaurantes cargadas`);
 
         // Renderizar
         renderizarRestaurantes(restaurantesData);
@@ -83,26 +82,34 @@ function renderizarRestaurantes(restaurantes) {
 }
 
 /**
+ * Obtiene el nombre de la categoría de restaurante por su ID
+ */
+function obtenerNombreCategoriaRestaurante(categoriaId) {
+    const categoria = categoriasRestaurantesData.find(c => c.id == categoriaId);
+    return categoria ? categoria.nombre : 'Categoría no encontrada';
+}
+
+/**
  * Crea el HTML para una tarjeta de restaurante
  */
 function crearTarjetaRestaurante(restaurante) {
     console.log('🏪 Creando tarjeta para restaurante:', restaurante);
     console.log('🏪 ID del restaurante:', restaurante.id, 'tipo:', typeof restaurante.id);
     
-    const categoria = CATEGORIAS_MAP[restaurante.categoriaId] || { nombre: 'General', clase: 'general' };
+    const nombreCategoria = obtenerNombreCategoriaRestaurante(restaurante.categoriaId);
 
     // Imagen por defecto si no existe
     const imagen = restaurante.imagen_url || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=250&fit=crop&crop=center';
 
     return `
-        <div class="tarjeta-item" data-categoria="${categoria.clase}" data-id="${restaurante.id}">
+        <div class="tarjeta-item" data-categoria-id="${restaurante.categoriaId}" data-id="${restaurante.id}">
             <div class="imagen-container">
                 <img src="${imagen}" 
                      alt="${restaurante.nombre}" 
                      class="imagen-item"
                      onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=250&fit=crop&crop=center'">
                 <div class="overlay-item">
-                    <button class="boton-ver-detalle" onclick="verDetalleRestaurante('${restaurante.id}')">
+                    <button class="boton-ver-detalle" onclick="verDetalleRestaurante(${restaurante.id})">
                         Ver Restaurante
                     </button>
                 </div>
@@ -111,11 +118,11 @@ function crearTarjetaRestaurante(restaurante) {
                 <h3 class="nombre-item">${restaurante.nombre}</h3>
                 <p class="descripcion-item">${restaurante.descripcion}</p>
                 <div class="detalles-item">
-                    <span class="categoria-tag">${categoria.nombre}</span>
+                    <span class="categoria-tag">${nombreCategoria}</span>
                     <span class="direccion">📍 ${restaurante.direccion}</span>
                 </div>
                 <div class="acciones-item">
-                    <button class="boton-ver-resenas" onclick="verResenasRestaurante('${restaurante.id}')">
+                    <button class="boton-ver-resenas" onclick="verResenasRestaurante(${restaurante.id})">
                         Ver Reseñas
                     </button>
                 </div>
@@ -146,11 +153,10 @@ function aplicarFiltros() {
 
     let restaurantesFiltrados = [...restaurantesData];
 
-    // Filtrar por categoría
+    // Filtrar por categoría usando IDs numéricos
     if (filtroActivo !== 'todos') {
         restaurantesFiltrados = restaurantesFiltrados.filter(restaurante => {
-            const categoria = CATEGORIAS_MAP[restaurante.categoriaId];
-            return categoria && categoria.clase === filtroActivo;
+            return restaurante.categoriaId == filtroActivo;
         });
     }
 
