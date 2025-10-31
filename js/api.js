@@ -140,6 +140,13 @@ export const ResenasRestaurantesAPI = {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_restaurantes/${id}`, {
             method: 'DELETE'
         });
+    },
+
+    async toggleLike(id, userId) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_restaurantes/like/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ id_usuario: userId })
+        });
     }
 };
 
@@ -171,6 +178,13 @@ export const ReseñasPlatosAPI = {
     async eliminar(id) {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_platos/${id}`, {
             method: 'DELETE'
+        });
+    },
+
+    async toggleLike(id, userId) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_platos/like/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ id_usuario: userId })
         });
     }
 };

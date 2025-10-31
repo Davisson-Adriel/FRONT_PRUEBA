@@ -186,6 +186,29 @@ document.addEventListener('click', async function (e) {
             }
         }
     }
+
+    if (e.target.classList.contains('likes-resena-accion') || e.target.parentElement.classList.contains('likes-resena-accion')) {
+        const likeButton = e.target.closest('.likes-resena-accion');
+        const resenaId = likeButton.getAttribute('data-id');
+        const userId = parseInt(localStorage.getItem('userId'));
+
+        if (!userId) {
+            alert('Debes iniciar sesión para dar like.');
+            return;
+        }
+
+        try {
+            const api = tipoItemActual === 'restaurante' ? ResenasRestaurantesAPI : ReseñasPlatosAPI;
+            const response = await api.toggleLike(resenaId, userId);
+
+            likeButton.querySelector('.like-count').textContent = response.likes;
+            likeButton.classList.toggle('liked', response.likedByUser);
+
+        } catch (error) {
+            console.error('Error al dar like:', error);
+            alert(`${error.message}`);
+        }
+    }
 });
 
 async function mostrarModalResenas(nombreItem, tipo = null, id = null) {
@@ -267,12 +290,20 @@ function crearElementoResenaBackend(resena) {
     const userIdActual = localStorage.getItem('userId');
     const esMiResena = userIdActual && parseInt(userIdActual) === resena.usuarioId;
 
+    const likedByUser = resena.likedBy && resena.likedBy.includes(parseInt(userIdActual));
+
     div.innerHTML = `
         <div class="resena-header">
             <h4 class="nombre-usuario">${nombreUsuario}</h4>
             <div class="calificacion-estrellas">${estrellas}</div>
             <span class="fecha-resena">${fecha}</span>
-            <span class="likes-resena">👍 ${resena.likes}</span>
+            <button 
+                class="likes-resena-accion ${likedByUser ? 'liked' : ''} ${esMiResena ? 'disabled' : ''}" 
+                data-id="${resena.id}"
+                ${esMiResena ? 'disabled' : ''}
+            >
+                👍 <span class="like-count">${resena.likes}</span>
+            </button>
             ${esMiResena ? `
                 <div class="acciones-resena">
                     <button class="boton-editar-resena" data-id="${resena.id}">Editar</button>
