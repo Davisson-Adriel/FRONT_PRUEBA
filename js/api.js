@@ -134,6 +134,12 @@ export const ResenasRestaurantesAPI = {
             method: 'PATCH',
             body: JSON.stringify(resenaData)
         });
+    },
+
+    async eliminar(id) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_restaurantes/${id}`, {
+            method: 'DELETE'
+        });
     }
 };
 
@@ -159,6 +165,12 @@ export const ReseñasPlatosAPI = {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_platos/${id}`, {
             method: 'PATCH',
             body: JSON.stringify(resenaData)
+        });
+    },
+
+    async eliminar(id) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_platos/${id}`, {
+            method: 'DELETE'
         });
     }
 };

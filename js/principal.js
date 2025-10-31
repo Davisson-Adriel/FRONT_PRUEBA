@@ -96,7 +96,7 @@ function obtenerNombreUsuario(usuarioId) {
 }
 
 // Funcionalidad de botones
-document.addEventListener('click', function (e) {
+document.addEventListener('click', async function (e) {
     console.log('Clic detectado en:', e.target.className);
 
     if (e.target.classList.contains('boton-ver-detalle')) {
@@ -160,6 +160,31 @@ document.addEventListener('click', function (e) {
         document.getElementById('calificacionResena').value = calificacion;
         calificacionSeleccionada = calificacion;
         actualizarEstrellas();
+    }
+
+    // Clic en el nuevo botón "Eliminar Reseña"
+    if (e.target.classList.contains('boton-eliminar-resena')) {
+        const resenaItem = e.target.closest('.resena-item');
+        const idResenaAEliminar = e.target.getAttribute('data-id');
+
+        if (confirm('¿Estás seguro de que deseas eliminar esta reseña? Esta acción no se puede deshacer.')) {
+            try {
+                if (tipoItemActual === 'restaurante') {
+                    await ResenasRestaurantesAPI.eliminar(idResenaAEliminar);
+                } else {
+                    await ReseñasPlatosAPI.eliminar(idResenaAEliminar);
+                }
+                
+                resenaItem.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                resenaItem.style.opacity = '0';
+                resenaItem.style.transform = 'translateX(-20px)';
+                setTimeout(() => resenaItem.remove(), 300);
+
+            } catch (error) {
+                console.error('Error al eliminar la reseña:', error);
+                alert('❌ No se pudo eliminar la reseña. Inténtalo de nuevo.');
+            }
+        }
     }
 });
 
@@ -251,6 +276,7 @@ function crearElementoResenaBackend(resena) {
             ${esMiResena ? `
                 <div class="acciones-resena">
                     <button class="boton-editar-resena" data-id="${resena.id}">Editar</button>
+                    <button class="boton-eliminar-resena" data-id="${resena.id}">Eliminar</button>
                 </div>
             ` : ''}
         </div>
