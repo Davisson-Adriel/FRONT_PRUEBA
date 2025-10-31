@@ -102,7 +102,7 @@ function crearTarjetaRestaurante(restaurante) {
                      class="imagen-item"
                      onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=250&fit=crop&crop=center'">
                 <div class="overlay-item">
-                    <button class="boton-ver-detalle" onclick="verDetalleRestaurante(${restaurante.id})">
+                    <button class="boton-ver-detalle" onclick="verDetalleRestaurante('${restaurante.id}')">
                         Ver Restaurante
                     </button>
                 </div>
@@ -115,7 +115,7 @@ function crearTarjetaRestaurante(restaurante) {
                     <span class="direccion">📍 ${restaurante.direccion}</span>
                 </div>
                 <div class="acciones-item">
-                    <button class="boton-ver-resenas" onclick="verResenasRestaurante(${restaurante.id})">
+                    <button class="boton-ver-resenas" onclick="verResenasRestaurante('${restaurante.id}')">
                         Ver Reseñas
                     </button>
                 </div>
@@ -166,21 +166,13 @@ function verDetalleRestaurante(id) {
     console.log('Tipo de ID:', typeof id);
     console.log('JSON del ID:', JSON.stringify(id));
     
-    // Asegurar que sea un número
-    const idNumerico = parseInt(id);
-    console.log('ID convertido a número:', idNumerico);
-    
-    if (isNaN(idNumerico)) {
-        console.error('❌ ID no es válido:', id);
-        alert('Error: ID de restaurante no válido');
-        return;
-    }
+    const restaurante = restaurantesData.find(r => r.id == id);
+    const idNumerico = restaurante ? restaurante.numericId : null;
     
     // Guardar ID numérico en localStorage
     localStorage.setItem('restauranteSeleccionado', idNumerico);
     console.log('✅ ID guardado en localStorage:', localStorage.getItem('restauranteSeleccionado'));
     
-    // Navegar a la página de detalles
     window.location.href = 'detalle_restaurante.html';
 }
 

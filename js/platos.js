@@ -100,7 +100,7 @@ function crearTarjetaPlato(plato) {
                      class="imagen-item"
                      onerror="this.src='https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=250&fit=crop&crop=center'">
                 <div class="overlay-item">
-                    <button class="boton-ver-detalle" onclick="verDetallePlato(${plato.id})">
+                    <button class="boton-ver-detalle" onclick="verDetallePlato('${plato.id}')">
                         Conocer Restaurante
                     </button>
                 </div>
@@ -113,7 +113,7 @@ function crearTarjetaPlato(plato) {
                     <span class="precio">💰 $${precio}</span>
                 </div>
                 <div class="acciones-item">
-                    <button class="boton-ver-resenas" onclick="verResenasPlato(${plato.id})">
+                    <button class="boton-ver-resenas" onclick="verResenasPlato('${plato.id}')">
                         Ver Reseñas
                     </button>
                 </div>

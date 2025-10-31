@@ -248,7 +248,7 @@ async function enviarResena(e) {
 
     try {
         if (tipoItemActualParaResena === 'restaurante') {
-            nuevaResena.restauranteId = idItemActualParaResena;
+            nuevaResena.restauranteId = parseInt(idItemActualParaResena);
             await ResenasRestaurantesAPI.crear(nuevaResena); 
         } else {
             nuevaResena.platoId = idItemActualParaResena;
