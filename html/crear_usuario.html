@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="../styles/style.css">
+    <title>Crear Cuenta</title>
+    <link rel="stylesheet" href="../styles/style_index.css">
 </head>
 <body>
     <div class="contenedor-pagina">
         <div class="caja-inicio-sesion">
-            
+            <div class="seccion-imagen">
+                <img src="../IMG/logo.png" alt="Logo" class="imagen-logo">
+            </div>
             <div class="formulario-contenedor">
+                <h1 class="titulo-inicio">Crear Nueva Cuenta</h1>
                 <form class="formulario-login" id="formularioLogin">
                     <div class="grupo-campo">
                         <label for="nombreUsuario" class="etiqueta-campo"></label>
@@ -76,90 +79,13 @@
                             placeholder="Ingresa la contraseña de administrador">
                     </div>
 
-                    <button type="submit" class="boton-login" onclick="crearCuenta()">CREAR CUENTA</button>
+                    <button type="submit" class="boton-login">CREAR CUENTA</button>
                 </form>
                 
             </div>
         </div>
     </div>
 
-    <script>
-
-        const selectRol = document.getElementById('seleccionarrol');
-        const campoContrasenaAdmin = document.getElementById('campoContrasenaAdmin');
-        const inputContrasenaAdmin = document.getElementById('contrasenaAdmin');
-
-
-        function toggleCampoAdmin() {
-            if (selectRol.value === 'administrador') {
-
-                campoContrasenaAdmin.style.display = 'block';
-                campoContrasenaAdmin.style.opacity = '0';
-                campoContrasenaAdmin.style.transform = 'translateY(-10px)';
-                
-                setTimeout(() => {
-                    campoContrasenaAdmin.style.transition = 'all 0.3s ease';
-                    campoContrasenaAdmin.style.opacity = '1';
-                    campoContrasenaAdmin.style.transform = 'translateY(0)';
-                }, 10);
-                
-
-                inputContrasenaAdmin.setAttribute('required', 'required');
-            } else {
-
-                campoContrasenaAdmin.style.transition = 'all 0.3s ease';
-                campoContrasenaAdmin.style.opacity = '0';
-                campoContrasenaAdmin.style.transform = 'translateY(-10px)';
-                
-
-                setTimeout(() => {
-                    campoContrasenaAdmin.style.display = 'none';
-                }, 300);
-                
-
-                inputContrasenaAdmin.removeAttribute('required');
-                inputContrasenaAdmin.value = '';
-            }
-        }
-
-        selectRol.addEventListener('change', toggleCampoAdmin);
-
-        document.getElementById('formularioLogin').addEventListener('submit', function(evento) {
-            
-            const nombre = document.getElementById('nombreUsuario').value;
-            const email = document.getElementById('email').value;
-            const telefono = document.getElementById('telefono').value;
-            const contrasena = document.getElementById('contrasena').value;
-            const rol = selectRol.value;
-            const contrasenaAdmin = inputContrasenaAdmin.value;
-            
-            if (rol === 'administrador') {
-                if (!contrasenaAdmin) {
-                    alert('Debes ingresar la contraseña de administrador');
-                    inputContrasenaAdmin.focus();
-                    return;
-                }
-                
-                const contrasenaAdminCorrecta = 'admin123'; 
-                if (contrasenaAdmin !== contrasenaAdminCorrecta) {
-                    alert('Contraseña de administrador incorrecta');
-                    inputContrasenaAdmin.focus();
-                    inputContrasenaAdmin.select();
-                    return;
-                }
-            }
-            
-            console.log('Datos del formulario:', {
-                nombre,
-                email,
-                telefono,
-                contrasena,
-                rol,
-                contrasenaAdmin: rol === 'administrador' ? '[PROTEGIDA]' : null
-            });
-            
-            alert('¡Cuenta creada exitosamente!');
-        });
-    </script>
+    <script src="../js/register.js" defer></script>
 </body>
 </html>
