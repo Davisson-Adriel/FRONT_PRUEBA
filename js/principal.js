@@ -91,6 +91,7 @@ botonesNavegacion.forEach(boton => {
 });
 
 // Filtros
+// Función de filtro original (mantenida como respaldo - no usar directamente)
 function aplicarFiltro(filtro, grid) {
     const tarjetas = grid.querySelectorAll('.tarjeta-item');
 
@@ -107,19 +108,170 @@ function aplicarFiltro(filtro, grid) {
     });
 }
 
+// Función para limpiar búsqueda
+function limpiarBusqueda(tipo) {
+    if (tipo === 'restaurantes') {
+        document.getElementById('busquedaRestaurantes').value = '';
+        aplicarFiltrosYBusqueda('restaurantes');
+    } else if (tipo === 'platos') {
+        document.getElementById('busquedaPlatos').value = '';
+        aplicarFiltrosYBusqueda('platos');
+    }
+}
+
+// Función para buscar programáticamente
+function buscar(tipo, termino) {
+    if (tipo === 'restaurantes') {
+        document.getElementById('busquedaRestaurantes').value = termino;
+        aplicarFiltrosYBusqueda('restaurantes');
+    } else if (tipo === 'platos') {
+        document.getElementById('busquedaPlatos').value = termino;
+        aplicarFiltrosYBusqueda('platos');
+    }
+}
+
+// Hacer funciones globales
+window.limpiarBusqueda = limpiarBusqueda;
+window.buscar = buscar;
+
 // Filtro de restaurantes
 document.getElementById('filtroRestaurantes').addEventListener('change', function () {
-    const filtro = this.value;
-    const grid = document.getElementById('gridRestaurantes');
-    aplicarFiltro(filtro, grid);
+    aplicarFiltrosYBusqueda('restaurantes');
 });
 
 // Filtro de platos
 document.getElementById('filtroPlatos').addEventListener('change', function () {
-    const filtro = this.value;
-    const grid = document.getElementById('gridPlatos');
-    aplicarFiltro(filtro, grid);
+    aplicarFiltrosYBusqueda('platos');
 });
+
+// Variables para debounce
+let timeoutBusquedaRestaurantes;
+let timeoutBusquedaPlatos;
+
+// Búsqueda de restaurantes con debounce
+document.getElementById('busquedaRestaurantes').addEventListener('input', function (e) {
+    const campo = e.target;
+    
+    // Agregar clase visual mientras se busca
+    campo.classList.add('buscando');
+    
+    // Limpiar timeout anterior
+    clearTimeout(timeoutBusquedaRestaurantes);
+    
+    // Aplicar filtros después de un breve delay
+    timeoutBusquedaRestaurantes = setTimeout(() => {
+        aplicarFiltrosYBusqueda('restaurantes');
+        campo.classList.remove('buscando');
+    }, 300);
+});
+
+// Búsqueda de platos con debounce
+document.getElementById('busquedaPlatos').addEventListener('input', function (e) {
+    const campo = e.target;
+    
+    // Agregar clase visual mientras se busca
+    campo.classList.add('buscando');
+    
+    // Limpiar timeout anterior
+    clearTimeout(timeoutBusquedaPlatos);
+    
+    // Aplicar filtros después de un breve delay
+    timeoutBusquedaPlatos = setTimeout(() => {
+        aplicarFiltrosYBusqueda('platos');
+        campo.classList.remove('buscando');
+    }, 300);
+});
+
+// Limpiar búsqueda con tecla Escape
+document.getElementById('busquedaRestaurantes').addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+        limpiarBusqueda('restaurantes');
+        this.blur();
+    }
+});
+
+document.getElementById('busquedaPlatos').addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+        limpiarBusqueda('platos');
+        this.blur();
+    }
+});
+
+// Función unificada para aplicar filtros y búsqueda
+function aplicarFiltrosYBusqueda(tipo) {
+    if (tipo === 'restaurantes') {
+        const filtro = document.getElementById('filtroRestaurantes').value;
+        const busqueda = document.getElementById('busquedaRestaurantes').value.toLowerCase().trim();
+        const grid = document.getElementById('gridRestaurantes');
+        aplicarFiltroYBusqueda(filtro, busqueda, grid);
+    } else if (tipo === 'platos') {
+        const filtro = document.getElementById('filtroPlatos').value;
+        const busqueda = document.getElementById('busquedaPlatos').value.toLowerCase().trim();
+        const grid = document.getElementById('gridPlatos');
+        aplicarFiltroYBusqueda(filtro, busqueda, grid);
+    }
+}
+
+// Función mejorada que combina filtro por categoría y búsqueda por texto
+function aplicarFiltroYBusqueda(filtro, busqueda, grid) {
+    const tarjetas = grid.querySelectorAll('.tarjeta-item');
+    let tarjetasVisibles = 0;
+
+    tarjetas.forEach(tarjeta => {
+        const categoriaId = tarjeta.getAttribute('data-categoria-id');
+        const nombreItem = tarjeta.querySelector('.nombre-item')?.textContent.toLowerCase() || '';
+        const descripcionItem = tarjeta.querySelector('.descripcion-item')?.textContent.toLowerCase() || '';
+        
+        // Para platos, también buscar en el nombre del restaurante
+        const restauranteTag = tarjeta.querySelector('.restaurante-tag')?.textContent.toLowerCase() || '';
+        const categoriaTag = tarjeta.querySelector('.categoria-tag')?.textContent.toLowerCase() || '';
+        
+        // Verificar filtro de categoría
+        const pasaFiltroCategoria = filtro === 'todos' || categoriaId === filtro;
+        
+        // Verificar búsqueda de texto (busca en múltiples campos)
+        const pasaBusquedaTexto = busqueda === '' || 
+                                 nombreItem.includes(busqueda) || 
+                                 descripcionItem.includes(busqueda) ||
+                                 restauranteTag.includes(busqueda) ||
+                                 categoriaTag.includes(busqueda);
+
+        // Mostrar solo si pasa ambos filtros
+        if (pasaFiltroCategoria && pasaBusquedaTexto) {
+            tarjeta.style.display = 'block';
+            tarjeta.style.animation = 'fadeIn 0.3s ease';
+            tarjetasVisibles++;
+        } else {
+            tarjeta.style.display = 'none';
+        }
+    });
+
+    // Mostrar mensaje si no hay resultados
+    mostrarMensajeSinResultados(grid, tarjetasVisibles, busqueda);
+}
+
+// Función para mostrar mensaje cuando no hay resultados
+function mostrarMensajeSinResultados(grid, tarjetasVisibles, busqueda) {
+    // Remover mensaje anterior si existe
+    const mensajeAnterior = grid.querySelector('.sin-resultados-busqueda');
+    if (mensajeAnterior) {
+        mensajeAnterior.remove();
+    }
+
+    // Si no hay tarjetas visibles y hay una búsqueda activa, mostrar mensaje
+    if (tarjetasVisibles === 0 && busqueda !== '') {
+        const mensaje = document.createElement('div');
+        mensaje.className = 'sin-resultados-busqueda';
+        mensaje.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #6c757d;">
+                <h3>🔍 No se encontraron resultados</h3>
+                <p>No hay elementos que coincidan con "<strong>${busqueda}</strong>"</p>
+                <p>Intenta con otros términos de búsqueda</p>
+            </div>
+        `;
+        grid.appendChild(mensaje);
+    }
+}
 
 // Variables globales para el sistema de reseñas
 let itemActual = '';
