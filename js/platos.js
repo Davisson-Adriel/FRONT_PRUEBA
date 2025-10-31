@@ -3,6 +3,8 @@
  * Conectado directamente con el backend - Sin datos hardcodeados
  */
 
+import { PlatosAPI } from './api.js';
+
 // Estado global
 let platosData = [];
 let filtroActivoPlatos = 'todos';
@@ -203,7 +205,6 @@ function verResenasPlato(id) {
 
     console.log('⭐ Ver reseñas de:', plato);
     
-    // Integrar con el sistema de reseñas del backend
     if (typeof mostrarModalResenas === 'function') {
         mostrarModalResenas(plato.nombre, 'plato', plato.id);
     } else {
@@ -251,7 +252,6 @@ if (typeof document !== 'undefined') {
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', inicializarPlatos);
     } else {
-        // Si el DOM ya está listo, inicializar después de un breve delay
         setTimeout(inicializarPlatos, 100);
     }
 }

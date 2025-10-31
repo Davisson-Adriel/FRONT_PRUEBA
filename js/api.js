@@ -25,12 +25,10 @@ export async function fetchAPI(url, options = {}) {
         const data = await response.json();
         console.log('📦 Datos recibidos:', data);
         
-        // El backend puede devolver directamente un array o un objeto con 'value' property
         if (data && typeof data === 'object' && Array.isArray(data.value)) {
             return data.value;
         }
         
-        // Si ya es un array, devolverlo directamente
         if (Array.isArray(data)) {
             return data;
         }
@@ -46,7 +44,7 @@ export async function fetchAPI(url, options = {}) {
     }
 }
 
-const RestaurantesAPI = {
+export const RestaurantesAPI = {
     getAll: async function() {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/restaurantes`);
     },
@@ -77,7 +75,7 @@ const RestaurantesAPI = {
 };
 
 // API para Platos
-const PlatosAPI = {
+export const PlatosAPI = {
     getAll: async function() {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/platos`);
     },
@@ -113,7 +111,7 @@ const PlatosAPI = {
 };
     
 // API para reseñas de restaurantes
-const ResenasRestaurantesAPI = {
+export const ResenasRestaurantesAPI = {
     async obtenerTodas() {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_restaurantes`);
     },
@@ -132,7 +130,7 @@ const ResenasRestaurantesAPI = {
 };
 
 // API para reseñas de platos
-const ReseñasPlatosAPI = {
+export const ReseñasPlatosAPI = {
     async obtenerTodas() {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_platos`);
     },
@@ -151,7 +149,7 @@ const ReseñasPlatosAPI = {
 };
 
 // API para usuarios
-const UsuariosAPI = {
+export const UsuariosAPI = {
     async obtenerTodos() {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/usuarios`);
     },
@@ -159,5 +157,22 @@ const UsuariosAPI = {
     async obtenerPorId(id) {
         const usuarios = await this.obtenerTodos();
         return usuarios.find(usuario => usuario.id === parseInt(id));
+    }
+};
+
+export const AuthAPI = {
+    register: async function(userData) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/auth/register`, {
+            method: 'POST',
+            body: JSON.stringify(userData)
+        });
+    },
+
+    login: async function(credentials) {
+        const payload = { ...credentials };
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/auth/login`, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        });
     }
 };

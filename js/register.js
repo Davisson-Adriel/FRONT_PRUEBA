@@ -1,4 +1,4 @@
-import { fetchAPI } from './api.js';
+import { AuthAPI } from './api.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const selectRol = document.getElementById('seleccionarrol');
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             username: nombre,
             correo: email,
             telefono: telefono,
-            password: contrasena, // Cambiado de 'contrasena' a 'password'
+            password: contrasena,
             role: rolBackend
         };
 
@@ -48,10 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
         botonSubmit.textContent = 'CREANDO CUENTA...';
 
         try {
-            const response = await fetchAPI('http://localhost:5000/auth/register', {
-                method: 'POST',
-                body: JSON.stringify(userData)
-            });
+            const response = await AuthAPI.register(userData);
             alert('¡Cuenta creada exitosamente! Serás redirigido para iniciar sesión.');
             window.location.href = '../index.html';
         } catch (error) {

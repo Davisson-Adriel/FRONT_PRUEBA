@@ -3,6 +3,8 @@
  * Conectado directamente con el backend - Sin datos hardcodeados
  */
 
+import { RestaurantesAPI } from './api.js';
+
 // Estado global
 let restaurantesData = [];
 let filtroActivo = 'todos';
