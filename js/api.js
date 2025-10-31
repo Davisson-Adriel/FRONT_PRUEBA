@@ -111,7 +111,7 @@ const PlatosAPI = {
         });
     }
 };
-
+    
 // API para reseñas de restaurantes
 const ResenasRestaurantesAPI = {
     async obtenerTodas() {

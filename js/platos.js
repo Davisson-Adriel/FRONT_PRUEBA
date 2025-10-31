@@ -97,7 +97,7 @@ function crearTarjetaPlato(plato) {
                      onerror="this.src='https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=250&fit=crop&crop=center'">
                 <div class="overlay-item">
                     <button class="boton-ver-detalle" onclick="verDetallePlato(${plato.id})">
-                        Ver Detalles
+                        Conocer Restaurante
                     </button>
                 </div>
             </div>
@@ -152,19 +152,43 @@ function aplicarFiltrosPlatos() {
 }
 
 /**
- * Ver detalles de un plato
+ * Ver detalles de un plato - Redirige a los detalles del restaurante al que pertenece
  */
 function verDetallePlato(id) {
+    console.log('🍕 === DEBUG VER DETALLE PLATO ===');
+    console.log('ID del plato recibido:', id);
+    console.log('Tipo de ID:', typeof id);
+    
     const plato = platosData.find(p => p.id == id);
     if (!plato) {
         console.error('❌ Plato no encontrado:', id);
         return;
     }
 
-    console.log('🔍 Ver detalles de:', plato);
+    console.log('🔍 Plato encontrado:', plato);
+    console.log('🍽️ ID del restaurante:', plato.id_restaurante);
     
-    const precio = parseFloat(plato.precio || 0).toFixed(2);
-    alert(`Detalles de ${plato.nombre}\n\n${plato.descripcion}\n\nPrecio: $${precio}`);
+    // Verificar que el plato tenga un restaurante asociado
+    if (!plato.id_restaurante) {
+        console.error('❌ El plato no tiene restaurante asociado:', plato);
+        return;
+    }
+    
+    // Asegurar que sea un número
+    const restauranteId = parseInt(plato.id_restaurante);
+    console.log('ID del restaurante convertido a número:', restauranteId);
+    
+    if (isNaN(restauranteId)) {
+        console.error('❌ ID del restaurante no es válido:', plato.id_restaurante);
+        return;
+    }
+    
+    // Guardar ID del restaurante en localStorage (mismo sistema que verDetalleRestaurante)
+    localStorage.setItem('restauranteSeleccionado', restauranteId);
+    console.log('✅ ID del restaurante guardado en localStorage:', localStorage.getItem('restauranteSeleccionado'));
+    
+    // Navegar a la página de detalles del restaurante
+    window.location.href = 'detalle_restaurante.html';
 }
 
 /**

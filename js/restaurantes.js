@@ -80,6 +80,9 @@ function renderizarRestaurantes(restaurantes) {
  * Crea el HTML para una tarjeta de restaurante
  */
 function crearTarjetaRestaurante(restaurante) {
+    console.log('🏪 Creando tarjeta para restaurante:', restaurante);
+    console.log('🏪 ID del restaurante:', restaurante.id, 'tipo:', typeof restaurante.id);
+    
     const categoria = CATEGORIAS_MAP[restaurante.categoriaId] || { nombre: 'General', clase: 'general' };
 
     // Imagen por defecto si no existe
@@ -152,17 +155,27 @@ function aplicarFiltros() {
  * Ver detalles de un restaurante
  */
 function verDetalleRestaurante(id) {
-    const restaurante = restaurantesData.find(r => r.id == id);
-    if (!restaurante) {
-        console.error('❌ Restaurante no encontrado:', id);
+    console.log('🍽️ === DEBUG VER DETALLE ===');
+    console.log('ID recibido:', id);
+    console.log('Tipo de ID:', typeof id);
+    console.log('JSON del ID:', JSON.stringify(id));
+    
+    // Asegurar que sea un número
+    const idNumerico = parseInt(id);
+    console.log('ID convertido a número:', idNumerico);
+    
+    if (isNaN(idNumerico)) {
+        console.error('❌ ID no es válido:', id);
+        alert('Error: ID de restaurante no válido');
         return;
     }
-
-    console.log('🔍 Ver detalles de:', restaurante);
-
-    // Aquí puedes implementar la navegación a una página de detalles
-    // o mostrar un modal con información detallada
-    alert(`Detalles de ${restaurante.nombre}\n\n${restaurante.descripcion}\n\nDirección: ${restaurante.direccion}`);
+    
+    // Guardar ID numérico en localStorage
+    localStorage.setItem('restauranteSeleccionado', idNumerico);
+    console.log('✅ ID guardado en localStorage:', localStorage.getItem('restauranteSeleccionado'));
+    
+    // Navegar a la página de detalles
+    window.location.href = 'detalle_restaurante.html';
 }
 
 /**

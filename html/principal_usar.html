@@ -236,17 +236,18 @@
 
             if (e.target.classList.contains('boton-ver-detalle')) {
                 const tarjeta = e.target.closest('.tarjeta-item');
-                const nombreItem = tarjeta.querySelector('.nombre-item').textContent;
                 const seccionActiva = document.querySelector('.seccion-contenido.activa');
 
                 // Si estamos en la sección de restaurantes, navegar a detalles
                 if (seccionActiva && seccionActiva.id === 'seccionRestaurantes') {
+                    const nombreItem = tarjeta.querySelector('.nombre-item').textContent;
                     console.log('Navegando a detalles de restaurante:', nombreItem);
                     localStorage.setItem('restauranteSeleccionado', nombreItem);
                     window.location.href = 'detalle_restaurante.html';
-                } else {
-                    // Si es un plato, mostrar alert como antes
-                    alert(`Viendo detalles de: ${nombreItem}`);
+                } else if (seccionActiva && seccionActiva.id === 'seccionPlatos') {
+                    // Para platos, no hacer nada aquí - la función verDetallePlato() del platos.js se encarga
+                    console.log('Clic en plato - delegando a verDetallePlato()');
+                    return;
                 }
             }
 

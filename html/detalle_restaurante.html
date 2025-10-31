@@ -4,7 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles del Restaurante</title>
+    <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../styles/detalle_restaurante.css">
+    <style>
+        /* Estilos para el modal de reseñas */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+
+        .boton-cerrar-modal {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #666;
+            cursor: pointer;
+            padding: 5px;
+            line-height: 1;
+        }
+
+        .boton-cerrar-modal:hover {
+            color: #e74c3c;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .resenas-container {
+            margin-bottom: 20px;
+        }
+
+        .sin-resenas {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px 20px;
+        }
+
+        .error-resenas {
+            text-align: center;
+            color: #e74c3c;
+            padding: 40px 20px;
+        }
+
+        .cargando {
+            text-align: center;
+            color: #3498db;
+            padding: 40px 20px;
+        }
+    </style>
 </head>
 <body>
     <!-- Header con información del restaurante -->
@@ -123,6 +211,7 @@
         </div>
     </div>
 
+    <script src="../js/api.js"></script>
     <script>
         // Base de datos simulada de restaurantes con información detallada
         const restaurantesData = {
@@ -430,33 +519,89 @@
         let itemActual = '';
 
         // Inicializar página
-        document.addEventListener('DOMContentLoaded', function() {
-            restauranteActual = localStorage.getItem('restauranteSeleccionado');
+        document.addEventListener('DOMContentLoaded', async function() {
+            const restauranteId = localStorage.getItem('restauranteSeleccionado');
             
-            if (!restauranteActual || !restaurantesData[restauranteActual]) {
+            if (!restauranteId) {
                 alert('Restaurante no encontrado');
                 window.location.href = 'principal_usar.html';
                 return;
             }
 
-            cargarInformacionRestaurante();
-            cargarPlatosRestaurante();
-            cargarResenasRestaurante();
+            console.log('🔍 Valor recibido:', restauranteId);
+            console.log('🔍 Tipo:', typeof restauranteId);
+            
+            try {
+                let restauranteActualTemp = null;
+                
+                // Si es un número, buscar por ID
+                if (!isNaN(parseInt(restauranteId))) {
+                    console.log('🔢 Buscando por ID numérico:', parseInt(restauranteId));
+                    restauranteActualTemp = await RestaurantesAPI.getById(parseInt(restauranteId));
+                } 
+                
+                // Si no se encontró por ID o no es número, buscar por nombre en la lista
+                if (!restauranteActualTemp) {
+                    console.log('🔍 Buscando por nombre en lista completa...');
+                    const todosLosRestaurantes = await RestaurantesAPI.getAll();
+                    console.log('📋 Restaurantes disponibles:', todosLosRestaurantes);
+                    
+                    restauranteActualTemp = todosLosRestaurantes.find(r => 
+                        r.nombre === restauranteId || 
+                        r.id == restauranteId ||
+                        String(r.id) === String(restauranteId)
+                    );
+                }
+                
+                restauranteActual = restauranteActualTemp;
+                console.log('✅ Respuesta de la API:', restauranteActual);
+                
+                if (!restauranteActual) {
+                    console.error('❌ RestaurantesAPI devolvió null/undefined');
+                    alert('Restaurante no encontrado');
+                    window.location.href = 'principal_usar.html';
+                    return;
+                }
+
+                console.log('🏪 Restaurante cargado:', restauranteActual.nombre);
+                cargarInformacionRestaurante();
+                cargarPlatosRestaurante();
+                cargarResenasRestaurante();
+                
+            } catch (error) {
+                console.error('❌ Error completo:', error);
+                console.error('❌ Stack trace:', error.stack);
+                alert(`Error al cargar el restaurante: ${error.message}`);
+                window.location.href = 'principal_usar.html';
+            }
         });
 
         // Cargar información del restaurante
         function cargarInformacionRestaurante() {
-            const restaurante = restaurantesData[restauranteActual];
+            const restaurante = restauranteActual; // Ahora restauranteActual es el objeto del restaurante
             
+            // Adaptar datos del backend
+            const imagen = restaurante.imagen_url || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=400&fit=crop&crop=center';
+            const categorias = {
+                1: 'Fast Food',
+                2: 'Gourmet', 
+                3: 'Vegetariano',
+                4: 'Italiano',
+                5: 'Parrilla',
+                6: 'Ensaladas'
+            };
+            const categoria = categorias[restaurante.categoriaId] || 'Restaurante';
+
             // Header
             document.getElementById('infoRestauranteHeader').innerHTML = `
                 <div class="imagen-header-container">
-                    <img src="${restaurante.imagen}" alt="${restaurante.nombre}" class="imagen-header">
+                    <img src="${imagen}" alt="${restaurante.nombre}" class="imagen-header"
+                         onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=400&fit=crop&crop=center'">
                 </div>
                 <div class="info-header-texto">
                     <h1 class="nombre-restaurante">${restaurante.nombre}</h1>
                     <div class="calificacion-header">
-                        ${'★'.repeat(Math.floor(restaurante.calificacion))}${'☆'.repeat(5 - Math.floor(restaurante.calificacion))} ${restaurante.calificacion}
+                        <span class="categoria-tag">${categoria}</span>
                     </div>
                 </div>
             `;
@@ -465,7 +610,8 @@
             document.getElementById('infoRestauranteCompleta').innerHTML = `
                 <div class="info-principal">
                     <div class="imagen-principal-container">
-                        <img src="${restaurante.imagen}" alt="${restaurante.nombre}" class="imagen-principal">
+                        <img src="${imagen}" alt="${restaurante.nombre}" class="imagen-principal"
+                             onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=400&fit=crop&crop=center'">
                     </div>
                     <div class="detalles-restaurante">
                         <h2 class="nombre-restaurante-detalle">${restaurante.nombre}</h2>
@@ -476,21 +622,16 @@
                                 <strong>📍 Dirección:</strong> ${restaurante.direccion}
                             </div>
                             <div class="item-contacto">
-                                <strong>📞 Teléfono:</strong> ${restaurante.telefono}
+                                <strong>🏷️ Categoría:</strong> ${categoria}
                             </div>
                             <div class="item-contacto">
-                                <strong>🕒 Horarios:</strong> ${restaurante.horarios}
-                            </div>
-                            <div class="item-contacto">
-                                <strong>⭐ Calificación:</strong> ${restaurante.calificacion}/5.0
+                                <strong>🆔 ID:</strong> ${restaurante.id}
                             </div>
                         </div>
 
-                        <div class="especialidades">
-                            <h3>🍽️ Nuestras Especialidades:</h3>
-                            <ul class="lista-especialidades">
-                                ${restaurante.especialidades.map(esp => `<li>${esp}</li>`).join('')}
-                            </ul>
+                        <div class="descripcion-completa">
+                            <h3>📋 Información:</h3>
+                            <p>${restaurante.descripcion}</p>
                         </div>
                     </div>
                 </div>
@@ -498,52 +639,95 @@
         }
 
         // Cargar platos del restaurante
-        function cargarPlatosRestaurante() {
-            const restaurante = restaurantesData[restauranteActual];
-            const grid = document.getElementById('gridPlatos');
+        async function cargarPlatosRestaurante() {
+            try {
+                const todosLosPlatos = await PlatosAPI.getAll();
+                const platosRestaurante = todosLosPlatos.filter(plato => plato.id_restaurante == restauranteActual.id);
+                const grid = document.getElementById('gridPlatos');
+                
+                if (platosRestaurante.length === 0) {
+                    grid.innerHTML = '<div class="sin-datos">Este restaurante aún no tiene platos registrados.</div>';
+                    return;
+                }
             
-            grid.innerHTML = restaurante.platos.map(plato => `
-                <div class="tarjeta-item" data-categoria="${plato.categoria}">
-                    <div class="imagen-container">
-                        <img src="${plato.imagen}" alt="${plato.nombre}" class="imagen-item">
-                        <div class="overlay-item">
-                            <button class="boton-ver-detalle">Ver Detalles</button>
+                grid.innerHTML = platosRestaurante.map(plato => `
+                    <div class="tarjeta-item">
+                        <div class="imagen-container">
+                            <img src="${plato.imagen_url || 'https://images.unsplash.com/photo-1546554137-f86b9593a222?w=400&h=250&fit=crop'}" 
+                                 alt="${plato.nombre}" 
+                                 class="imagen-item"
+                                 onerror="this.src='https://images.unsplash.com/photo-1546554137-f86b9593a222?w=400&h=250&fit=crop'">
+                        </div>
+                        <div class="info-item">
+                            <h3 class="nombre-item">${plato.nombre}</h3>
+                            <p class="descripcion-item">${plato.descripcion}</p>
+                            <div class="detalles-item">
+                                <span class="precio">💰 $${plato.precio}</span>
+                            </div>
+                            <div class="acciones-item">
+                                <button class="boton-ver-resenas" onclick="verResenasPlato(${plato.id}, '${plato.nombre}')">
+                                    Ver Reseñas
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="info-item">
-                        <h3 class="nombre-item">${plato.nombre}</h3>
-                        <p class="descripcion-item">${plato.descripcion}</p>
-                        <div class="detalles-item">
-                            <span class="calificacion">⭐ ${plato.calificacion}</span>
-                            <span class="categoria-tag">${plato.categoria.charAt(0).toUpperCase() + plato.categoria.slice(1)}</span>
-                            <span class="precio">💰 ${plato.precio}</span>
-                        </div>
-                        <div class="acciones-item">
-                            <button class="boton-ver-resenas">Ver Reseñas</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+                `).join('');
+                
+            } catch (error) {
+                console.error('Error cargando platos:', error);
+                document.getElementById('gridPlatos').innerHTML = 
+                    '<div class="sin-datos">❌ Error al cargar los platos</div>';
+            }
         }
 
         // Cargar reseñas del restaurante
-        function cargarResenasRestaurante() {
-            const container = document.getElementById('contenedorResenasRestaurante');
-            const resenas = resenasData[restauranteActual] || [];
-            
-            if (resenas.length === 0) {
-                container.innerHTML = '<p class="sin-resenas">Aún no hay reseñas para este restaurante. ¡Sé el primero en crear una!</p>';
-            } else {
-                container.innerHTML = resenas.map(resena => `
-                    <div class="resena-item">
-                        <div class="resena-header">
-                            <h4 class="nombre-usuario">${resena.nombre}</h4>
-                            <div class="calificacion-estrellas">${'★'.repeat(resena.calificacion)}${'☆'.repeat(5 - resena.calificacion)}</div>
-                            <span class="fecha-resena">${resena.fecha}</span>
+        async function cargarResenasRestaurante() {
+            try {
+                const container = document.getElementById('contenedorResenasRestaurante');
+                
+                // Cargar reseñas del restaurante desde la API
+                console.log('🔍 Cargando reseñas para restaurante ID:', restauranteActual.id);
+                const todasLasResenas = await ResenasRestaurantesAPI.obtenerTodas();
+                const resenasRestaurante = todasLasResenas.filter(resena => resena.restauranteId === parseInt(restauranteActual.id));
+                
+                console.log('📋 Reseñas encontradas:', resenasRestaurante.length);
+                
+                if (resenasRestaurante.length === 0) {
+                    container.innerHTML = '<p class="sin-resenas">Aún no hay reseñas para este restaurante. ¡Sé el primero en crear una!</p>';
+                    return;
+                }
+                
+                // Cargar información de usuarios para mostrar nombres
+                const usuarios = await UsuariosAPI.obtenerTodos();
+                const usuariosMap = {};
+                usuarios.forEach(usuario => {
+                    usuariosMap[usuario.id] = usuario;
+                });
+                
+                // Generar HTML de reseñas
+                container.innerHTML = resenasRestaurante.map(resena => {
+                    const usuario = usuariosMap[resena.usuarioId] || { username: 'Usuario desconocido' };
+                    const fecha = new Date(resena.fecha).toLocaleDateString('es-ES');
+                    
+                    return `
+                        <div class="resena-item">
+                            <div class="resena-header">
+                                <h4 class="nombre-usuario">${usuario.username}</h4>
+                                <div class="calificacion-estrellas">${'★'.repeat(resena.calificacion)}${'☆'.repeat(5 - resena.calificacion)}</div>
+                                <span class="fecha-resena">${fecha}</span>
+                            </div>
+                            <p class="comentario-resena">${resena.comentario}</p>
+                            <div class="resena-footer">
+                                <span class="likes">👍 ${resena.likes} likes</span>
+                            </div>
                         </div>
-                        <p class="comentario-resena">${resena.comentario}</p>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
+                
+            } catch (error) {
+                console.error('❌ Error cargando reseñas:', error);
+                document.getElementById('contenedorResenasRestaurante').innerHTML = 
+                    '<p class="sin-resenas">❌ Error al cargar las reseñas</p>';
             }
         }
 
@@ -768,6 +952,102 @@
                 cerrarModalCrearResena();
             }
         });
+
+        // Función para ver reseñas de un plato (igual que en principal_usar.html)
+        function verResenasPlato(id, nombrePlato) {
+            console.log('🔥 === EJECUTANDO verResenasPlato ===');
+            console.log('⭐ Ver reseñas de plato ID:', id, 'nombre:', nombrePlato);
+            console.log('🔍 Tipo de mostrarModalResenas:', typeof mostrarModalResenas);
+            
+            // Verificar que el modal existe
+            const modal = document.getElementById('modalResenas');
+            console.log('🎭 Modal encontrado:', modal);
+            
+            // Usar la función mostrarModalResenas que ya funciona
+            if (typeof mostrarModalResenas === 'function') {
+                console.log('✅ Llamando a mostrarModalResenas...');
+                mostrarModalResenas(nombrePlato, 'plato', id);
+            } else {
+                console.error('❌ mostrarModalResenas no está disponible');
+                alert(`Reseñas de ${nombrePlato}\n\n(Sistema de reseñas en desarrollo)`);
+            }
+        }
+
+        // Copiar la función mostrarModalResenas de principal_usar.html
+        async function mostrarModalResenas(nombreItem, tipo = null, id = null) {
+            // Variables globales necesarias
+            window.itemActual = nombreItem;
+            window.tipoItemActual = tipo;
+            window.idItemActual = id;
+
+            const modal = document.getElementById('modalResenas');
+            const titulo = document.getElementById('tituloModal');
+            const container = document.getElementById('resenasContainer');
+
+            titulo.textContent = `Reseñas de ${nombreItem}`;
+
+            try {
+                container.innerHTML = '<div class="cargando">🔄 Cargando reseñas...</div>';
+
+                let resenasData = [];
+                
+                if (tipo === 'plato') {
+                    console.log('🍽️ Cargando reseñas de plato con ID:', id);
+                    const todasLasResenas = await ReseñasPlatosAPI.obtenerTodas();
+                    resenasData = todasLasResenas.filter(resena => resena.platoId === parseInt(id));
+                } else if (tipo === 'restaurante') {
+                    console.log('🏪 Cargando reseñas de restaurante con ID:', id);
+                    const todasLasResenas = await ResenasRestaurantesAPI.obtenerTodas();
+                    resenasData = todasLasResenas.filter(resena => resena.restauranteId === parseInt(id));
+                }
+
+                console.log('📋 Reseñas encontradas:', resenasData.length);
+
+                if (resenasData.length === 0) {
+                    container.innerHTML = '<p class="sin-resenas">Aún no hay reseñas para este elemento. ¡Sé el primero en crear una!</p>';
+                } else {
+                    // Cargar usuarios para mostrar nombres
+                    const usuarios = await UsuariosAPI.obtenerTodos();
+                    const usuariosMap = {};
+                    usuarios.forEach(usuario => {
+                        usuariosMap[usuario.id] = usuario;
+                    });
+
+                    // Generar HTML de reseñas
+                    container.innerHTML = resenasData.map(resena => {
+                        const usuario = usuariosMap[resena.usuarioId] || { username: 'Usuario desconocido' };
+                        const fecha = new Date(resena.fecha).toLocaleDateString('es-ES');
+                        
+                        return `
+                            <div class="resena-item">
+                                <div class="resena-header">
+                                    <h4 class="nombre-usuario">${usuario.username}</h4>
+                                    <div class="calificacion-estrellas">${'★'.repeat(resena.calificacion)}${'☆'.repeat(5 - resena.calificacion)}</div>
+                                    <span class="fecha-resena">${fecha}</span>
+                                </div>
+                                <p class="comentario-resena">${resena.comentario}</p>
+                                <div class="resena-footer">
+                                    <span class="likes">👍 ${resena.likes} likes</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                // Mostrar modal
+                modal.style.display = 'flex';
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+
+            } catch (error) {
+                console.error('❌ Error cargando reseñas:', error);
+                container.innerHTML = '<p class="error-resenas">❌ Error al cargar las reseñas</p>';
+            }
+        }
+
+        // Hacer las funciones disponibles globalmente
+        window.verResenasPlato = verResenasPlato;
+        window.mostrarModalResenas = mostrarModalResenas;
     </script>
 </body>
 </html>
