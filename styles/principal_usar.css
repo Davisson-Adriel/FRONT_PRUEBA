@@ -41,7 +41,8 @@ body {
 }
 
 .seccion-bienvenida {
-    text-align: right;
+    flex: 1;
+    text-align: center;
     color: white;
 }
 
@@ -61,6 +62,30 @@ body {
     font-size: 16px;
     opacity: 0.9;
     font-weight: 400;
+}
+
+.seccion-acciones-usuario {
+    display: flex;
+    align-items: center;
+}
+
+.boton-cerrar-sesion {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.boton-cerrar-sesion:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* ===== NAVEGACIÓN PRINCIPAL ===== */
@@ -407,6 +432,10 @@ body {
     
     .seccion-bienvenida {
         text-align: center;
+    }
+    
+    .seccion-acciones-usuario {
+        margin-top: 15px;
     }
     
     .mensaje-bienvenida {

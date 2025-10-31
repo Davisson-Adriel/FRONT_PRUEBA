@@ -1,9 +1,18 @@
 import { UsuariosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI } from './api.js';
 
-// Obtener nombre de usuario
 document.addEventListener('DOMContentLoaded', function () {
     const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Usuario';
     document.getElementById('nombreUsuario').textContent = nombreUsuario;
+
+    const btnCerrarSesion = document.getElementById('btnCerrarSesion');
+    if (btnCerrarSesion) {
+        btnCerrarSesion.addEventListener('click', function() {
+            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                localStorage.clear();
+                window.location.href = '../index.html';
+            }
+        });
+    }
 });
 
 // Navegación entre secciones
