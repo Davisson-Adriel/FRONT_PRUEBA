@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 localStorage.setItem('authToken', response.token);
                 localStorage.setItem('nombreUsuario', response.username);
-                localStorage.setItem('userId', response.id);
+                localStorage.setItem('userId', response.numericId); 
                 localStorage.setItem('tipoUsuario', response.role);
 
                 alert(`¡Bienvenido, ${response.username}!`);

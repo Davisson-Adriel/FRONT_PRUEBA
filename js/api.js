@@ -126,6 +126,14 @@ export const ResenasRestaurantesAPI = {
             method: 'POST',
             body: JSON.stringify(resenaData)
         });
+    },
+
+    async actualizar(id, resenaData) {
+        // Usamos PATCH para actualizaciones parciales
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_restaurantes/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(resenaData)
+        });
     }
 };
 
@@ -143,6 +151,13 @@ export const ReseñasPlatosAPI = {
     async crear(resenaData) {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_platos`, {
             method: 'POST',
+            body: JSON.stringify(resenaData)
+        });
+    },
+
+    async actualizar(id, resenaData) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/resenas_platos/${id}`, {
+            method: 'PATCH',
             body: JSON.stringify(resenaData)
         });
     }
