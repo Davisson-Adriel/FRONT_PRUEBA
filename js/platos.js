@@ -178,16 +178,8 @@ function verDetallePlato(id) {
         return;
     }
     
-    // Asegurar que sea un número
-    const restauranteId = parseInt(plato.id_restaurante);
-    console.log('ID del restaurante convertido a número:', restauranteId);
-    
-    if (isNaN(restauranteId)) {
-        console.error('❌ ID del restaurante no es válido:', plato.id_restaurante);
-        return;
-    }
-    
-    // Guardar ID del restaurante en localStorage (mismo sistema que verDetalleRestaurante)
+    // CORRECCIÓN: Guardar el ID del restaurante como string, sin convertirlo a número.
+    const restauranteId = plato.id_restaurante;
     localStorage.setItem('restauranteSeleccionado', restauranteId);
     console.log('✅ ID del restaurante guardado en localStorage:', localStorage.getItem('restauranteSeleccionado'));
     

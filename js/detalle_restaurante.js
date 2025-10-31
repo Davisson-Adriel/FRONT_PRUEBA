@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     try {
-        restauranteActual = await RestaurantesAPI.getById(parseInt(restauranteId));
+        restauranteActual = await RestaurantesAPI.getById(restauranteId);
         
         if (!restauranteActual) {
             throw new Error('No se pudo encontrar el restaurante con el ID proporcionado.');
@@ -213,45 +213,60 @@ function cerrarModalCrearResena() {
 
 async function enviarResena(e) {
     e.preventDefault();
+    const botonEnviar = e.target.querySelector('button[type="submit"]');
+    const textoOriginalBoton = botonEnviar.innerHTML;
+
+    // Deshabilitar botón y mostrar estado de carga
+    botonEnviar.disabled = true;
+    botonEnviar.innerHTML = '<span class="spinner"></span> Enviando...';
+
     const calificacion = document.getElementById('calificacionResena').value;
     const comentario = document.getElementById('comentarioResena').value;
 
     if (!calificacion || !comentario) {
         alert('Por favor, completa la calificación y el comentario.');
+        botonEnviar.disabled = false;
+        botonEnviar.innerHTML = textoOriginalBoton;
+        return;
+    }
+
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        alert('Error de autenticación. Por favor, inicia sesión de nuevo.');
+        botonEnviar.disabled = false;
+        botonEnviar.innerHTML = textoOriginalBoton;
         return;
     }
 
     const nuevaResena = {
-        usuarioId: 1, // Debería obtenerse del usuario logueado
+        usuarioId: 8, 
         calificacion: parseInt(calificacion),
         comentario: comentario,
-        fecha: new Date().toISOString(),
-        likes: 0
+        fecha: new Date().toISOString(), 
+        likes: 0                         
     };
 
     try {
         if (tipoItemActualParaResena === 'restaurante') {
             nuevaResena.restauranteId = idItemActualParaResena;
-            await ResenasRestaurantesAPI.crear(nuevaResena);
+            await ResenasRestaurantesAPI.crear(nuevaResena); 
         } else {
             nuevaResena.platoId = idItemActualParaResena;
-            await ReseñasPlatosAPI.crear(nuevaResena);
+            await ReseñasPlatosAPI.crear(nuevaResena); 
         }
         
         cerrarModalCrearResena();
         alert('¡Gracias por tu reseña!');
 
-        // Recargar la sección de reseñas correspondiente
         if (tipoItemActualParaResena === 'restaurante') {
-            await cargarResenasRestaurante();
-        } else {
-            // Si se reseñó un plato, no hay una sección que recargar directamente en esta página.
-            // Podríamos reabrir el modal de reseñas del plato para ver la nueva.
+            await cargarResenasRestaurante(); 
         }
-
     } catch (error) {
         alert('Error al enviar la reseña.');
         console.error(error);
+    } finally {
+        botonEnviar.disabled = false;
+        botonEnviar.innerHTML = textoOriginalBoton;
     }
 }
 

@@ -313,22 +313,27 @@ document.getElementById('formCrearResena').addEventListener('submit', async func
         return;
     }
 
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        alert('Error de autenticación. Por favor, inicia sesión de nuevo para crear una reseña.');
+        return;
+    }
+
     try {
-        // Crear datos de la reseña para el backend
         const nuevaResena = {
-            usuarioId: Math.floor(Math.random() * 1000) + 1, // ID temporal aleatorio
+            usuarioId: 8, 
             calificacion: calificacion,
             comentario: comentario,
             fecha: new Date().toISOString(),
-            likes: 0
+            likes: 0                        
         };
 
         // Agregar el ID específico según el tipo
         if (tipoItemActual === 'restaurante') {
-            nuevaResena.restauranteId = idItemActual;
+            nuevaResena.restauranteId = parseInt(idItemActual); 
             await ResenasRestaurantesAPI.crear(nuevaResena);
         } else if (tipoItemActual === 'plato') {
-            nuevaResena.platoId = idItemActual;
+            nuevaResena.platoId = parseInt(idItemActual);
             await ReseñasPlatosAPI.crear(nuevaResena);
         }
 
