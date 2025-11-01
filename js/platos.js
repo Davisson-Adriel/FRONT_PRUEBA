@@ -3,13 +3,14 @@
  * Conectado directamente con el backend - Sin datos hardcodeados
  */
 
-import { PlatosAPI, CategoriasPlatosAPI, RestaurantesAPI } from './api.js';
+import { PlatosAPI, CategoriasPlatosAPI, RestaurantesAPI, RankingPlatosAPI } from './api.js';
 import { animarTarjetas } from './principal.js';
 
 // Estado global
 let platosData = [];
 let restaurantesData = [];
 let categoriasPlatosData = [];
+let rankingsPlatosData = {};
 let filtroActivoPlatos = 'todos';
 
 /**
@@ -57,6 +58,9 @@ async function cargarPlatos() {
         console.log(`🍽️ ${restaurantesData.length} restaurantes cargados`);
         console.log(`🏷️ ${categoriasPlatosData.length} categorías de platos cargadas`);
 
+        // Cargar rankings después de tener los datos de platos
+        await cargarRankingsPlatos();
+
         // Renderizar
         renderizarPlatos(platosData);
 
@@ -100,6 +104,48 @@ function obtenerNombreCategoriaPlato(categoriaId) {
 }
 
 /**
+ * Carga los rankings de todos los platos
+ */
+async function cargarRankingsPlatos() {
+    console.log('⭐ Cargando rankings de platos...');
+    
+    const promesasRankings = platosData.map(async (plato) => {
+        try {
+            const promedio = await RankingPlatosAPI.obtenerPromedio(plato.id);
+            return { id: plato.id, promedio };
+        } catch (error) {
+            console.warn(`❌ Error cargando ranking del plato ${plato.id}:`, error);
+            return { id: plato.id, promedio: 0 };
+        }
+    });
+
+    const rankings = await Promise.all(promesasRankings);
+    
+    // Convertir array a objeto para acceso rápido
+    rankingsPlatosData = {};
+    rankings.forEach(ranking => {
+        rankingsPlatosData[ranking.id] = ranking.promedio;
+    });
+    
+    console.log(`✅ ${rankings.length} rankings de platos cargados:`, rankingsPlatosData);
+}
+
+/**
+ * Obtiene el ranking de un plato
+ */
+function obtenerRankingPlato(platoId) {
+    return rankingsPlatosData[platoId] || 0;
+}
+
+/**
+ * Formatea el ranking para mostrar
+ */
+function formatearRankingPlato(ranking) {
+    if (ranking === 0) return 'Sin calificaciones';
+    return `⭐ ${ranking.toFixed(1)}`;
+}
+
+/**
  * Crea el HTML para una tarjeta de plato
  */
 function crearTarjetaPlato(plato) {
@@ -133,6 +179,7 @@ function crearTarjetaPlato(plato) {
                     <span class="categoria-tag">${nombreCategoria}</span>
                     <span class="precio">💰 $${precio}</span>
                     <span class="restaurante-tag">🍽️ ${nombreRestaurante}</span>
+                    <span class="ranking-tag">${formatearRankingPlato(obtenerRankingPlato(plato.id))}</span>
                 </div>
                 <div class="acciones-item">
                     <button class="boton-ver-resenas" onclick="verResenasPlato(${plato.id})">

@@ -3,12 +3,13 @@
  * Conectado directamente con el backend - Sin datos hardcodeados
  */
 
-import { RestaurantesAPI, CategoriasRestaurantesAPI } from './api.js';
+import { RestaurantesAPI, CategoriasRestaurantesAPI, RankingRestaurantesAPI } from './api.js';
 import { animarTarjetas } from './principal.js';
 
 // Estado global
 let restaurantesData = [];
 let categoriasRestaurantesData = [];
+let rankingsRestaurantesData = {};
 let filtroActivo = 'todos';
 
 /**
@@ -53,6 +54,9 @@ async function cargarRestaurantes() {
         console.log(`📊 ${restaurantesData.length} restaurantes cargados`);
         console.log(`🏷️ ${categoriasRestaurantesData.length} categorías de restaurantes cargadas`);
 
+        // Cargar rankings
+        await cargarRankingsRestaurantes();
+
         // Renderizar
         renderizarRestaurantes(restaurantesData);
 
@@ -90,6 +94,48 @@ function obtenerNombreCategoriaRestaurante(categoriaId) {
 }
 
 /**
+ * Carga los rankings de todos los restaurantes
+ */
+async function cargarRankingsRestaurantes() {
+    console.log('⭐ Cargando rankings de restaurantes...');
+    
+    const promesasRankings = restaurantesData.map(async (restaurante) => {
+        try {
+            const promedio = await RankingRestaurantesAPI.obtenerPromedio(restaurante.id);
+            return { id: restaurante.id, promedio };
+        } catch (error) {
+            console.warn(`❌ Error cargando ranking del restaurante ${restaurante.id}:`, error);
+            return { id: restaurante.id, promedio: 0 };
+        }
+    });
+
+    const rankings = await Promise.all(promesasRankings);
+    
+    // Convertir array a objeto para acceso rápido
+    rankingsRestaurantesData = {};
+    rankings.forEach(ranking => {
+        rankingsRestaurantesData[ranking.id] = ranking.promedio;
+    });
+    
+    console.log(`✅ ${rankings.length} rankings de restaurantes cargados:`, rankingsRestaurantesData);
+}
+
+/**
+ * Obtiene el ranking de un restaurante
+ */
+function obtenerRankingRestaurante(restauranteId) {
+    return rankingsRestaurantesData[restauranteId] || 0;
+}
+
+/**
+ * Formatea el ranking para mostrar
+ */
+function formatearRanking(ranking) {
+    if (ranking === 0) return 'Sin calificaciones';
+    return `⭐ ${ranking.toFixed(1)}`;
+}
+
+/**
  * Crea el HTML para una tarjeta de restaurante
  */
 function crearTarjetaRestaurante(restaurante) {
@@ -120,6 +166,7 @@ function crearTarjetaRestaurante(restaurante) {
                 <div class="detalles-item">
                     <span class="categoria-tag">${nombreCategoria}</span>
                     <span class="direccion">📍 ${restaurante.direccion}</span>
+                    <span class="ranking-tag">${formatearRanking(obtenerRankingRestaurante(restaurante.id))}</span>
                 </div>
                 <div class="acciones-item">
                     <button class="boton-ver-resenas" onclick="verResenasRestaurante(${restaurante.id})">

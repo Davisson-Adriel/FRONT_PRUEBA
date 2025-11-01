@@ -239,3 +239,29 @@ export const CategoriasPlatosAPI = {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_platos/${id}`);
     }
 };
+
+// API para ranking de restaurantes
+export const RankingRestaurantesAPI = {
+    async obtenerPromedio(restauranteId) {
+        try {
+            const promedio = await fetchAPI(`${API_CONFIG.BASE_URL}/ranking/restaurantes/${restauranteId}`);
+            return parseFloat(promedio) || 0;
+        } catch (error) {
+            console.warn(`❌ Error obteniendo ranking del restaurante ${restauranteId}:`, error);
+            return 0;
+        }
+    }
+};
+
+// API para ranking de platos
+export const RankingPlatosAPI = {
+    async obtenerPromedio(platoId) {
+        try {
+            const promedio = await fetchAPI(`${API_CONFIG.BASE_URL}/ranking/platos/${platoId}`);
+            return parseFloat(promedio) || 0;
+        } catch (error) {
+            console.warn(`❌ Error obteniendo ranking del plato ${platoId}:`, error);
+            return 0;
+        }
+    }
+};
