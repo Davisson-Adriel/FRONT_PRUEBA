@@ -271,9 +271,15 @@ async function enviarResena(e) {
         if (tipoItemActualParaResena === 'restaurante') {
             nuevaResena.restauranteId = parseInt(idItemActualParaResena);
             await ResenasRestaurantesAPI.crear(nuevaResena); 
+            
+            // Actualizar ranking del restaurante automáticamente
+            await actualizarRankingRestauranteEnInterfaz();
         } else {
             nuevaResena.platoId = idItemActualParaResena;
             await ReseñasPlatosAPI.crear(nuevaResena); 
+            
+            // Actualizar ranking del plato automáticamente
+            await actualizarRankingPlatoEnInterfaz(idItemActualParaResena);
         }
         
         cerrarModalCrearResena();
@@ -300,6 +306,56 @@ async function cargarRankingRestaurante(restauranteId) {
     } catch (error) {
         console.warn('❌ Error cargando ranking del restaurante:', error);
         rankingRestaurante = 0;
+    }
+}
+
+// Función para actualizar ranking del restaurante en la interfaz
+async function actualizarRankingRestauranteEnInterfaz() {
+    try {
+        console.log('🔄 Actualizando ranking del restaurante en la interfaz...');
+        
+        // Recargar ranking desde el backend
+        await cargarRankingRestaurante(restauranteActual.id);
+        
+        // Actualizar en el header
+        const headerRanking = document.querySelector('.calificacion-header .ranking-tag');
+        if (headerRanking) {
+            headerRanking.textContent = formatearRanking(rankingRestaurante);
+        }
+        
+        // Actualizar en la información detallada
+        const detalleRanking = document.querySelector('.info-contacto .item-contacto:last-child');
+        if (detalleRanking) {
+            detalleRanking.innerHTML = `<strong>⭐ Calificación:</strong> ${formatearRanking(rankingRestaurante)}`;
+        }
+        
+        console.log('✅ Ranking del restaurante actualizado en la interfaz');
+    } catch (error) {
+        console.error('❌ Error actualizando ranking del restaurante:', error);
+    }
+}
+
+// Función para actualizar ranking de un plato específico en la interfaz
+async function actualizarRankingPlatoEnInterfaz(platoId) {
+    try {
+        console.log(`🔄 Actualizando ranking del plato ${platoId} en la interfaz...`);
+        
+        // Recargar ranking del plato específico
+        const nuevoRanking = await RankingPlatosAPI.obtenerPromedio(platoId);
+        rankingsPlatos[platoId] = nuevoRanking;
+        
+        // Buscar la tarjeta del plato en el DOM
+        const tarjetaPlato = document.querySelector(`[onclick*="${platoId}"]`)?.closest('.tarjeta-item');
+        if (tarjetaPlato) {
+            const rankingTag = tarjetaPlato.querySelector('.ranking-tag');
+            if (rankingTag) {
+                rankingTag.textContent = formatearRanking(nuevoRanking);
+            }
+        }
+        
+        console.log(`✅ Ranking del plato ${platoId} actualizado: ${nuevoRanking}`);
+    } catch (error) {
+        console.error(`❌ Error actualizando ranking del plato ${platoId}:`, error);
     }
 }
 

@@ -1,4 +1,4 @@
-import { UsuariosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI, CategoriasRestaurantesAPI, CategoriasPlatosAPI } from './api.js';
+import { UsuariosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI, CategoriasRestaurantesAPI, CategoriasPlatosAPI, RankingRestaurantesAPI, RankingPlatosAPI } from './api.js';
 
 // Función para cargar categorías de restaurantes dinámicamente
 async function cargarCategoriasRestaurantes() {
@@ -451,8 +451,14 @@ document.addEventListener('click', async function (e) {
             try {
                 if (tipoItemActual === 'restaurante') {
                     await ResenasRestaurantesAPI.eliminar(idResenaAEliminar);
+                    
+                    // Actualizar ranking del restaurante automáticamente en el grid
+                    await actualizarRankingRestauranteEnGrid(idItemActual);
                 } else {
                     await ReseñasPlatosAPI.eliminar(idResenaAEliminar);
+                    
+                    // Actualizar ranking del plato automáticamente en el grid
+                    await actualizarRankingPlatoEnGrid(idItemActual);
                 }
                 
                 resenaItem.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
@@ -702,8 +708,14 @@ document.getElementById('formCrearResena').addEventListener('submit', async func
             };
             if (tipoItemActual === 'restaurante') {
                 await ResenasRestaurantesAPI.actualizar(idResenaEditando, datosActualizados);
+                
+                // Actualizar ranking del restaurante automáticamente en el grid
+                await actualizarRankingRestauranteEnGrid(idItemActual);
             } else {
                 await ReseñasPlatosAPI.actualizar(idResenaEditando, datosActualizados);
+                
+                // Actualizar ranking del plato automáticamente en el grid
+                await actualizarRankingPlatoEnGrid(idItemActual);
             }
             alert('¡Reseña actualizada exitosamente!');
         } else {
@@ -712,9 +724,15 @@ document.getElementById('formCrearResena').addEventListener('submit', async func
             if (tipoItemActual === 'restaurante') {
                 nuevaResena.restauranteId = parseInt(idItemActual); 
                 await ResenasRestaurantesAPI.crear(nuevaResena);
+                
+                // Actualizar ranking del restaurante automáticamente en el grid
+                await actualizarRankingRestauranteEnGrid(idItemActual);
             } else if (tipoItemActual === 'plato') {
                 nuevaResena.platoId = parseInt(idItemActual);
                 await ReseñasPlatosAPI.crear(nuevaResena);
+                
+                // Actualizar ranking del plato automáticamente en el grid
+                await actualizarRankingPlatoEnGrid(idItemActual);
             }
             alert('¡Reseña creada exitosamente!');
         }
@@ -767,6 +785,51 @@ export function animarTarjetas(gridSelector) {
             tarjeta.style.transform = 'translateY(0)';
         }, index * 100);
     });
+}
+
+// Funciones para actualizar rankings automáticamente en principal_usar
+async function actualizarRankingRestauranteEnGrid(restauranteId) {
+    try {
+        console.log(`🔄 Actualizando ranking del restaurante ${restauranteId} en grid...`);
+        
+        // Obtener nuevo ranking del backend
+        const nuevoRanking = await RankingRestaurantesAPI.obtenerPromedio(restauranteId);
+        
+        // Buscar la tarjeta del restaurante en el grid
+        const tarjetaRestaurante = document.querySelector(`[data-id="${restauranteId}"]`);
+        if (tarjetaRestaurante) {
+            const rankingTag = tarjetaRestaurante.querySelector('.ranking-tag');
+            if (rankingTag) {
+                const rankingFormateado = nuevoRanking === 0 ? 'Sin calificaciones' : `⭐ ${nuevoRanking.toFixed(1)}`;
+                rankingTag.textContent = rankingFormateado;
+                console.log(`✅ Ranking del restaurante ${restauranteId} actualizado: ${rankingFormateado}`);
+            }
+        }
+    } catch (error) {
+        console.error(`❌ Error actualizando ranking del restaurante ${restauranteId}:`, error);
+    }
+}
+
+async function actualizarRankingPlatoEnGrid(platoId) {
+    try {
+        console.log(`🔄 Actualizando ranking del plato ${platoId} en grid...`);
+        
+        // Obtener nuevo ranking del backend
+        const nuevoRanking = await RankingPlatosAPI.obtenerPromedio(platoId);
+        
+        // Buscar la tarjeta del plato en el grid
+        const tarjetaPlato = document.querySelector(`[data-id="${platoId}"]`);
+        if (tarjetaPlato) {
+            const rankingTag = tarjetaPlato.querySelector('.ranking-tag');
+            if (rankingTag) {
+                const rankingFormateado = nuevoRanking === 0 ? 'Sin calificaciones' : `⭐ ${nuevoRanking.toFixed(1)}`;
+                rankingTag.textContent = rankingFormateado;
+                console.log(`✅ Ranking del plato ${platoId} actualizado: ${rankingFormateado}`);
+            }
+        }
+    } catch (error) {
+        console.error(`❌ Error actualizando ranking del plato ${platoId}:`, error);
+    }
 }
 
 // Carga inicial de datos de usuario
