@@ -144,6 +144,16 @@ document.getElementById('filtroPlatos').addEventListener('change', function () {
     aplicarFiltrosYBusqueda('platos');
 });
 
+// Ordenamiento de restaurantes
+document.getElementById('ordenamientoRestaurantes').addEventListener('change', function () {
+    aplicarFiltrosYBusqueda('restaurantes');
+});
+
+// Ordenamiento de platos
+document.getElementById('ordenamientoPlatos').addEventListener('change', function () {
+    aplicarFiltrosYBusqueda('platos');
+});
+
 // Variables para debounce
 let timeoutBusquedaRestaurantes;
 let timeoutBusquedaPlatos;
@@ -202,21 +212,24 @@ function aplicarFiltrosYBusqueda(tipo) {
     if (tipo === 'restaurantes') {
         const filtro = document.getElementById('filtroRestaurantes').value;
         const busqueda = document.getElementById('busquedaRestaurantes').value.toLowerCase().trim();
+        const ordenamiento = document.getElementById('ordenamientoRestaurantes').value;
         const grid = document.getElementById('gridRestaurantes');
-        aplicarFiltroYBusqueda(filtro, busqueda, grid);
+        aplicarFiltroYBusquedaConOrdenamiento(filtro, busqueda, ordenamiento, grid, tipo);
     } else if (tipo === 'platos') {
         const filtro = document.getElementById('filtroPlatos').value;
         const busqueda = document.getElementById('busquedaPlatos').value.toLowerCase().trim();
+        const ordenamiento = document.getElementById('ordenamientoPlatos').value;
         const grid = document.getElementById('gridPlatos');
-        aplicarFiltroYBusqueda(filtro, busqueda, grid);
+        aplicarFiltroYBusquedaConOrdenamiento(filtro, busqueda, ordenamiento, grid, tipo);
     }
 }
 
-// Función mejorada que combina filtro por categoría y búsqueda por texto
-function aplicarFiltroYBusqueda(filtro, busqueda, grid) {
-    const tarjetas = grid.querySelectorAll('.tarjeta-item');
-    let tarjetasVisibles = 0;
+// Función mejorada que combina filtro por categoría, búsqueda por texto y ordenamiento
+function aplicarFiltroYBusquedaConOrdenamiento(filtro, busqueda, ordenamiento, grid, tipo) {
+    const tarjetas = Array.from(grid.querySelectorAll('.tarjeta-item'));
+    let tarjetasVisibles = [];
 
+    // Paso 1: Filtrar tarjetas
     tarjetas.forEach(tarjeta => {
         const categoriaId = tarjeta.getAttribute('data-categoria-id');
         const nombreItem = tarjeta.querySelector('.nombre-item')?.textContent.toLowerCase() || '';
@@ -236,18 +249,78 @@ function aplicarFiltroYBusqueda(filtro, busqueda, grid) {
                                  restauranteTag.includes(busqueda) ||
                                  categoriaTag.includes(busqueda);
 
-        // Mostrar solo si pasa ambos filtros
+        // Si pasa ambos filtros, agregar a visibles
         if (pasaFiltroCategoria && pasaBusquedaTexto) {
-            tarjeta.style.display = 'block';
-            tarjeta.style.animation = 'fadeIn 0.3s ease';
-            tarjetasVisibles++;
+            tarjetasVisibles.push(tarjeta);
         } else {
             tarjeta.style.display = 'none';
         }
     });
 
+    // Paso 2: Ordenar tarjetas visibles
+    if (ordenamiento !== 'ninguno') {
+        tarjetasVisibles.sort((a, b) => compararTarjetas(a, b, ordenamiento, tipo));
+    }
+
+    // Paso 3: Reordenar en el DOM y mostrar
+    tarjetasVisibles.forEach((tarjeta, index) => {
+        tarjeta.style.display = 'block';
+        tarjeta.style.animation = 'fadeIn 0.3s ease';
+        tarjeta.style.order = index;
+    });
+
     // Mostrar mensaje si no hay resultados
-    mostrarMensajeSinResultados(grid, tarjetasVisibles, busqueda);
+    mostrarMensajeSinResultados(grid, tarjetasVisibles.length, busqueda);
+}
+
+// Función para comparar tarjetas según el tipo de ordenamiento
+function compararTarjetas(a, b, ordenamiento, tipo) {
+    switch (ordenamiento) {
+        case 'ranking-desc':
+            return obtenerRankingDeTarjeta(b) - obtenerRankingDeTarjeta(a);
+        case 'ranking-asc':
+            return obtenerRankingDeTarjeta(a) - obtenerRankingDeTarjeta(b);
+        case 'nombre-asc':
+            return obtenerNombreDeTarjeta(a).localeCompare(obtenerNombreDeTarjeta(b));
+        case 'nombre-desc':
+            return obtenerNombreDeTarjeta(b).localeCompare(obtenerNombreDeTarjeta(a));
+        case 'precio-asc':
+            if (tipo === 'platos') {
+                return obtenerPrecioDeTarjeta(a) - obtenerPrecioDeTarjeta(b);
+            }
+            return 0;
+        case 'precio-desc':
+            if (tipo === 'platos') {
+                return obtenerPrecioDeTarjeta(b) - obtenerPrecioDeTarjeta(a);
+            }
+            return 0;
+        default:
+            return 0;
+    }
+}
+
+// Funciones auxiliares para extraer datos de las tarjetas
+function obtenerRankingDeTarjeta(tarjeta) {
+    const rankingTag = tarjeta.querySelector('.ranking-tag');
+    if (!rankingTag || rankingTag.textContent === 'Sin calificaciones') return 0;
+    const match = rankingTag.textContent.match(/(\d+\.?\d*)/);
+    return match ? parseFloat(match[1]) : 0;
+}
+
+function obtenerNombreDeTarjeta(tarjeta) {
+    return tarjeta.querySelector('.nombre-item')?.textContent || '';
+}
+
+function obtenerPrecioDeTarjeta(tarjeta) {
+    const precioTag = tarjeta.querySelector('.precio');
+    if (!precioTag) return 0;
+    const match = precioTag.textContent.match(/\$(\d+\.?\d*)/);
+    return match ? parseFloat(match[1]) : 0;
+}
+
+// Función legacy mantenida para compatibilidad
+function aplicarFiltroYBusqueda(filtro, busqueda, grid) {
+    aplicarFiltroYBusquedaConOrdenamiento(filtro, busqueda, 'ninguno', grid, 'general');
 }
 
 // Función para mostrar mensaje cuando no hay resultados

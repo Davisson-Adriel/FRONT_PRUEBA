@@ -283,6 +283,25 @@ body {
     box-shadow: 0 0 0 3px rgba(173, 152, 99, 0.2);
 }
 
+.filtro-ordenamiento {
+    background: white;
+    color: #4e433e;
+    border: 2px solid #ad9863;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 220px;
+}
+
+.filtro-ordenamiento:focus {
+    outline: none;
+    border-color: #4e433e;
+    box-shadow: 0 0 0 3px rgba(78, 67, 62, 0.2);
+}
+
 /* ===== GRID DE CONTENIDO ===== */
 .grid-contenido {
     display: grid;
@@ -549,6 +568,11 @@ body {
     }
     
     .filtro-categoria {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .filtro-ordenamiento {
         width: 100%;
         max-width: 300px;
     }
