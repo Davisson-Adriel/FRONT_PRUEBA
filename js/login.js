@@ -19,15 +19,13 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 const response = await AuthAPI.login(credentials);
                 
-                // El token ahora se maneja por cookie. Solo guardamos datos no sensibles.
-                localStorage.setItem('nombreUsuario', response.user.username);
-                localStorage.setItem('userId', response.user.id); 
-                localStorage.setItem('tipoUsuario', response.user.role);
+                localStorage.setItem('nombreUsuario', response.usuario.username);
+                localStorage.setItem('userId', response.usuario.id); 
+                localStorage.setItem('tipoUsuario', response.usuario.role);
 
-                alert(`¡Bienvenido, ${response.username}!`);
+                alert(`¡Bienvenido, ${response.usuario.username}!`);
 
-                // Redirigir según el rol del usuario
-                if (response.user.role === 'admin') {
+                if (response.usuario.role === 'admin') {
                     window.location.href = 'html/admin_panel.html';
                 } else {
                     window.location.href = 'html/principal_usar.html';

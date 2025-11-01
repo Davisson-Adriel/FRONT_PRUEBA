@@ -218,9 +218,9 @@
 
         function cerrarSesion() {
             if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-                localStorage.removeItem('nombreUsuario');
-                localStorage.removeItem('tipoUsuario');
-                window.location.href = '../index.html';
+n                // Idealmente, llamar a una función de logout de la API
+                localStorage.clear();
+                window.location.href = '../index.html'; // Redirigir a la página de inicio
             }
         }
 

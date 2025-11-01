@@ -10,6 +10,7 @@ export async function fetchAPI(url, options = {}) {
     try {
         console.log('🔄 Petición API:', url);
         const response = await fetch(url, {
+            credentials: 'include', 
             headers: API_CONFIG.HEADERS,
             ...options
         });
@@ -214,6 +215,12 @@ export const AuthAPI = {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/auth/login`, {
             method: 'POST',
             body: JSON.stringify(payload)
+        });
+    },
+
+    logout: async function() {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/auth/logout`, {
+            method: 'POST'
         });
     }
 };

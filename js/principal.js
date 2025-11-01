@@ -1,4 +1,4 @@
-import { UsuariosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI, CategoriasRestaurantesAPI, CategoriasPlatosAPI, RankingRestaurantesAPI, RankingPlatosAPI } from './api.js';
+import { AuthAPI, UsuariosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI, CategoriasRestaurantesAPI, CategoriasPlatosAPI, RankingRestaurantesAPI, RankingPlatosAPI } from './api.js';
 
 // Función para cargar categorías de restaurantes dinámicamente
 async function cargarCategoriasRestaurantes() {
@@ -54,10 +54,16 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const btnCerrarSesion = document.getElementById('btnCerrarSesion');
     if (btnCerrarSesion) {
-        btnCerrarSesion.addEventListener('click', function() {
+        btnCerrarSesion.addEventListener('click', async function() {
             if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-                localStorage.clear();
-                window.location.href = '../index.html';
+                try {
+                    await AuthAPI.logout(); 
+                } catch (error) {
+                    console.error("Error en el logout del backend, se procederá con el logout local:", error);
+                } finally {
+                    localStorage.clear(); 
+                    window.location.href = '../index.html'; 
+                }
             }
         });
     }

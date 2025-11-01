@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             const response = await AuthAPI.register(userData);
-            alert('¡Cuenta creada exitosamente! Serás redirigido para iniciar sesión.');
+            alert(`¡Cuenta creada exitosamente para ${response.usuario.username}! Serás redirigido para iniciar sesión.`);
             window.location.href = '../index.html';
         } catch (error) {
             alert(`Error al crear la cuenta: ${error.message}`);
