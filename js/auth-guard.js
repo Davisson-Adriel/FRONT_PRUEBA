@@ -1,28 +1,28 @@
 /* Este script debe ser el primero en cargarse en las páginas protegidas */
 (function() {
-    const authToken = localStorage.getItem('authToken');
-    if (!authToken) {
-        alert('Acceso denegado. Por favor, inicia sesión.');
-        window.location.href = '../index.html'; 
-    }
-})();
-
-(function() {
     const tipoUsuario = localStorage.getItem('tipoUsuario');
-    const authToken = localStorage.getItem('authToken');
+    const userId = localStorage.getItem('userId');
     const currentPage = window.location.pathname.split('/').pop();
 
-    const adminPages = ['admin_panel.html', 'gestionar_restaurantes.html'];
-    const userPages = ['principal_usar.html', 'detalle_restaurante.html'];
+    const isAuthPage = currentPage === 'index.html' || currentPage === 'crear_usuario.html' || currentPage === '';
 
-    if (!authToken || !tipoUsuario) {
 
-        if (currentPage !== 'index.html' && currentPage !== 'crear_usuario.html') {
+    if (!userId || !tipoUsuario) {
+        if (!isAuthPage) {
             alert('Acceso denegado. Por favor, inicia sesión.');
-            window.location.href = '../index.html'; 
+            window.location.href = window.location.pathname.includes('/html/') ? '../index.html' : 'index.html';
         }
         return;
     }
+
+    if (userId && tipoUsuario && isAuthPage) {
+        const redirectTo = tipoUsuario === 'admin' ? 'html/admin_panel.html' : 'html/principal_usar.html';
+        window.location.href = redirectTo;
+        return;
+    }
+
+    const adminPages = ['admin_panel.html', 'gestionar_restaurantes.html'];
+    const userPages = ['principal_usar.html', 'detalle_restaurante.html'];
 
     if (tipoUsuario === 'administrador' && userPages.includes(currentPage)) {
         console.log('Redirigiendo administrador al panel principal...');
