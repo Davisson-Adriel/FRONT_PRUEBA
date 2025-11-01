@@ -1,9 +1,11 @@
-import { RestaurantesAPI, PlatosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI, UsuariosAPI } from './api.js';
+import { RestaurantesAPI, PlatosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI, UsuariosAPI, RankingRestaurantesAPI, RankingPlatosAPI } from './api.js';
 
 let restauranteActual = null;
 let itemActualParaResena = '';
 let tipoItemActualParaResena = '';
 let idItemActualParaResena = null;
+let rankingRestaurante = 0;
+let rankingsPlatos = {};
 
 // Inicializar página
 document.addEventListener('DOMContentLoaded', async function() {
@@ -22,6 +24,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             throw new Error('No se pudo encontrar el restaurante con el ID proporcionado.');
         }
 
+        // Cargar ranking del restaurante
+        await cargarRankingRestaurante(restauranteActual.id);
+        
         cargarInformacionRestaurante();
         await cargarPlatosRestaurante();
         await cargarResenasRestaurante();
@@ -71,6 +76,7 @@ function cargarInformacionRestaurante() {
             <h1 class="nombre-restaurante">${restauranteActual.nombre}</h1>
             <div class="calificacion-header">
                 <span class="categoria-tag">${categoriaNombre}</span>
+                <span class="ranking-tag">${formatearRanking(rankingRestaurante)}</span>
             </div>
         </div>
     `;
@@ -89,6 +95,7 @@ function cargarInformacionRestaurante() {
                 <p class="descripcion-restaurante">${restauranteActual.descripcion}</p>
                 <div class="info-contacto">
                     <div class="item-contacto"><strong>📍 Dirección:</strong> ${restauranteActual.direccion}</div>
+                    <div class="item-contacto"><strong>⭐ Calificación:</strong> ${formatearRanking(rankingRestaurante)}</div>
                 </div>
             </div>
         </div>
@@ -105,8 +112,12 @@ async function cargarPlatosRestaurante() {
             return;
         }
 
+        // Cargar rankings de los platos
+        await cargarRankingsPlatos(platosDelRestaurante);
+
         grid.innerHTML = platosDelRestaurante.map(plato => {
             const imagenPlato = plato.imagen_url || 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=250&fit=crop&crop=center';
+            const rankingPlato = rankingsPlatos[plato.id] || 0;
             return `
                 <div class="tarjeta-item">
                     <div class="imagen-container">
@@ -120,6 +131,7 @@ async function cargarPlatosRestaurante() {
                         <p class="descripcion-item">${plato.descripcion}</p>
                         <div class="detalles-item">
                             <span class="precio">💰 $${parseFloat(plato.precio).toFixed(2)}</span>
+                            <span class="ranking-tag">${formatearRanking(rankingPlato)}</span>
                         </div>
                         <div class="acciones-item">
                             <button class="boton-ver-resenas" onclick="window.abrirModalResenas('${plato.nombre}', 'plato', ${plato.id})">
@@ -277,6 +289,51 @@ async function enviarResena(e) {
         botonEnviar.disabled = false;
         botonEnviar.innerHTML = textoOriginalBoton;
     }
+}
+
+// Funciones para manejar rankings
+async function cargarRankingRestaurante(restauranteId) {
+    try {
+        console.log('⭐ Cargando ranking del restaurante...');
+        rankingRestaurante = await RankingRestaurantesAPI.obtenerPromedio(restauranteId);
+        console.log(`✅ Ranking del restaurante cargado: ${rankingRestaurante}`);
+    } catch (error) {
+        console.warn('❌ Error cargando ranking del restaurante:', error);
+        rankingRestaurante = 0;
+    }
+}
+
+async function cargarRankingsPlatos(platos) {
+    try {
+        console.log('⭐ Cargando rankings de platos...');
+        const promesasRankings = platos.map(async (plato) => {
+            try {
+                const promedio = await RankingPlatosAPI.obtenerPromedio(plato.id);
+                return { id: plato.id, promedio };
+            } catch (error) {
+                console.warn(`❌ Error cargando ranking del plato ${plato.id}:`, error);
+                return { id: plato.id, promedio: 0 };
+            }
+        });
+
+        const rankings = await Promise.all(promesasRankings);
+        
+        // Convertir array a objeto para acceso rápido
+        rankingsPlatos = {};
+        rankings.forEach(ranking => {
+            rankingsPlatos[ranking.id] = ranking.promedio;
+        });
+        
+        console.log(`✅ ${rankings.length} rankings de platos cargados:`, rankingsPlatos);
+    } catch (error) {
+        console.error('❌ Error general cargando rankings de platos:', error);
+        rankingsPlatos = {};
+    }
+}
+
+function formatearRanking(ranking) {
+    if (ranking === 0) return 'Sin calificaciones';
+    return `⭐ ${ranking.toFixed(1)}`;
 }
 
 // Sistema de estrellas para el modal de creación
