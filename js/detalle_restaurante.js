@@ -62,7 +62,10 @@ function cargarInformacionRestaurante() {
     // Header
     document.getElementById('infoRestauranteHeader').innerHTML = `
         <div class="imagen-header-container">
-            <img src="${imagenUrl}" alt="${restauranteActual.nombre}" class="imagen-header">
+            <img src="${imagenUrl}" 
+                 alt="${restauranteActual.nombre}" 
+                 class="imagen-header"
+                 onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=400&fit=crop&crop=center'">
         </div>
         <div class="info-header-texto">
             <h1 class="nombre-restaurante">${restauranteActual.nombre}</h1>
@@ -76,7 +79,10 @@ function cargarInformacionRestaurante() {
     document.getElementById('infoRestauranteCompleta').innerHTML = `
         <div class="info-principal">
             <div class="imagen-principal-container">
-                <img src="${imagenUrl}" alt="${restauranteActual.nombre}" class="imagen-principal">
+                <img src="${imagenUrl}" 
+                     alt="${restauranteActual.nombre}" 
+                     class="imagen-principal"
+                     onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=400&fit=crop&crop=center'">
             </div>
             <div class="detalles-restaurante">
                 <h2 class="nombre-restaurante-detalle">${restauranteActual.nombre}</h2>
@@ -100,11 +106,14 @@ async function cargarPlatosRestaurante() {
         }
 
         grid.innerHTML = platosDelRestaurante.map(plato => {
-            const imagenPlato = plato.imagen_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=250&fit=crop';
+            const imagenPlato = plato.imagen_url || 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=250&fit=crop&crop=center';
             return `
                 <div class="tarjeta-item">
                     <div class="imagen-container">
-                        <img src="${imagenPlato}" alt="${plato.nombre}" class="imagen-item">
+                        <img src="${imagenPlato}" 
+                             alt="${plato.nombre}" 
+                             class="imagen-item"
+                             onerror="this.src='https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=250&fit=crop&crop=center'">
                     </div>
                     <div class="info-item">
                         <h3 class="nombre-item">${plato.nombre}</h3>
