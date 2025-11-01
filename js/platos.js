@@ -270,7 +270,7 @@ function verResenasPlato(id) {
     if (typeof mostrarModalResenas === 'function') {
         mostrarModalResenas(plato.nombre, 'plato', plato.id);
     } else {
-        alert(`Reseñas de ${plato.nombre}\n\n(Sistema de reseñas en desarrollo)`);
+        console.log('Sistema de reseñas no disponible en esta página');
     }
 }
 

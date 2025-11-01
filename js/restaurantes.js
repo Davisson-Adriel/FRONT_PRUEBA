@@ -245,7 +245,7 @@ function verResenasRestaurante(id) {
     if (typeof mostrarModalResenas === 'function') {
         mostrarModalResenas(restaurante.nombre, 'restaurante', restaurante.id);
     } else {
-        alert(`Reseñas de ${restaurante.nombre}\n\n(Sistema de reseñas en desarrollo)`);
+        console.log('Sistema de reseñas no disponible en esta página');
     }
 }
 
