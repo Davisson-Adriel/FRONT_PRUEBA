@@ -1,7 +1,7 @@
-import { AuthAPI } from './api.js';
+import { AuthAPI, RestaurantesAPI, PlatosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI } from './api.js';
 
-// Obtener nombre de administrador
-document.addEventListener('DOMContentLoaded', function() {
+// Obtener nombre de administrador y cargar estadísticas
+document.addEventListener('DOMContentLoaded', async function() {
     const nombreAdmin = localStorage.getItem('nombreUsuario') || 'Administrador';
     document.getElementById('nombreAdmin').textContent = nombreAdmin;
 
@@ -10,28 +10,75 @@ document.addEventListener('DOMContentLoaded', function() {
     if (btnCerrarSesion) {
         btnCerrarSesion.addEventListener('click', cerrarSesion);
     }
+
+    // Cargar estadísticas del backend
+    await cargarEstadisticasDelBackend();
 });
+
+// Función para cargar estadísticas reales del backend
+async function cargarEstadisticasDelBackend() {
+    try {
+        console.log('📊 Cargando estadísticas del backend...');
+        
+        // Mostrar indicadores de carga
+        document.getElementById('totalRestaurantes').innerHTML = '<span class="loading-dot">•••</span>';
+        document.getElementById('totalPlatos').innerHTML = '<span class="loading-dot">•••</span>';
+        document.getElementById('totalResenas').innerHTML = '<span class="loading-dot">•••</span>';
+
+        // Obtener datos en paralelo para mejor rendimiento
+        const [restaurantes, platos, resenasRestaurantes, resenasPlatos] = await Promise.all([
+            RestaurantesAPI.getAll().catch(err => {
+                console.warn('Error cargando restaurantes:', err);
+                return [];
+            }),
+            PlatosAPI.getAll().catch(err => {
+                console.warn('Error cargando platos:', err);
+                return [];
+            }),
+            ResenasRestaurantesAPI.obtenerTodas().catch(err => {
+                console.warn('Error cargando reseñas de restaurantes:', err);
+                return [];
+            }),
+            ReseñasPlatosAPI.obtenerTodas().catch(err => {
+                console.warn('Error cargando reseñas de platos:', err);
+                return [];
+            })
+        ]);
+
+        // Calcular totales
+        const totalRestaurantes = restaurantes.length;
+        const totalPlatos = platos.length;
+        const totalResenas = resenasRestaurantes.length + resenasPlatos.length;
+
+        console.log('✅ Estadísticas cargadas:', {
+            restaurantes: totalRestaurantes,
+            platos: totalPlatos,
+            resenas: totalResenas
+        });
+
+        // Mostrar los números directamente sin animación
+        document.getElementById('totalRestaurantes').textContent = totalRestaurantes;
+        document.getElementById('totalPlatos').textContent = totalPlatos;
+        document.getElementById('totalResenas').textContent = totalResenas;
+        
+        // Guardar timestamp de última actualización
+        localStorage.setItem('ultimaActualizacionEstadisticas', new Date().toISOString());
+
+    } catch (error) {
+        console.error('❌ Error cargando estadísticas:', error);
+        
+        // Mostrar valores por defecto en caso de error
+        document.getElementById('totalRestaurantes').textContent = '--';
+        document.getElementById('totalPlatos').textContent = '--';
+        document.getElementById('totalResenas').textContent = '--';
+        
+        // Mostrar notificación de error
+        mostrarNotificacion('Error al cargar estadísticas del servidor', 'error');
+    }
+}
 
 // Manejar clics en las tarjetas de gestión
 document.addEventListener('click', function(e) {
-    // Clic en tarjeta completa
-    if (e.target.closest('.tarjeta-gestion')) {
-        const tarjeta = e.target.closest('.tarjeta-gestion');
-        const modulo = tarjeta.getAttribute('data-modulo');
-        
-        // Agregar efecto de clic
-        tarjeta.style.transform = 'scale(0.98)';
-        setTimeout(() => {
-            tarjeta.style.transform = 'scale(1)';
-        }, 100);
-    }
-
-    // Clic en botón "Acceder"
-    if (e.target.closest('.boton-acceder')) {
-        const modulo = e.target.closest('.boton-acceder').getAttribute('data-modulo');
-        navegarAModulo(modulo);
-    }
-
     // Clic en acciones rápidas
     if (e.target.closest('.boton-accion-rapida')) {
         const accion = e.target.closest('.boton-accion-rapida').getAttribute('data-accion');
@@ -50,8 +97,11 @@ function navegarAModulo(modulo) {
         case 'platos':
             alert(`Navegando a Gestión de Platos\n\nFuncionalidades:\n• Crear nuevos platos\n• Gestionar precios y descripciones\n• Asignar platos a restaurantes\n• Categorizar menús`);
             break;
-        case 'resenas':
-            alert(`Navegando a Gestión de Reseñas\n\nFuncionalidades:\n• Moderar reseñas nuevas\n• Responder a comentarios\n• Eliminar contenido inapropiado\n• Ver estadísticas de calificaciones`);
+        case 'categorias-restaurantes':
+            alert(`Navegando a Gestión de Categorías de Restaurantes\n\nFuncionalidades:\n• Crear nuevas categorías\n• Editar categorías existentes\n• Eliminar categorías no utilizadas\n• Organizar clasificación`);
+            break;
+        case 'categorias-platos':
+            alert(`Navegando a Gestión de Categorías de Platos\n\nFuncionalidades:\n• Crear nuevas categorías\n• Editar categorías existentes\n• Eliminar categorías no utilizadas\n• Organizar clasificación de menús`);
             break;
     }
 }
@@ -166,11 +216,51 @@ function eliminarRestaurante(id) {
 }
 
 function mostrarNotificacion(mensaje, tipo = 'info') {
+    // Remover notificaciones existentes
+    const notificacionesExistentes = document.querySelectorAll('.notificacion');
+    notificacionesExistentes.forEach(n => n.remove());
+    
     const notificacion = document.createElement('div');
     notificacion.className = `notificacion ${tipo}`;
     notificacion.textContent = mensaje;
+    
+    // Agregar botón de cerrar
+    const botonCerrar = document.createElement('span');
+    botonCerrar.innerHTML = ' ✕';
+    botonCerrar.style.marginLeft = '10px';
+    botonCerrar.style.cursor = 'pointer';
+    botonCerrar.style.opacity = '0.8';
+    botonCerrar.onclick = () => notificacion.remove();
+    
+    notificacion.appendChild(botonCerrar);
     document.body.appendChild(notificacion);
-    setTimeout(() => notificacion.remove(), 3000);
+    
+    // Auto-remover después de 4 segundos
+    setTimeout(() => {
+        if (notificacion.parentNode) {
+            notificacion.style.animation = 'slideOutRight 0.3s ease-in forwards';
+            setTimeout(() => notificacion.remove(), 300);
+        }
+    }, 4000);
+}
+
+// Agregar animación de salida al CSS dinámicamente
+if (!document.querySelector('#admin-animations')) {
+    const style = document.createElement('style');
+    style.id = 'admin-animations';
+    style.textContent = `
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 function actualizarEstadisticas() {
@@ -184,16 +274,26 @@ function animarNumero(selector, valorFinal) {
     if (!elemento) return;
     
     let valorActual = 0;
-    const incremento = valorFinal / 30;
+    const duracion = 2000; // 2 segundos
+    const pasos = 60; // 60 frames
+    const incremento = valorFinal / pasos;
+    const intervalo = duracion / pasos;
+    
     const timer = setInterval(() => {
         valorActual += incremento;
         if (valorActual >= valorFinal) {
             elemento.textContent = valorFinal;
             clearInterval(timer);
+            
+            // Agregar efecto de "bounce" al finalizar
+            elemento.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                elemento.style.transform = 'scale(1)';
+            }, 200);
         } else {
             elemento.textContent = Math.floor(valorActual);
         }
-    }, 50);
+    }, intervalo);
 }
 
 function ejecutarAccionRapida(accion) {
@@ -201,15 +301,29 @@ function ejecutarAccionRapida(accion) {
     
     switch(accion) {
         case 'agregar-restaurante':
-            // Esta función debería estar definida o importada
-            // mostrarModalAgregarRestaurante(); 
             alert('Abriendo formulario para agregar nuevo restaurante...');
             break;
         case 'ver-restaurantes':
-            // mostrarModalListaRestaurantes();
             alert('Mostrando lista de restaurantes...');
             break;
-        // ... otros casos
+        case 'agregar-plato':
+            alert('Abriendo formulario para agregar nuevo plato...');
+            break;
+        case 'ver-platos':
+            alert('Mostrando lista de platos...');
+            break;
+        case 'agregar-categoria-restaurante':
+            alert('Abriendo formulario para agregar nueva categoría de restaurante...');
+            break;
+        case 'ver-categorias-restaurantes':
+            alert('Mostrando lista de categorías de restaurantes...');
+            break;
+        case 'agregar-categoria-plato':
+            alert('Abriendo formulario para agregar nueva categoría de plato...');
+            break;
+        case 'ver-categorias-platos':
+            alert('Mostrando lista de categorías de platos...');
+            break;
     }
 }
 

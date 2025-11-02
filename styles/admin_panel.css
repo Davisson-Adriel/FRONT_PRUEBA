@@ -972,3 +972,68 @@ body {
         font-size: 12px;
     }
 }
+
+/* ===== INDICADORES DE CARGA PARA ESTADÍSTICAS ===== */
+.loading-dot {
+    color: #ad9863;
+    font-size: 0.8em;
+    animation: loadingDots 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingDots {
+    0%, 80%, 100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    40% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Animación para números de estadísticas */
+.numero-estadistica {
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Efectos de hover mejorados para estadísticas */
+.estadistica-item:hover .numero-estadistica {
+    transform: scale(1.05);
+    color: #ad9863;
+}
+
+/* Notificaciones de error/éxito */
+.notificacion {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    z-index: 1000;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.notificacion.error {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.notificacion.success {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+}
+
+.notificacion.info {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
