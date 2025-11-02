@@ -36,3 +36,121 @@ Las principales secciones están diseñadas para ser modulares y dinámicas, car
   </table>
 </div>
 
+## 📝 Maquetación
+
+Esta sección muestra el proceso de diseño y maquetación de las diferentes páginas de FoodieRank, organizadas en orden secuencial del flujo de usuario.
+
+<div align="center">
+
+### 1️⃣ Inicio de Sesión y Registro
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="./sketches/login_1.jpeg" alt="Login" width="100%"/>
+      <br />
+      <i>Login</i>
+    </td>
+    <td align="center" width="50%">
+      <img src="./sketches/register_2.jpeg" alt="Register" width="100%"/>
+      <br />
+      <i>Registro</i>
+    </td>
+  </tr>
+</table>
+
+### 2️⃣ Páginas Principales
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="./sketches/home_3.jpeg" alt="Home" width="100%"/>
+      <br />
+      <i>Página Principal</i>
+    </td>
+    <td align="center" width="33%">
+      <img src="./sketches/restaurant_page_4.jpeg" alt="Restaurant Page" width="100%"/>
+      <br />
+      <i>Página de Restaurante</i>
+    </td>
+    <td align="center" width="33%">
+      <img src="./sketches/restaurant_page.jpeg" alt="Restaurant Details" width="100%"/>
+      <br />
+      <i>Detalles de Restaurante</i>
+    </td>
+  </tr>
+</table>
+
+### 3️⃣ Panel de Administración
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="./sketches/home_administration_5.1.jpeg" alt="Admin Home 1" width="100%"/>
+      <br />
+      <i>Panel Admin - Vista 1</i>
+    </td>
+    <td align="center" width="50%">
+      <img src="./sketches/home_administration_5.2.jpeg" alt="Admin Home 2" width="100%"/>
+      <br />
+      <i>Panel Admin - Vista 2</i>
+    </td>
+  </tr>
+</table>
+
+### 4️⃣ Gestión de Restaurantes
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="./sketches/add_restaurant_6.1.jpeg" alt="Add Restaurant 1" width="100%"/>
+      <br />
+      <i>Agregar Restaurante - Paso 1</i>
+    </td>
+    <td align="center" width="33%">
+      <img src="./sketches/add_restaurant_6.2.jpeg" alt="Add Restaurant 2" width="100%"/>
+      <br />
+      <i>Agregar Restaurante - Paso 2</i>
+    </td>
+    <td align="center" width="33%">
+      <img src="./sketches/list_restaurants_7.jpeg" alt="List Restaurants" width="100%"/>
+      <br />
+      <i>Lista de Restaurantes</i>
+    </td>
+  </tr>
+</table>
+
+### 5️⃣ Administración y Reseñas
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="./sketches/home_administrator_8.jpeg" alt="Administrator Home" width="100%"/>
+      <br />
+      <i>Inicio Administrador</i>
+    </td>
+    <td align="center" width="50%">
+      <img src="./sketches/manage_restaurant_administrator_9.jpeg" alt="Restaurant Management" width="100%"/>
+      <br />
+      <i>Gestión de Restaurante</i>
+    </td>
+  </tr>
+</table>
+
+### 6️⃣ Platos y Calificaciones
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="./sketches/dishes_page_10.jpeg" alt="Dishes Page" width="100%"/>
+      <br />
+      <i>Página de Platos</i>
+    </td>
+    <td align="center" width="33%">
+      <img src="./sketches/calification_11.jpeg" alt="Calification" width="100%"/>
+      <br />
+      <i>Calificaciones</i>
+    </td>
+    <td align="center" width="33%">
+      <img src="./sketches/create_calification_12.jpeg" alt="Create Calification" width="100%"/>
+      <br />
+      <i>Crear Calificación</i>
+    </td>
+  </tr>
+</table>
+
+</div>
