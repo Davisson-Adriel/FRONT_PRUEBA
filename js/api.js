@@ -82,7 +82,14 @@ export const PlatosAPI = {
     },
 
     getById: async function(id) {
-        return await fetchAPI(`${API_CONFIG.BASE_URL}/platos/${id}`);
+        try {
+            return await fetchAPI(`${API_CONFIG.BASE_URL}/platos/${id}`);
+        } catch (error) {
+            // El backend tiene problemas con el endpoint individual, usar fallback
+            console.warn('Error en endpoint individual de platos, usando fallback:', error);
+            const platos = await this.getAll();
+            return platos.find(plato => plato.id == id);
+        }
     },
 
     getByRestaurante: async function(restauranteId) {

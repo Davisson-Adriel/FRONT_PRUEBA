@@ -57,7 +57,7 @@ function setupEventListeners() {
             const boton = e.target.closest('.btn-editar-restaurante');
             const id = boton.getAttribute('data-id');
             console.log('Editar restaurante ID:', id);
-            // editarRestaurante(id); // Implementar después
+            editarRestaurante(id);
         }
 
         // Clics en botones de platos
@@ -72,7 +72,7 @@ function setupEventListeners() {
             const boton = e.target.closest('.btn-editar-plato');
             const id = boton.getAttribute('data-id');
             console.log('Editar plato ID:', id);
-            // editarPlato(id); // Implementar después
+            editarPlato(id);
         }
 
         // Clics en botones de categorías de restaurantes
@@ -87,7 +87,7 @@ function setupEventListeners() {
             const boton = e.target.closest('.btn-editar-categoria-restaurante');
             const id = boton.getAttribute('data-id');
             console.log('Editar categoría de restaurante ID:', id);
-            // editarCategoriaRestaurante(id); // Implementar después
+            editarCategoriaRestaurante(id);
         }
 
         // Clics en botones de categorías de platos
@@ -102,7 +102,7 @@ function setupEventListeners() {
             const boton = e.target.closest('.btn-editar-categoria-plato');
             const id = boton.getAttribute('data-id');
             console.log('Editar categoría de plato ID:', id);
-            // editarCategoriaPlato(id); // Implementar después
+            editarCategoriaPlato(id);
         }
     });
 
@@ -804,6 +804,396 @@ function cerrarModalListaCategoriasPlatoss() {
     const modal = document.getElementById('modalListaCategoriasPlatoss');
     if (modal) {
         modal.style.display = 'none';
+    }
+}
+
+// ===== FUNCIONES DE EDICIÓN =====
+
+// Función para editar restaurante
+async function editarRestaurante(id) {
+    try {
+        console.log('📝 Editando restaurante ID:', id);
+        
+        // Obtener datos del restaurante usando el endpoint individual
+        const restaurante = await RestaurantesAPI.getById(id);
+        console.log('📋 Datos del restaurante:', restaurante);
+        
+        // Obtener categorías para el select
+        const categorias = await CategoriasRestaurantesAPI.obtenerTodas();
+        
+        // Mostrar modal
+        const modal = document.getElementById('modalEditarRestaurante');
+        modal.style.display = 'flex';
+        
+        // Llenar el formulario
+        document.getElementById('editRestauranteId').value = restaurante.id;
+        document.getElementById('editRestauranteNombre').value = restaurante.nombre || '';
+        document.getElementById('editRestauranteDireccion').value = restaurante.direccion || '';
+        document.getElementById('editRestauranteImagenUrl').value = restaurante.imagen_url || '';
+        document.getElementById('editRestauranteDescripcion').value = restaurante.descripcion || '';
+        
+        // Llenar select de categorías
+        const selectCategoria = document.getElementById('editRestauranteCategoriaId');
+        selectCategoria.innerHTML = '<option value="">Selecciona una categoría</option>';
+        categorias.forEach(categoria => {
+            const option = document.createElement('option');
+            option.value = categoria.id;
+            option.textContent = categoria.nombre;
+            option.selected = categoria.id == restaurante.categoriaId;
+            selectCategoria.appendChild(option);
+        });
+        
+        // Configurar event listeners del formulario
+        setupEditarRestauranteListeners();
+        
+    } catch (error) {
+        console.error('Error al cargar datos del restaurante:', error);
+        alert('Error al cargar los datos del restaurante: ' + error.message);
+    }
+}
+
+// Función para editar plato
+async function editarPlato(id) {
+    try {
+        console.log('📝 Editando plato ID:', id);
+        
+        // Obtener datos del plato (usa fallback si el endpoint individual falla)
+        const plato = await PlatosAPI.getById(id);
+        console.log('📋 Datos del plato:', plato);
+        
+        if (!plato) {
+            alert('Plato no encontrado');
+            return;
+        }
+        
+        // Obtener categorías y restaurantes para los selects
+        const [categorias, restaurantes] = await Promise.all([
+            CategoriasPlatosAPI.obtenerTodas(),
+            RestaurantesAPI.getAll()
+        ]);
+        
+        // Mostrar modal
+        const modal = document.getElementById('modalEditarPlato');
+        modal.style.display = 'flex';
+        
+        // Llenar el formulario
+        document.getElementById('editPlatoId').value = plato.id;
+        document.getElementById('editPlatoNombre').value = plato.nombre || '';
+        document.getElementById('editPlatoPrecio').value = plato.precio || '';
+        document.getElementById('editPlatoImagenUrl').value = plato.imagen_url || '';
+        document.getElementById('editPlatoDescripcion').value = plato.descripcion || '';
+        
+        // Llenar select de categorías
+        const selectCategoria = document.getElementById('editPlatoCategoriaId');
+        selectCategoria.innerHTML = '<option value="">Selecciona una categoría</option>';
+        categorias.forEach(categoria => {
+            const option = document.createElement('option');
+            option.value = categoria.id;
+            option.textContent = categoria.nombre;
+            option.selected = categoria.id == plato.categoriaId;
+            selectCategoria.appendChild(option);
+        });
+        
+        // Llenar select de restaurantes
+        const selectRestaurante = document.getElementById('editPlatoRestauranteId');
+        selectRestaurante.innerHTML = '<option value="">Selecciona un restaurante</option>';
+        restaurantes.forEach(restaurante => {
+            const option = document.createElement('option');
+            option.value = restaurante.id;
+            option.textContent = restaurante.nombre;
+            option.selected = restaurante.id == plato.id_restaurante;
+            selectRestaurante.appendChild(option);
+        });
+        
+        // Configurar event listeners del formulario
+        setupEditarPlatoListeners();
+        
+    } catch (error) {
+        console.error('Error al cargar datos del plato:', error);
+        alert('Error al cargar los datos del plato: ' + error.message);
+    }
+}
+
+// Función para editar categoría de restaurante
+async function editarCategoriaRestaurante(id) {
+    try {
+        console.log('📝 Editando categoría de restaurante ID:', id);
+        
+        // Obtener datos de la categoría usando el endpoint individual
+        const categoria = await CategoriasRestaurantesAPI.obtenerPorId(id);
+        console.log('📋 Datos de la categoría:', categoria);
+        
+        // Mostrar modal
+        const modal = document.getElementById('modalEditarCategoriaRestaurante');
+        modal.style.display = 'flex';
+        
+        // Llenar el formulario
+        document.getElementById('editCategoriaRestauranteId').value = categoria.id;
+        document.getElementById('editCategoriaRestauranteNombre').value = categoria.nombre || '';
+        
+        // Configurar event listeners del formulario
+        setupEditarCategoriaRestauranteListeners();
+        
+    } catch (error) {
+        console.error('Error al cargar datos de la categoría de restaurante:', error);
+        alert('Error al cargar los datos de la categoría: ' + error.message);
+    }
+}
+
+// Función para editar categoría de plato
+async function editarCategoriaPlato(id) {
+    try {
+        console.log('📝 Editando categoría de plato ID:', id);
+        
+        // Obtener datos de la categoría usando el endpoint individual
+        const categoria = await CategoriasPlatosAPI.obtenerPorId(id);
+        console.log('📋 Datos de la categoría:', categoria);
+        
+        // Mostrar modal
+        const modal = document.getElementById('modalEditarCategoriaPlato');
+        modal.style.display = 'flex';
+        
+        // Llenar el formulario
+        document.getElementById('editCategoriaPlatoId').value = categoria.id;
+        document.getElementById('editCategoriaPlatoNombre').value = categoria.nombre || '';
+        
+        // Configurar event listeners del formulario
+        setupEditarCategoriaPlatoListeners();
+        
+    } catch (error) {
+        console.error('Error al cargar datos de la categoría de plato:', error);
+        alert('Error al cargar los datos de la categoría: ' + error.message);
+    }
+}
+
+// ===== SETUP DE EVENT LISTENERS PARA FORMULARIOS =====
+
+function setupEditarRestauranteListeners() {
+    // Botón cerrar modal
+    document.getElementById('btnCerrarModalEditarRestaurante').onclick = cerrarModalEditarRestaurante;
+    document.getElementById('btnCancelarEditarRestaurante').onclick = cerrarModalEditarRestaurante;
+    
+    // Formulario submit
+    const form = document.getElementById('formEditarRestaurante');
+    form.onsubmit = async function(e) {
+        e.preventDefault();
+        await guardarRestauranteEditado();
+    };
+}
+
+function setupEditarPlatoListeners() {
+    // Botón cerrar modal
+    document.getElementById('btnCerrarModalEditarPlato').onclick = cerrarModalEditarPlato;
+    document.getElementById('btnCancelarEditarPlato').onclick = cerrarModalEditarPlato;
+    
+    // Formulario submit
+    const form = document.getElementById('formEditarPlato');
+    form.onsubmit = async function(e) {
+        e.preventDefault();
+        await guardarPlatoEditado();
+    };
+}
+
+function setupEditarCategoriaRestauranteListeners() {
+    // Botón cerrar modal
+    document.getElementById('btnCerrarModalEditarCategoriaRestaurante').onclick = cerrarModalEditarCategoriaRestaurante;
+    document.getElementById('btnCancelarEditarCategoriaRestaurante').onclick = cerrarModalEditarCategoriaRestaurante;
+    
+    // Formulario submit
+    const form = document.getElementById('formEditarCategoriaRestaurante');
+    form.onsubmit = async function(e) {
+        e.preventDefault();
+        await guardarCategoriaRestauranteEditada();
+    };
+}
+
+function setupEditarCategoriaPlatoListeners() {
+    // Botón cerrar modal
+    document.getElementById('btnCerrarModalEditarCategoriaPlato').onclick = cerrarModalEditarCategoriaPlato;
+    document.getElementById('btnCancelarEditarCategoriaPlato').onclick = cerrarModalEditarCategoriaPlato;
+    
+    // Formulario submit
+    const form = document.getElementById('formEditarCategoriaPlato');
+    form.onsubmit = async function(e) {
+        e.preventDefault();
+        await guardarCategoriaPlatoEditada();
+    };
+}
+
+// ===== FUNCIONES PARA CERRAR MODALES =====
+
+function cerrarModalEditarRestaurante() {
+    document.getElementById('modalEditarRestaurante').style.display = 'none';
+}
+
+function cerrarModalEditarPlato() {
+    document.getElementById('modalEditarPlato').style.display = 'none';
+}
+
+function cerrarModalEditarCategoriaRestaurante() {
+    document.getElementById('modalEditarCategoriaRestaurante').style.display = 'none';
+}
+
+function cerrarModalEditarCategoriaPlato() {
+    document.getElementById('modalEditarCategoriaPlato').style.display = 'none';
+}
+
+// ===== FUNCIONES PARA GUARDAR CAMBIOS =====
+
+async function guardarRestauranteEditado() {
+    try {
+        const form = document.getElementById('formEditarRestaurante');
+        const formData = new FormData(form);
+        
+        const restauranteData = {
+            nombre: formData.get('nombre'),
+            categoriaId: parseInt(formData.get('categoriaId')),
+            direccion: formData.get('direccion'),
+            imagen_url: formData.get('imagen_url'),
+            descripcion: formData.get('descripcion')
+        };
+        
+        const id = document.getElementById('editRestauranteId').value;
+        console.log('💾 Guardando restaurante:', restauranteData);
+        
+        await RestaurantesAPI.update(id, restauranteData);
+        
+        alert('Restaurante actualizado exitosamente');
+        cerrarModalEditarRestaurante();
+        
+        // Recargar la lista si está abierta
+        if (document.getElementById('modalListaRestaurantes').style.display === 'flex') {
+            await mostrarListaRestaurantes();
+        }
+        
+        // Actualizar estadísticas
+        await cargarEstadisticasDelBackend();
+        
+    } catch (error) {
+        console.error('Error al actualizar restaurante:', error);
+        alert('Error al actualizar el restaurante: ' + error.message);
+    }
+}
+
+async function guardarPlatoEditado() {
+    try {
+        const form = document.getElementById('formEditarPlato');
+        const formData = new FormData(form);
+        
+        const platoData = {
+            nombre: formData.get('nombre'),
+            categoriaId: parseInt(formData.get('categoriaId')),
+            precio: parseFloat(formData.get('precio')),
+            id_restaurante: parseInt(formData.get('id_restaurante')),
+            imagen_url: formData.get('imagen_url'),
+            descripcion: formData.get('descripcion')
+        };
+        
+        const id = document.getElementById('editPlatoId').value;
+        console.log('💾 Guardando plato:', platoData);
+        
+        await PlatosAPI.update(id, platoData);
+        
+        alert('Plato actualizado exitosamente');
+        cerrarModalEditarPlato();
+        
+        // Recargar la lista si está abierta
+        if (document.getElementById('modalListaPlatos').style.display === 'flex') {
+            await mostrarListaPlatos();
+        }
+        
+        // Actualizar estadísticas
+        await cargarEstadisticasDelBackend();
+        
+    } catch (error) {
+        console.error('Error al actualizar plato:', error);
+        alert('Error al actualizar el plato: ' + error.message);
+    }
+}
+
+async function guardarCategoriaRestauranteEditada() {
+    try {
+        const form = document.getElementById('formEditarCategoriaRestaurante');
+        const formData = new FormData(form);
+        
+        const categoriaData = {
+            nombre: formData.get('nombre')
+        };
+        
+        const id = document.getElementById('editCategoriaRestauranteId').value;
+        console.log('💾 Guardando categoría de restaurante:', categoriaData);
+        
+        // Necesitamos agregar el método update a la API de categorías
+        const response = await fetch(`http://localhost:5000/categorias_restaurantes/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(categoriaData)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        alert('Categoría actualizada exitosamente');
+        cerrarModalEditarCategoriaRestaurante();
+        
+        // Recargar la lista si está abierta
+        if (document.getElementById('modalListaCategoriasRestaurantes').style.display === 'flex') {
+            await mostrarListaCategoriasRestaurantes();
+        }
+        
+        // Actualizar estadísticas
+        await cargarEstadisticasDelBackend();
+        
+    } catch (error) {
+        console.error('Error al actualizar categoría de restaurante:', error);
+        alert('Error al actualizar la categoría: ' + error.message);
+    }
+}
+
+async function guardarCategoriaPlatoEditada() {
+    try {
+        const form = document.getElementById('formEditarCategoriaPlato');
+        const formData = new FormData(form);
+        
+        const categoriaData = {
+            nombre: formData.get('nombre')
+        };
+        
+        const id = document.getElementById('editCategoriaPlatoId').value;
+        console.log('💾 Guardando categoría de plato:', categoriaData);
+        
+        // Necesitamos agregar el método update a la API de categorías
+        const response = await fetch(`http://localhost:5000/categorias_platos/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(categoriaData)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        alert('Categoría actualizada exitosamente');
+        cerrarModalEditarCategoriaPlato();
+        
+        // Recargar la lista si está abierta
+        if (document.getElementById('modalListaCategoriasPlatoss').style.display === 'flex') {
+            await mostrarListaCategoriasPlatoss();
+        }
+        
+        // Actualizar estadísticas
+        await cargarEstadisticasDelBackend();
+        
+    } catch (error) {
+        console.error('Error al actualizar categoría de plato:', error);
+        alert('Error al actualizar la categoría: ' + error.message);
     }
 }
 

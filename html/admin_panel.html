@@ -204,6 +204,162 @@
         </div>
     </div>
 
+    <!-- ===== MODALES DE EDICIÓN ===== -->
+    
+    <!-- Modal Editar Restaurante -->
+    <div id="modalEditarRestaurante" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Restaurante</h2>
+                <button class="boton-cerrar-modal" id="btnCerrarModalEditarRestaurante">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarRestaurante" class="form-restaurante">
+                    <input type="hidden" id="editRestauranteId">
+                    
+                    <div class="form-row">
+                        <div class="campo-form">
+                            <label for="editRestauranteNombre">Nombre del Restaurante</label>
+                            <input type="text" id="editRestauranteNombre" name="nombre" required>
+                        </div>
+                        <div class="campo-form">
+                            <label for="editRestauranteCategoriaId">Categoría</label>
+                            <select id="editRestauranteCategoriaId" name="categoriaId" required>
+                                <option value="">Selecciona una categoría</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="campo-form">
+                        <label for="editRestauranteDireccion">Dirección</label>
+                        <input type="text" id="editRestauranteDireccion" name="direccion" required>
+                    </div>
+                    
+                    <div class="campo-form">
+                        <label for="editRestauranteImagenUrl">URL de la Imagen</label>
+                        <input type="url" id="editRestauranteImagenUrl" name="imagen_url">
+                    </div>
+                    
+                    <div class="campo-form">
+                        <label for="editRestauranteDescripcion">Descripción</label>
+                        <textarea id="editRestauranteDescripcion" name="descripcion" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="acciones-form">
+                        <button type="button" class="boton-cancelar" id="btnCancelarEditarRestaurante">Cancelar</button>
+                        <button type="submit" class="boton-guardar">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Plato -->
+    <div id="modalEditarPlato" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Plato</h2>
+                <button class="boton-cerrar-modal" id="btnCerrarModalEditarPlato">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarPlato" class="form-restaurante">
+                    <input type="hidden" id="editPlatoId">
+                    
+                    <div class="form-row">
+                        <div class="campo-form">
+                            <label for="editPlatoNombre">Nombre del Plato</label>
+                            <input type="text" id="editPlatoNombre" name="nombre" required>
+                        </div>
+                        <div class="campo-form">
+                            <label for="editPlatoCategoriaId">Categoría</label>
+                            <select id="editPlatoCategoriaId" name="categoriaId" required>
+                                <option value="">Selecciona una categoría</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="campo-form">
+                            <label for="editPlatoPrecio">Precio</label>
+                            <input type="number" id="editPlatoPrecio" name="precio" step="0.01" min="0" required>
+                        </div>
+                        <div class="campo-form">
+                            <label for="editPlatoRestauranteId">Restaurante</label>
+                            <select id="editPlatoRestauranteId" name="id_restaurante" required>
+                                <option value="">Selecciona un restaurante</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="campo-form">
+                        <label for="editPlatoImagenUrl">URL de la Imagen</label>
+                        <input type="url" id="editPlatoImagenUrl" name="imagen_url">
+                    </div>
+                    
+                    <div class="campo-form">
+                        <label for="editPlatoDescripcion">Descripción</label>
+                        <textarea id="editPlatoDescripcion" name="descripcion" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="acciones-form">
+                        <button type="button" class="boton-cancelar" id="btnCancelarEditarPlato">Cancelar</button>
+                        <button type="submit" class="boton-guardar">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Categoría de Restaurante -->
+    <div id="modalEditarCategoriaRestaurante" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Categoría de Restaurante</h2>
+                <button class="boton-cerrar-modal" id="btnCerrarModalEditarCategoriaRestaurante">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarCategoriaRestaurante" class="form-restaurante">
+                    <input type="hidden" id="editCategoriaRestauranteId">
+                    
+                    <div class="campo-form">
+                        <label for="editCategoriaRestauranteNombre">Nombre de la Categoría</label>
+                        <input type="text" id="editCategoriaRestauranteNombre" name="nombre" required>
+                    </div>
+                    
+                    <div class="acciones-form">
+                        <button type="button" class="boton-cancelar" id="btnCancelarEditarCategoriaRestaurante">Cancelar</button>
+                        <button type="submit" class="boton-guardar">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Categoría de Plato -->
+    <div id="modalEditarCategoriaPlato" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Categoría de Plato</h2>
+                <button class="boton-cerrar-modal" id="btnCerrarModalEditarCategoriaPlato">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarCategoriaPlato" class="form-restaurante">
+                    <input type="hidden" id="editCategoriaPlatoId">
+                    
+                    <div class="campo-form">
+                        <label for="editCategoriaPlatoNombre">Nombre de la Categoría</label>
+                        <input type="text" id="editCategoriaPlatoNombre" name="nombre" required>
+                    </div>
+                    
+                    <div class="acciones-form">
+                        <button type="button" class="boton-cancelar" id="btnCancelarEditarCategoriaPlato">Cancelar</button>
+                        <button type="submit" class="boton-guardar">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="../js/admin_panel.js" defer></script>
 
 </body>
