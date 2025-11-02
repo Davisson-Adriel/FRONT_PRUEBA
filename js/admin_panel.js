@@ -387,11 +387,42 @@ async function mostrarListaRestaurantes() {
         lista.innerHTML = '';
         
         if (restaurantes && restaurantes.length > 0) {
-            // Crear lista de nombres
+            // Crear lista de nombres con botones de acción
             restaurantes.forEach(restaurante => {
                 const item = document.createElement('div');
-                item.className = 'item-restaurante-simple';
-                item.textContent = restaurante.nombre;
+                item.className = 'item-restaurante-con-botones';
+                
+                // Contenedor para el nombre
+                const nombreContainer = document.createElement('div');
+                nombreContainer.className = 'nombre-restaurante-item';
+                nombreContainer.textContent = restaurante.nombre;
+                
+                // Contenedor para los botones
+                const botonesContainer = document.createElement('div');
+                botonesContainer.className = 'botones-accion-restaurante';
+                
+                // Botón editar
+                const btnEditar = document.createElement('button');
+                btnEditar.className = 'btn-editar-restaurante';
+                btnEditar.innerHTML = '<span class="icono">✏️</span><span class="texto">Editar</span>';
+                btnEditar.setAttribute('data-id', restaurante.id);
+                btnEditar.setAttribute('title', 'Editar restaurante');
+                
+                // Botón eliminar
+                const btnEliminar = document.createElement('button');
+                btnEliminar.className = 'btn-eliminar-restaurante';
+                btnEliminar.innerHTML = '<span class="icono">🗑️</span><span class="texto">Eliminar</span>';
+                btnEliminar.setAttribute('data-id', restaurante.id);
+                btnEliminar.setAttribute('title', 'Eliminar restaurante');
+                
+                // Agregar botones al contenedor
+                botonesContainer.appendChild(btnEditar);
+                botonesContainer.appendChild(btnEliminar);
+                
+                // Agregar nombre y botones al item
+                item.appendChild(nombreContainer);
+                item.appendChild(botonesContainer);
+                
                 lista.appendChild(item);
             });
         } else {

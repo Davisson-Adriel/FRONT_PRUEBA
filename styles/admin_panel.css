@@ -1063,6 +1063,88 @@ body {
     background-color: #f8f9fa;
 }
 
+/* ===== ESTILOS PARA ITEMS CON BOTONES ===== */
+.item-restaurante-con-botones {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.2s ease;
+}
+
+.item-restaurante-con-botones:last-child {
+    border-bottom: none;
+}
+
+.item-restaurante-con-botones:hover {
+    background-color: #f8f9fa;
+    transform: translateX(2px);
+}
+
+.nombre-restaurante-item {
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+.botones-accion-restaurante {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-editar-restaurante,
+.btn-eliminar-restaurante {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 70px;
+    justify-content: center;
+}
+
+.btn-editar-restaurante {
+    background: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.btn-editar-restaurante:hover {
+    background: #c8e6c9;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.2);
+}
+
+.btn-eliminar-restaurante {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+.btn-eliminar-restaurante:hover {
+    background: #ffcdd2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(198, 40, 40, 0.2);
+}
+
+.btn-editar-restaurante .icono,
+.btn-eliminar-restaurante .icono {
+    font-size: 12px;
+}
+
+.btn-editar-restaurante .texto,
+.btn-eliminar-restaurante .texto {
+    font-size: 11px;
+}
+
+/* Estados de carga y error */
 .loading, .empty-message, .error-message {
     padding: 40px;
     text-align: center;
@@ -1072,4 +1154,41 @@ body {
 
 .error-message {
     color: #e74c3c;
+}
+
+/* ===== RESPONSIVE PARA LISTA CON BOTONES ===== */
+@media (max-width: 768px) {
+    .item-restaurante-con-botones {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .nombre-restaurante-item {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .botones-accion-restaurante {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .btn-editar-restaurante,
+    .btn-eliminar-restaurante {
+        flex: 1;
+        max-width: 80px;
+        padding: 8px 6px;
+    }
+
+    .btn-editar-restaurante .texto,
+    .btn-eliminar-restaurante .texto {
+        display: none;
+    }
+
+    .btn-editar-restaurante .icono,
+    .btn-eliminar-restaurante .icono {
+        font-size: 16px;
+    }
 }
