@@ -240,6 +240,26 @@ export const CategoriasRestaurantesAPI = {
 
     async obtenerPorId(id) {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_restaurantes/${id}`);
+    },
+
+    async crear(categoriaData) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_restaurantes`, {
+            method: 'POST',
+            body: JSON.stringify(categoriaData)
+        });
+    },
+
+    async actualizar(id, categoriaData) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_restaurantes/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(categoriaData)
+        });
+    },
+
+    async eliminar(id) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_restaurantes/${id}`, {
+            method: 'DELETE'
+        });
     }
 };
 
@@ -251,6 +271,26 @@ export const CategoriasPlatosAPI = {
 
     async obtenerPorId(id) {
         return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_platos/${id}`);
+    },
+
+    async crear(categoriaData) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_platos`, {
+            method: 'POST',
+            body: JSON.stringify(categoriaData)
+        });
+    },
+
+    async actualizar(id, categoriaData) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_platos/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(categoriaData)
+        });
+    },
+
+    async eliminar(id) {
+        return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_platos/${id}`, {
+            method: 'DELETE'
+        });
     }
 };
 

@@ -42,7 +42,13 @@ function setupEventListeners() {
             const boton = e.target.closest('.boton-accion-rapida');
             const accion = boton.getAttribute('data-accion');
             console.log('Botón de acción rápida clickeado:', accion);
-            ejecutarAccionRapida(accion);
+            
+            try {
+                ejecutarAccionRapida(accion);
+            } catch (error) {
+                console.error('Error ejecutando acción rápida:', error);
+                alert('Error: ' + error.message);
+            }
         }
 
         // Clics en botones de restaurantes
@@ -263,196 +269,30 @@ function navegarAModulo(modulo) {
     }
 }
 
-// Funciones para modales de restaurantes
-function mostrarModalAgregarRestaurante() {
-    document.getElementById('modalAgregarRestaurante').style.display = 'block';
-}
-
-function cerrarModalAgregarRestaurante() {
-    document.getElementById('modalAgregarRestaurante').style.display = 'none';
-    document.getElementById('formAgregarRestaurante').reset();
-}
-
-function guardarRestaurante() {
-    const form = document.getElementById('formAgregarRestaurante');
-    const formData = new FormData(form);
-    
-    const restaurante = {
-        id: Date.now(),
-        nombre: formData.get('nombre'),
-        categoria: formData.get('categoria'),
-        descripcion: formData.get('descripcion'),
-        direccion: formData.get('direccion'),
-        telefono: formData.get('telefono'),
-        horarios: formData.get('horarios'),
-        imagen: formData.get('imagen'),
-        especialidades: formData.get('especialidades').split(',').map(e => e.trim())
-    };
-
-    // Guardar en localStorage
-    let restaurantes = JSON.parse(localStorage.getItem('restaurantes')) || [];
-    restaurantes.push(restaurante);
-    localStorage.setItem('restaurantes', JSON.stringify(restaurantes));
-
-    alert('Restaurante agregado exitosamente!');
-    cerrarModalAgregarRestaurante();
-    actualizarEstadisticas();
-}
-
-function cargarListaRestaurantes() {
-    const restaurantes = JSON.parse(localStorage.getItem('restaurantes')) || [];
-
-    const listaContainer = document.getElementById('listaRestaurantesSimple');
-    listaContainer.innerHTML = '';
-
-    if (restaurantes.length === 0) {
-        listaContainer.innerHTML = `
-            <div style="text-align: center; padding: 40px; color: #666;">
-                <div style="font-size: 48px; margin-bottom: 15px;">🍽️</div>
-                <div>No hay restaurantes registrados</div>
-                <div style="font-size: 12px; margin-top: 5px;">Agrega tu primer restaurante para comenzar</div>
-            </div>
-        `;
-        return;
-    }
-
-    restaurantes.forEach(restaurante => {
-        const item = document.createElement('div');
-        item.className = 'item-restaurante-simple';
-        item.innerHTML = `
-            <div class="nombre-restaurante">${restaurante.nombre}</div>
-            <button onclick="eliminarRestaurante(${restaurante.id})" class="boton-eliminar-simple">
-                🗑️ Eliminar
-            </button>
-        `;
-        listaContainer.appendChild(item);
-    });
-}
-
-function eliminarRestaurante(id) {
-    // Esta función se deja como ejemplo, pero para que funcione correctamente
-    // debería ser exportada y asignada a window, o el evento debería manejarse de otra forma.
-    // Por simplicidad del ejemplo, se mantiene así.
-    const restaurantes = JSON.parse(localStorage.getItem('restaurantes')) || [];
-    const restaurante = restaurantes.find(r => r.id === id);
-    const nombreRestaurante = restaurante ? restaurante.nombre : 'este restaurante';
-
-    if (confirm(`¿Estás seguro de que deseas eliminar "${nombreRestaurante}"?\n\nEsta acción no se puede deshacer.`)) {
-        let restaurantesActualizados = restaurantes.filter(r => r.id !== id);
-        localStorage.setItem('restaurantes', JSON.stringify(restaurantesActualizados));
-        
-        cargarListaRestaurantes();
-        actualizarEstadisticas();
-        
-        mostrarNotificacion(`"${nombreRestaurante}" ha sido eliminado exitosamente`, 'success');
-    }
-}
-
-function mostrarNotificacion(mensaje, tipo = 'info') {
-    // Remover notificaciones existentes
-    const notificacionesExistentes = document.querySelectorAll('.notificacion');
-    notificacionesExistentes.forEach(n => n.remove());
-    
-    const notificacion = document.createElement('div');
-    notificacion.className = `notificacion ${tipo}`;
-    notificacion.textContent = mensaje;
-    
-    // Agregar botón de cerrar
-    const botonCerrar = document.createElement('span');
-    botonCerrar.innerHTML = ' ✕';
-    botonCerrar.style.marginLeft = '10px';
-    botonCerrar.style.cursor = 'pointer';
-    botonCerrar.style.opacity = '0.8';
-    botonCerrar.onclick = () => notificacion.remove();
-    
-    notificacion.appendChild(botonCerrar);
-    document.body.appendChild(notificacion);
-    
-    // Auto-remover después de 4 segundos
-    setTimeout(() => {
-        if (notificacion.parentNode) {
-            notificacion.style.animation = 'slideOutRight 0.3s ease-in forwards';
-            setTimeout(() => notificacion.remove(), 300);
-        }
-    }, 4000);
-}
-
-// Agregar animación de salida al CSS dinámicamente
-if (!document.querySelector('#admin-animations')) {
-    const style = document.createElement('style');
-    style.id = 'admin-animations';
-    style.textContent = `
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-function actualizarEstadisticas() {
-    const restaurantes = JSON.parse(localStorage.getItem('restaurantes')) || [];
-    const totalRestaurantes = restaurantes.length || 8;
-    animarNumero('#totalRestaurantes', totalRestaurantes);
-}
-
-function animarNumero(selector, valorFinal) {
-    const elemento = document.querySelector(selector);
-    if (!elemento) return;
-    
-    let valorActual = 0;
-    const duracion = 2000; // 2 segundos
-    const pasos = 60; // 60 frames
-    const incremento = valorFinal / pasos;
-    const intervalo = duracion / pasos;
-    
-    const timer = setInterval(() => {
-        valorActual += incremento;
-        if (valorActual >= valorFinal) {
-            elemento.textContent = valorFinal;
-            clearInterval(timer);
-            
-            // Agregar efecto de "bounce" al finalizar
-            elemento.style.transform = 'scale(1.1)';
-            setTimeout(() => {
-                elemento.style.transform = 'scale(1)';
-            }, 200);
-        } else {
-            elemento.textContent = Math.floor(valorActual);
-        }
-    }, intervalo);
-}
-
 function ejecutarAccionRapida(accion) {
     console.log(`Ejecutando acción: ${accion}`);
     
     switch(accion) {
         case 'agregar-restaurante':
-            alert('Abriendo formulario para agregar nuevo restaurante...');
+            mostrarModalAgregarRestaurante();
             break;
         case 'ver-restaurantes':
             mostrarListaRestaurantes();
             break;
         case 'agregar-plato':
-            alert('Abriendo formulario para agregar nuevo plato...');
+            mostrarModalAgregarPlato();
             break;
         case 'ver-platos':
             mostrarListaPlatos();
             break;
         case 'agregar-categoria-restaurante':
-            alert('Abriendo formulario para agregar nueva categoría de restaurante...');
+            mostrarModalAgregarCategoriaRestaurante();
             break;
         case 'ver-categorias-restaurantes':
             mostrarListaCategoriasRestaurantes();
             break;
         case 'agregar-categoria-plato':
-            alert('Abriendo formulario para agregar nueva categoría de plato...');
+            mostrarModalAgregarCategoriaPlato();
             break;
         case 'ver-categorias-platos':
             mostrarListaCategoriasPlatoss();
@@ -1197,6 +1037,310 @@ async function guardarCategoriaPlatoEditada() {
     }
 }
 
+// ===== FUNCIONES PARA MODALES DE CREACIÓN =====
+
+// Función para mostrar modal de agregar restaurante
+async function mostrarModalAgregarRestaurante() {
+    console.log('📝 Abriendo modal para agregar restaurante');
+    
+    try {
+        // Obtener categorías para el select
+        const categorias = await CategoriasRestaurantesAPI.obtenerTodas();
+        
+        // Mostrar modal
+        const modal = document.getElementById('modalAgregarRestaurante');
+        modal.style.display = 'flex';
+        
+        // Limpiar el formulario
+        document.getElementById('formAgregarRestaurante').reset();
+        
+        // Llenar select de categorías
+        const selectCategoria = document.getElementById('nuevoRestauranteCategoriaId');
+        selectCategoria.innerHTML = '<option value="">Selecciona una categoría</option>';
+        categorias.forEach(categoria => {
+            const option = document.createElement('option');
+            option.value = categoria.id;
+            option.textContent = categoria.nombre;
+            selectCategoria.appendChild(option);
+        });
+        
+        // Configurar event listeners del formulario
+        setupFormularioAgregarRestaurante();
+        
+    } catch (error) {
+        console.error('Error al cargar categorías:', error);
+        alert('Error al cargar las categorías: ' + error.message);
+    }
+}
+
+// Función para mostrar modal de agregar plato
+async function mostrarModalAgregarPlato() {
+    console.log('🍽️ Abriendo modal para agregar plato');
+    
+    try {
+        // Obtener categorías y restaurantes para los selects
+        const [categorias, restaurantes] = await Promise.all([
+            CategoriasPlatosAPI.obtenerTodas(),
+            RestaurantesAPI.getAll()
+        ]);
+        
+        // Mostrar modal
+        const modal = document.getElementById('modalAgregarPlato');
+        modal.style.display = 'flex';
+        
+        // Limpiar el formulario
+        document.getElementById('formAgregarPlato').reset();
+        
+        // Llenar select de categorías
+        const selectCategoria = document.getElementById('nuevoPlatoCategoriaId');
+        selectCategoria.innerHTML = '<option value="">Selecciona una categoría</option>';
+        categorias.forEach(categoria => {
+            const option = document.createElement('option');
+            option.value = categoria.id;
+            option.textContent = categoria.nombre;
+            selectCategoria.appendChild(option);
+        });
+        
+        // Llenar select de restaurantes
+        const selectRestaurante = document.getElementById('nuevoPlatoRestauranteId');
+        selectRestaurante.innerHTML = '<option value="">Selecciona un restaurante</option>';
+        restaurantes.forEach(restaurante => {
+            const option = document.createElement('option');
+            option.value = restaurante.id;
+            option.textContent = restaurante.nombre;
+            selectRestaurante.appendChild(option);
+        });
+        
+        // Configurar event listeners del formulario
+        setupFormularioAgregarPlato();
+        
+    } catch (error) {
+        console.error('Error al cargar datos para plato:', error);
+        alert('Error al cargar los datos: ' + error.message);
+    }
+}
+
+// Función para mostrar modal de agregar categoría de restaurante
+function mostrarModalAgregarCategoriaRestaurante() {
+    console.log('🏷️ Abriendo modal para agregar categoría de restaurante');
+    
+    // Mostrar modal
+    const modal = document.getElementById('modalAgregarCategoriaRestaurante');
+    modal.style.display = 'flex';
+    
+    // Limpiar el formulario
+    document.getElementById('formAgregarCategoriaRestaurante').reset();
+    
+    // Configurar event listeners del formulario
+    setupFormularioAgregarCategoriaRestaurante();
+}
+
+// Función para mostrar modal de agregar categoría de plato
+function mostrarModalAgregarCategoriaPlato() {
+    console.log('🏷️ Abriendo modal para agregar categoría de plato');
+    
+    // Mostrar modal
+    const modal = document.getElementById('modalAgregarCategoriaPlato');
+    modal.style.display = 'flex';
+    
+    // Limpiar el formulario
+    document.getElementById('formAgregarCategoriaPlato').reset();
+    
+    // Configurar event listeners del formulario
+    setupFormularioAgregarCategoriaPlato();
+}
+
+// ===== CONFIGURACIÓN DE FORMULARIOS =====
+
+function setupFormularioAgregarRestaurante() {
+    // Botón cerrar
+    document.getElementById('btnCerrarModalAgregarRestaurante').onclick = () => {
+        document.getElementById('modalAgregarRestaurante').style.display = 'none';
+    };
+    
+    // Botón cancelar
+    document.getElementById('btnCancelarAgregarRestaurante').onclick = () => {
+        document.getElementById('modalAgregarRestaurante').style.display = 'none';
+    };
+    
+    // Envío del formulario
+    const form = document.getElementById('formAgregarRestaurante');
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        await crearRestaurante();
+    };
+}
+
+function setupFormularioAgregarPlato() {
+    // Botón cerrar
+    document.getElementById('btnCerrarModalAgregarPlato').onclick = () => {
+        document.getElementById('modalAgregarPlato').style.display = 'none';
+    };
+    
+    // Botón cancelar
+    document.getElementById('btnCancelarAgregarPlato').onclick = () => {
+        document.getElementById('modalAgregarPlato').style.display = 'none';
+    };
+    
+    // Envío del formulario
+    const form = document.getElementById('formAgregarPlato');
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        await crearPlato();
+    };
+}
+
+function setupFormularioAgregarCategoriaRestaurante() {
+    // Botón cerrar
+    document.getElementById('btnCerrarModalAgregarCategoriaRestaurante').onclick = () => {
+        document.getElementById('modalAgregarCategoriaRestaurante').style.display = 'none';
+    };
+    
+    // Botón cancelar
+    document.getElementById('btnCancelarAgregarCategoriaRestaurante').onclick = () => {
+        document.getElementById('modalAgregarCategoriaRestaurante').style.display = 'none';
+    };
+    
+    // Envío del formulario
+    const form = document.getElementById('formAgregarCategoriaRestaurante');
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        await crearCategoriaRestaurante();
+    };
+}
+
+function setupFormularioAgregarCategoriaPlato() {
+    // Botón cerrar
+    document.getElementById('btnCerrarModalAgregarCategoriaPlato').onclick = () => {
+        document.getElementById('modalAgregarCategoriaPlato').style.display = 'none';
+    };
+    
+    // Botón cancelar
+    document.getElementById('btnCancelarAgregarCategoriaPlato').onclick = () => {
+        document.getElementById('modalAgregarCategoriaPlato').style.display = 'none';
+    };
+    
+    // Envío del formulario
+    const form = document.getElementById('formAgregarCategoriaPlato');
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        await crearCategoriaPlato();
+    };
+}
+
+// ===== FUNCIONES DE CREACIÓN =====
+
+async function crearRestaurante() {
+    try {
+        const form = document.getElementById('formAgregarRestaurante');
+        const formData = new FormData(form);
+        
+        const restauranteData = {
+            nombre: formData.get('nombre'),
+            direccion: formData.get('direccion'),
+            categoriaId: parseInt(formData.get('categoriaId')),
+            imagen_url: formData.get('imagen_url') || null,
+            descripcion: formData.get('descripcion') || null
+        };
+        
+        console.log('📝 Creando restaurante:', restauranteData);
+        
+        const nuevoRestaurante = await RestaurantesAPI.create(restauranteData);
+        
+        console.log('✅ Restaurante creado:', nuevoRestaurante);
+        alert('¡Restaurante creado exitosamente!');
+        
+        // Cerrar modal y actualizar estadísticas
+        document.getElementById('modalAgregarRestaurante').style.display = 'none';
+        await cargarEstadisticasDelBackend();
+        
+    } catch (error) {
+        console.error('❌ Error al crear restaurante:', error);
+        alert('Error al crear el restaurante: ' + error.message);
+    }
+}
+
+async function crearPlato() {
+    try {
+        const form = document.getElementById('formAgregarPlato');
+        const formData = new FormData(form);
+        
+        const platoData = {
+            nombre: formData.get('nombre'),
+            precio: parseFloat(formData.get('precio')),
+            id_restaurante: parseInt(formData.get('restauranteId')),
+            categoriaId: parseInt(formData.get('categoriaId')),
+            imagen_url: formData.get('imagen_url') || null,
+            descripcion: formData.get('descripcion') || null
+        };
+        
+        console.log('🍽️ Creando plato:', platoData);
+        
+        const nuevoPlato = await PlatosAPI.create(platoData);
+        
+        console.log('✅ Plato creado:', nuevoPlato);
+        alert('¡Plato creado exitosamente!');
+        
+        // Cerrar modal y actualizar estadísticas
+        document.getElementById('modalAgregarPlato').style.display = 'none';
+        await cargarEstadisticasDelBackend();
+        
+    } catch (error) {
+        console.error('❌ Error al crear plato:', error);
+        alert('Error al crear el plato: ' + error.message);
+    }
+}
+
+async function crearCategoriaRestaurante() {
+    try {
+        const form = document.getElementById('formAgregarCategoriaRestaurante');
+        const formData = new FormData(form);
+        
+        const categoriaData = {
+            nombre: formData.get('nombre')
+        };
+        
+        console.log('🏷️ Creando categoría de restaurante:', categoriaData);
+        
+        const nuevaCategoria = await CategoriasRestaurantesAPI.crear(categoriaData);
+        
+        console.log('✅ Categoría de restaurante creada:', nuevaCategoria);
+        alert('¡Categoría de restaurante creada exitosamente!');
+        
+        // Cerrar modal
+        document.getElementById('modalAgregarCategoriaRestaurante').style.display = 'none';
+        
+    } catch (error) {
+        console.error('❌ Error al crear categoría de restaurante:', error);
+        alert('Error al crear la categoría: ' + error.message);
+    }
+}
+
+async function crearCategoriaPlato() {
+    try {
+        const form = document.getElementById('formAgregarCategoriaPlato');
+        const formData = new FormData(form);
+        
+        const categoriaData = {
+            nombre: formData.get('nombre')
+        };
+        
+        console.log('🏷️ Creando categoría de plato:', categoriaData);
+        
+        const nuevaCategoria = await CategoriasPlatosAPI.crear(categoriaData);
+        
+        console.log('✅ Categoría de plato creada:', nuevaCategoria);
+        alert('¡Categoría de plato creada exitosamente!');
+        
+        // Cerrar modal
+        document.getElementById('modalAgregarCategoriaPlato').style.display = 'none';
+        
+    } catch (error) {
+        console.error('❌ Error al crear categoría de plato:', error);
+        alert('Error al crear la categoría: ' + error.message);
+    }
+}
+
 // Animaciones de entrada (opcional - mejora la experiencia si funciona)
 window.addEventListener('load', function() {
     const tarjetas = document.querySelectorAll('.tarjeta-gestion');
@@ -1221,3 +1365,18 @@ window.addEventListener('load', function() {
         }
     });
 });
+
+// Función de test para debugging
+window.testModales = function() {
+    console.log('🧪 Testing modales...');
+    console.log('Modal agregar restaurante:', document.getElementById('modalAgregarRestaurante'));
+    console.log('Modal agregar plato:', document.getElementById('modalAgregarPlato'));
+    console.log('Modal agregar categoria restaurante:', document.getElementById('modalAgregarCategoriaRestaurante'));
+    console.log('Modal agregar categoria plato:', document.getElementById('modalAgregarCategoriaPlato'));
+    
+    console.log('Funciones disponibles:');
+    console.log('- mostrarModalAgregarRestaurante:', typeof mostrarModalAgregarRestaurante);
+    console.log('- mostrarModalAgregarPlato:', typeof mostrarModalAgregarPlato);
+    console.log('- mostrarModalAgregarCategoriaRestaurante:', typeof mostrarModalAgregarCategoriaRestaurante);
+    console.log('- mostrarModalAgregarCategoriaPlato:', typeof mostrarModalAgregarCategoriaPlato);
+};

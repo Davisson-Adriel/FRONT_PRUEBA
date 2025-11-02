@@ -360,6 +360,154 @@
         </div>
     </div>
 
+    <!-- ===== MODALES DE CREACIÓN ===== -->
+    
+    <!-- Modal Agregar Restaurante -->
+    <div id="modalAgregarRestaurante" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Agregar Nuevo Restaurante</h2>
+                <button class="boton-cerrar-modal" id="btnCerrarModalAgregarRestaurante">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formAgregarRestaurante" class="form-restaurante">
+                    <div class="form-row">
+                        <div class="campo-form">
+                            <label for="nuevoRestauranteNombre">Nombre del Restaurante *</label>
+                            <input type="text" id="nuevoRestauranteNombre" name="nombre" required>
+                        </div>
+                        <div class="campo-form">
+                            <label for="nuevoRestauranteCategoriaId">Categoría *</label>
+                            <select id="nuevoRestauranteCategoriaId" name="categoriaId" required>
+                                <option value="">Selecciona una categoría</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="campo-form">
+                        <label for="nuevoRestauranteDireccion">Dirección *</label>
+                        <input type="text" id="nuevoRestauranteDireccion" name="direccion" required>
+                    </div>
+                    
+                    <div class="campo-form">
+                        <label for="nuevoRestauranteImagenUrl">URL de la Imagen</label>
+                        <input type="url" id="nuevoRestauranteImagenUrl" name="imagen_url" placeholder="https://ejemplo.com/imagen.jpg">
+                    </div>
+                    
+                    <div class="campo-form">
+                        <label for="nuevoRestauranteDescripcion">Descripción</label>
+                        <textarea id="nuevoRestauranteDescripcion" name="descripcion" rows="4" placeholder="Describe el restaurante..."></textarea>
+                    </div>
+                    
+                    <div class="acciones-form">
+                        <button type="button" class="boton-cancelar" id="btnCancelarAgregarRestaurante">Cancelar</button>
+                        <button type="submit" class="boton-guardar">Crear Restaurante</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Agregar Plato -->
+    <div id="modalAgregarPlato" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Agregar Nuevo Plato</h2>
+                <button class="boton-cerrar-modal" id="btnCerrarModalAgregarPlato">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formAgregarPlato" class="form-restaurante">
+                    <div class="form-row">
+                        <div class="campo-form">
+                            <label for="nuevoPlatoNombre">Nombre del Plato *</label>
+                            <input type="text" id="nuevoPlatoNombre" name="nombre" required>
+                        </div>
+                        <div class="campo-form">
+                            <label for="nuevoPlatoCategoriaId">Categoría *</label>
+                            <select id="nuevoPlatoCategoriaId" name="categoriaId" required>
+                                <option value="">Selecciona una categoría</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="campo-form">
+                            <label for="nuevoPlatoPrecio">Precio *</label>
+                            <input type="number" id="nuevoPlatoPrecio" name="precio" step="0.01" min="0" required>
+                        </div>
+                        <div class="campo-form">
+                            <label for="nuevoPlatoRestauranteId">Restaurante *</label>
+                            <select id="nuevoPlatoRestauranteId" name="restauranteId" required>
+                                <option value="">Selecciona un restaurante</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="campo-form">
+                        <label for="nuevoPlatoImagenUrl">URL de la Imagen</label>
+                        <input type="url" id="nuevoPlatoImagenUrl" name="imagen_url" placeholder="https://ejemplo.com/imagen.jpg">
+                    </div>
+                    
+                    <div class="campo-form">
+                        <label for="nuevoPlatoDescripcion">Descripción</label>
+                        <textarea id="nuevoPlatoDescripcion" name="descripcion" rows="4" placeholder="Describe el plato..."></textarea>
+                    </div>
+                    
+                    <div class="acciones-form">
+                        <button type="button" class="boton-cancelar" id="btnCancelarAgregarPlato">Cancelar</button>
+                        <button type="submit" class="boton-guardar">Crear Plato</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Agregar Categoría de Restaurante -->
+    <div id="modalAgregarCategoriaRestaurante" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Agregar Nueva Categoría de Restaurante</h2>
+                <button class="boton-cerrar-modal" id="btnCerrarModalAgregarCategoriaRestaurante">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formAgregarCategoriaRestaurante" class="form-restaurante">
+                    <div class="campo-form">
+                        <label for="nuevaCategoriaRestauranteNombre">Nombre de la Categoría *</label>
+                        <input type="text" id="nuevaCategoriaRestauranteNombre" name="nombre" required placeholder="Ej: Comida Rápida, Italiana, Mexicana...">
+                    </div>
+                    
+                    <div class="acciones-form">
+                        <button type="button" class="boton-cancelar" id="btnCancelarAgregarCategoriaRestaurante">Cancelar</button>
+                        <button type="submit" class="boton-guardar">Crear Categoría</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Agregar Categoría de Plato -->
+    <div id="modalAgregarCategoriaPlato" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Agregar Nueva Categoría de Plato</h2>
+                <button class="boton-cerrar-modal" id="btnCerrarModalAgregarCategoriaPlato">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formAgregarCategoriaPlato" class="form-restaurante">
+                    <div class="campo-form">
+                        <label for="nuevaCategoriaPlatoNombre">Nombre de la Categoría *</label>
+                        <input type="text" id="nuevaCategoriaPlatoNombre" name="nombre" required placeholder="Ej: Entradas, Platos Principales, Postres...">
+                    </div>
+                    
+                    <div class="acciones-form">
+                        <button type="button" class="boton-cancelar" id="btnCancelarAgregarCategoriaPlato">Cancelar</button>
+                        <button type="submit" class="boton-guardar">Crear Categoría</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="../js/admin_panel.js" defer></script>
 
 </body>
