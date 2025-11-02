@@ -274,10 +274,13 @@ export const CategoriasPlatosAPI = {
         });
     },
 
-    async actualizar(id, categoriaData) {
+    async actualizar(id, nuevoNombre) {
+        const data = {
+            nombre: nuevoNombre
+        };
         return await fetchAPI(`${API_CONFIG.BASE_URL}/categorias_platos/${id}`, {
             method: 'PATCH',
-            body: JSON.stringify(categoriaData)
+            body: JSON.stringify(data)
         });
     },
 
