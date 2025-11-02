@@ -2,6 +2,8 @@ import { AuthAPI, RestaurantesAPI, PlatosAPI, ResenasRestaurantesAPI, ReseñasPl
 
 // Obtener nombre de administrador y cargar estadísticas
 document.addEventListener('DOMContentLoaded', async function() {
+    console.log('🚀 DOM Content Loaded - Inicializando admin panel');
+    
     const nombreAdmin = localStorage.getItem('nombreUsuario') || 'Administrador';
     document.getElementById('nombreAdmin').textContent = nombreAdmin;
 
@@ -11,9 +13,59 @@ document.addEventListener('DOMContentLoaded', async function() {
         btnCerrarSesion.addEventListener('click', cerrarSesion);
     }
 
+    // Configurar event listeners para botones de acción rápida
+    setupEventListeners();
+
     // Cargar estadísticas del backend
     await cargarEstadisticasDelBackend();
 });
+
+// Configurar event listeners
+function setupEventListeners() {
+    console.log('📋 Configurando event listeners');
+    
+    // Verificar que existen los botones
+    const botonesAccion = document.querySelectorAll('.boton-accion-rapida');
+    console.log('Botones de acción encontrados:', botonesAccion.length);
+    
+    botonesAccion.forEach((boton, index) => {
+        const accion = boton.getAttribute('data-accion');
+        console.log(`Botón ${index + 1}: ${accion}`);
+    });
+    
+    // Manejar clics en las tarjetas de gestión
+    document.addEventListener('click', function(e) {
+        console.log('Click detectado en:', e.target);
+        
+        // Clic en acciones rápidas
+        if (e.target.closest('.boton-accion-rapida')) {
+            const boton = e.target.closest('.boton-accion-rapida');
+            const accion = boton.getAttribute('data-accion');
+            console.log('Botón de acción rápida clickeado:', accion);
+            ejecutarAccionRapida(accion);
+        }
+    });
+
+    // Event listener para cerrar modal de restaurantes
+    const btnCerrarModal = document.getElementById('btnCerrarModalRestaurantes');
+    if (btnCerrarModal) {
+        btnCerrarModal.addEventListener('click', function() {
+            console.log('🔒 Cerrando modal de restaurantes');
+            cerrarModalListaRestaurantes();
+        });
+    }
+
+    // Event listener para cerrar modal al hacer clic fuera del contenido
+    const modalListaRestaurantes = document.getElementById('modalListaRestaurantes');
+    if (modalListaRestaurantes) {
+        modalListaRestaurantes.addEventListener('click', function(e) {
+            if (e.target === modalListaRestaurantes) {
+                console.log('🔒 Cerrando modal al hacer clic fuera');
+                cerrarModalListaRestaurantes();
+            }
+        });
+    }
+}
 
 // Función para cargar estadísticas reales del backend
 async function cargarEstadisticasDelBackend() {
@@ -77,15 +129,6 @@ async function cargarEstadisticasDelBackend() {
     }
 }
 
-// Manejar clics en las tarjetas de gestión
-document.addEventListener('click', function(e) {
-    // Clic en acciones rápidas
-    if (e.target.closest('.boton-accion-rapida')) {
-        const accion = e.target.closest('.boton-accion-rapida').getAttribute('data-accion');
-        ejecutarAccionRapida(accion);
-    }
-});
-
 // Función para navegar a módulos de gestión
 function navegarAModulo(modulo) {
     console.log(`Navegando a gestión de ${modulo}`);
@@ -114,30 +157,6 @@ function mostrarModalAgregarRestaurante() {
 function cerrarModalAgregarRestaurante() {
     document.getElementById('modalAgregarRestaurante').style.display = 'none';
     document.getElementById('formAgregarRestaurante').reset();
-}
-
-function mostrarModalListaRestaurantes() {
-    document.getElementById('modalListaRestaurantes').style.display = 'block';
-    
-    // Mostrar indicador de carga
-    const listaContainer = document.getElementById('listaRestaurantesSimple');
-    listaContainer.innerHTML = `
-        <div style="text-align: center; padding: 40px;">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-                <div style="width: 20px; height: 20px; border: 2px solid #ad9863; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-                Cargando restaurantes...
-            </div>
-        </div>
-    `;
-    
-    // Simular carga con delay
-    setTimeout(() => {
-        cargarListaRestaurantes();
-    }, 800);
-}
-
-function cerrarModalListaRestaurantes() {
-    document.getElementById('modalListaRestaurantes').style.display = 'none';
 }
 
 function guardarRestaurante() {
@@ -304,7 +323,7 @@ function ejecutarAccionRapida(accion) {
             alert('Abriendo formulario para agregar nuevo restaurante...');
             break;
         case 'ver-restaurantes':
-            alert('Mostrando lista de restaurantes...');
+            mostrarListaRestaurantes();
             break;
         case 'agregar-plato':
             alert('Abriendo formulario para agregar nuevo plato...');
@@ -337,22 +356,88 @@ function cerrarSesion() {
     }
 }
 
-// Animaciones de entrada
+// Funciones para el modal de lista de restaurantes
+async function mostrarListaRestaurantes() {
+    console.log('🍽️ Función mostrarListaRestaurantes llamada');
+    
+    const modal = document.getElementById('modalListaRestaurantes');
+    const lista = document.getElementById('listaRestaurantes');
+    
+    console.log('Modal element:', modal);
+    console.log('Lista element:', lista);
+    
+    if (!modal) {
+        console.error('❌ Modal no encontrado');
+        return;
+    }
+    
+    // Mostrar el modal
+    modal.style.display = 'flex';
+    console.log('✅ Modal mostrado');
+    
+    // Mostrar loading
+    lista.innerHTML = '<div class="loading">Cargando restaurantes...</div>';
+    console.log('⏳ Loading mostrado');
+    
+    try {
+        // Obtener restaurantes del backend
+        const restaurantes = await RestaurantesAPI.getAll();
+        
+        // Limpiar la lista
+        lista.innerHTML = '';
+        
+        if (restaurantes && restaurantes.length > 0) {
+            // Crear lista de nombres
+            restaurantes.forEach(restaurante => {
+                const item = document.createElement('div');
+                item.className = 'item-restaurante-simple';
+                item.textContent = restaurante.nombre;
+                lista.appendChild(item);
+            });
+        } else {
+            lista.innerHTML = '<div class="empty-message">No hay restaurantes registrados</div>';
+        }
+        
+    } catch (error) {
+        console.error('Error al cargar restaurantes:', error);
+        lista.innerHTML = '<div class="error-message">Error al cargar los restaurantes</div>';
+    }
+}
+
+function cerrarModalListaRestaurantes() {
+    console.log('🔒 Cerrando modal de lista de restaurantes');
+    const modal = document.getElementById('modalListaRestaurantes');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Hacer función disponible globalmente para debugging
+window.cerrarModalListaRestaurantes = cerrarModalListaRestaurantes;
+
+
+
+// Animaciones de entrada (opcional - mejora la experiencia si funciona)
 window.addEventListener('load', function() {
     const tarjetas = document.querySelectorAll('.tarjeta-gestion');
     const estadisticas = document.querySelectorAll('.estadistica-item');
     
+    // Solo aplicar animaciones si los elementos están ocultos
     estadisticas.forEach((stat, index) => {
-        setTimeout(() => {
-            stat.style.opacity = '1';
-            stat.style.transform = 'translateY(0) scale(1)';
-        }, index * 200);
+        if (window.getComputedStyle(stat).opacity === '0') {
+            setTimeout(() => {
+                stat.style.opacity = '1';
+                stat.style.transform = 'translateY(0) scale(1)';
+            }, index * 200);
+        }
     });
     
     tarjetas.forEach((tarjeta, index) => {
-        setTimeout(() => {
-            tarjeta.style.opacity = '1';
-            tarjeta.style.transform = 'translateY(0)';
-        }, (index * 300) + 500);
+        if (window.getComputedStyle(tarjeta).opacity === '0') {
+            setTimeout(() => {
+                tarjeta.style.opacity = '1';
+                tarjeta.style.transform = 'translateY(0)';
+            }, (index * 300) + 500);
+        }
     });
 });

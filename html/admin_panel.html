@@ -90,7 +90,7 @@
                                 </button>
                                 <button class="boton-accion-rapida" data-accion="ver-platos">
                                     <span class="icono-accion">📋</span>
-                                    <span class="texto-accion">Ver Menús</span>
+                                    <span class="texto-accion">Ver Lista</span>
                                 </button>
                             </div>
                         </div>
@@ -144,94 +144,22 @@
         </div>
     </main>
 
-    <script type="module" src="../js/admin_panel.js" defer></script>
-
-    <!-- Modal Agregar Restaurante -->
-    <div id="modalAgregarRestaurante" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Agregar Nuevo Restaurante</h2>
-                <button class="boton-cerrar-modal" id="cerrarModalAgregar">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="formAgregarRestaurante" class="form-restaurante">
-                    <div class="form-row">
-                        <div class="campo-form">
-                            <label for="nombreRestaurante">Nombre del Restaurante *</label>
-                            <input type="text" id="nombreRestaurante" name="nombre" required placeholder="Ej: Pasta Italia">
-                        </div>
-                        <div class="campo-form">
-                            <label for="categoriaRestaurante">Categoría *</label>
-                            <select id="categoriaRestaurante" name="categoria" required>
-                                <option value="">Seleccionar categoría</option>
-                                <option value="italiana">Italiana</option>
-                                <option value="mexicana">Mexicana</option>
-                                <option value="americana">Americana</option>
-                                <option value="asiatica">Asiática</option>
-                                <option value="postres">Postres</option>
-                                <option value="vegetariana">Vegetariana</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="campo-form">
-                        <label for="descripcionRestaurante">Descripción *</label>
-                        <textarea id="descripcionRestaurante" name="descripcion" rows="3" required placeholder="Descripción del restaurante y su especialidad..."></textarea>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="campo-form">
-                            <label for="direccionRestaurante">Dirección *</label>
-                            <input type="text" id="direccionRestaurante" name="direccion" required placeholder="Calle, número, ciudad">
-                        </div>
-                        <div class="campo-form">
-                            <label for="telefonoRestaurante">Teléfono *</label>
-                            <input type="tel" id="telefonoRestaurante" name="telefono" required placeholder="+1 (555) 123-4567">
-                        </div>
-                    </div>
-                    
-                    <div class="campo-form">
-                        <label for="horariosRestaurante">Horarios *</label>
-                        <input type="text" id="horariosRestaurante" name="horarios" required placeholder="Ej: Lunes a Domingo: 12:00 PM - 11:00 PM">
-                    </div>
-                    
-                    <div class="campo-form">
-                        <label for="imagenRestaurante">URL de Imagen</label>
-                        <input type="url" id="imagenRestaurante" name="imagen" placeholder="https://ejemplo.com/imagen.jpg">
-                    </div>
-                    
-                    <div class="campo-form">
-                        <label for="especialidadesRestaurante">Especialidades (separadas por comas)</label>
-                        <input type="text" id="especialidadesRestaurante" name="especialidades" placeholder="Pizza Margherita, Pasta Carbonara, Tiramisu">
-                    </div>
-                    
-                    <div class="acciones-form">
-                        <button type="button" class="boton-cancelar" id="cancelarAgregar" onclick="cerrarModalAgregarRestaurante()">Cancelar</button>
-                        <button type="button" class="boton-guardar" id="btnGuardarRestaurante">Guardar Restaurante</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Ver Lista de Restaurantes -->
-    <div id="modalListaRestaurantes" class="modal-overlay">
+    <!-- Modal Lista de Restaurantes -->
+    <div id="modalListaRestaurantes" class="modal-overlay" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Lista de Restaurantes</h2>
-                <button class="boton-cerrar-modal" id="cerrarModalLista">&times;</button>
+                <button class="boton-cerrar-modal" id="btnCerrarModalRestaurantes">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="busqueda-simple">
-                    <input type="text" id="buscarRestaurante" placeholder="Buscar restaurante..." class="input-busqueda-simple">
-                </div>
-                
-                <div id="listaRestaurantesSimple" class="lista-restaurantes-simple">
-                    <!-- Los restaurantes se cargarán dinámicamente -->
+                <div id="listaRestaurantes" class="lista-simple">
+                    <!-- Los restaurantes se cargarán aquí -->
                 </div>
             </div>
         </div>
     </div>
+
+    <script type="module" src="../js/admin_panel.js" defer></script>
 
 </body>
 </html>
