@@ -7,10 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function toggleCampoAdmin() {
         if (selectRol.value === 'administrador') {
-            campoContrasenaAdmin.style.display = 'block';
+            // Mostrar campo con animación suave
+            campoContrasenaAdmin.classList.add('mostrar');
             inputContrasenaAdmin.setAttribute('required', 'required');
         } else {
-            campoContrasenaAdmin.style.display = 'none';
+            // Ocultar campo con animación suave
+            campoContrasenaAdmin.classList.remove('mostrar');
             inputContrasenaAdmin.removeAttribute('required');
             inputContrasenaAdmin.value = '';
         }
