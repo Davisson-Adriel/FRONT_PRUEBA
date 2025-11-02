@@ -11,7 +11,6 @@ let platosOriginales = []; // Para mantener la lista completa de platos
 // Función para cargar categorías de platos dinámicamente
 async function cargarCategoriasPlatos() {
     try {
-        console.log('🍕 Cargando categorías de platos...');
         const categorias = await CategoriasPlatosAPI.obtenerTodas();
         const selectPlatos = document.getElementById('filtroPlatos');
         
@@ -31,7 +30,6 @@ async function cargarCategoriasPlatos() {
             selectPlatos.appendChild(option);
         });
         
-        console.log(`✅ ${categorias.length} categorías de platos cargadas`);
     } catch (error) {
         console.error('❌ Error cargando categorías de platos:', error);
     }
@@ -64,7 +62,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         configurarEventos();
         
     } catch (error) {
-        console.error('❌ Error al cargar los detalles del restaurante:', error);
         alert(`Error al cargar el restaurante: ${error.message}`);
         window.location.href = 'principal_usar.html';
     }
@@ -94,7 +91,6 @@ function configurarEventos() {
     if (filtroPlatos) {
         filtroPlatos.addEventListener('change', function() {
             const categoriaSeleccionada = this.value;
-            console.log('🔍 Filtrando platos por categoría:', categoriaSeleccionada);
             filtrarPlatosPorCategoria(categoriaSeleccionada);
         });
     }
@@ -354,7 +350,6 @@ async function enviarResena(e) {
         }
     } catch (error) {
         alert('Error al enviar la reseña.');
-        console.error(error);
     } finally {
         botonEnviar.disabled = false;
         botonEnviar.innerHTML = textoOriginalBoton;
@@ -364,11 +359,8 @@ async function enviarResena(e) {
 // Funciones para manejar rankings
 async function cargarRankingRestaurante(restauranteId) {
     try {
-        console.log('⭐ Cargando ranking del restaurante...');
         rankingRestaurante = await RankingRestaurantesAPI.obtenerPromedio(restauranteId);
-        console.log(`✅ Ranking del restaurante cargado: ${rankingRestaurante}`);
     } catch (error) {
-        console.warn('❌ Error cargando ranking del restaurante:', error);
         rankingRestaurante = 0;
     }
 }
@@ -376,7 +368,6 @@ async function cargarRankingRestaurante(restauranteId) {
 // Función para actualizar ranking del restaurante en la interfaz
 async function actualizarRankingRestauranteEnInterfaz() {
     try {
-        console.log('🔄 Actualizando ranking del restaurante en la interfaz...');
         
         // Recargar ranking desde el backend
         await cargarRankingRestaurante(restauranteActual.id);
@@ -392,8 +383,6 @@ async function actualizarRankingRestauranteEnInterfaz() {
         if (detalleRanking) {
             detalleRanking.innerHTML = `<strong>⭐ Calificación:</strong> ${formatearRanking(rankingRestaurante)}`;
         }
-        
-        console.log('✅ Ranking del restaurante actualizado en la interfaz');
     } catch (error) {
         console.error('❌ Error actualizando ranking del restaurante:', error);
     }
@@ -402,7 +391,6 @@ async function actualizarRankingRestauranteEnInterfaz() {
 // Función para actualizar ranking de un plato específico en la interfaz
 async function actualizarRankingPlatoEnInterfaz(platoId) {
     try {
-        console.log(`🔄 Actualizando ranking del plato ${platoId} en la interfaz...`);
         
         // Recargar ranking del plato específico
         const nuevoRanking = await RankingPlatosAPI.obtenerPromedio(platoId);
@@ -417,7 +405,6 @@ async function actualizarRankingPlatoEnInterfaz(platoId) {
             }
         }
         
-        console.log(`✅ Ranking del plato ${platoId} actualizado: ${nuevoRanking}`);
     } catch (error) {
         console.error(`❌ Error actualizando ranking del plato ${platoId}:`, error);
     }
@@ -425,7 +412,6 @@ async function actualizarRankingPlatoEnInterfaz(platoId) {
 
 async function cargarRankingsPlatos(platos) {
     try {
-        console.log('⭐ Cargando rankings de platos...');
         const promesasRankings = platos.map(async (plato) => {
             try {
                 const promedio = await RankingPlatosAPI.obtenerPromedio(plato.id);
@@ -443,8 +429,6 @@ async function cargarRankingsPlatos(platos) {
         rankings.forEach(ranking => {
             rankingsPlatos[ranking.id] = ranking.promedio;
         });
-        
-        console.log(`✅ ${rankings.length} rankings de platos cargados:`, rankingsPlatos);
     } catch (error) {
         console.error('❌ Error general cargando rankings de platos:', error);
         rankingsPlatos = {};

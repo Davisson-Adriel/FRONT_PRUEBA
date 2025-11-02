@@ -17,12 +17,10 @@ let filtroActivoPlatos = 'todos';
  * Inicializa el sistema de platos
  */
 async function inicializarPlatos() {
-    console.log('🍕 Inicializando sistema de platos...');
     
     try {
         await cargarPlatos();
         configurarEventosPlatos();
-        console.log('✅ Sistema de platos inicializado');
     } catch (error) {
         console.error('❌ Error al inicializar platos:', error);
         mostrarErrorPlatos('Error al cargar platos', error.message);
@@ -53,10 +51,6 @@ async function cargarPlatos() {
         platosData = platos;
         restaurantesData = restaurantes;
         categoriasPlatosData = categorias;
-        
-        console.log(`📊 ${platosData.length} platos cargados`);
-        console.log(`🍽️ ${restaurantesData.length} restaurantes cargados`);
-        console.log(`🏷️ ${categoriasPlatosData.length} categorías de platos cargadas`);
 
         // Cargar rankings después de tener los datos de platos
         await cargarRankingsPlatos();
@@ -107,7 +101,6 @@ function obtenerNombreCategoriaPlato(categoriaId) {
  * Carga los rankings de todos los platos
  */
 async function cargarRankingsPlatos() {
-    console.log('⭐ Cargando rankings de platos...');
     
     const promesasRankings = platosData.map(async (plato) => {
         try {
@@ -127,7 +120,6 @@ async function cargarRankingsPlatos() {
         rankingsPlatosData[ranking.id] = ranking.promedio;
     });
     
-    console.log(`✅ ${rankings.length} rankings de platos cargados:`, rankingsPlatosData);
 }
 
 /**
@@ -227,18 +219,12 @@ function aplicarFiltrosPlatos() {
  * Ver detalles de un plato - Redirige a los detalles del restaurante al que pertenece
  */
 function verDetallePlato(id) {
-    console.log('🍕 === DEBUG VER DETALLE PLATO ===');
-    console.log('ID del plato recibido:', id);
-    console.log('Tipo de ID:', typeof id);
     
     const plato = platosData.find(p => p.id == id);
     if (!plato) {
         console.error('❌ Plato no encontrado:', id);
         return;
     }
-
-    console.log('🔍 Plato encontrado:', plato);
-    console.log('🍽️ ID del restaurante:', plato.id_restaurante);
     
     // Verificar que el plato tenga un restaurante asociado
     if (!plato.id_restaurante) {

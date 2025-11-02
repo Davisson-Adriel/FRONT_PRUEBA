@@ -8,14 +8,11 @@ const API_CONFIG = {
 
 export async function fetchAPI(url, options = {}) {
     try {
-        console.log('🔄 Petición API:', url);
         const response = await fetch(url, {
             credentials: 'include', 
             headers: API_CONFIG.HEADERS,
             ...options
         });
-
-        console.log('📡 Respuesta:', response.status, response.statusText);
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
@@ -24,7 +21,6 @@ export async function fetchAPI(url, options = {}) {
         }
 
         const data = await response.json();
-        console.log('📦 Datos recibidos:', data);
         
         if (data && typeof data === 'object' && Array.isArray(data.value)) {
             return data.value;
@@ -37,10 +33,8 @@ export async function fetchAPI(url, options = {}) {
         return data;
     } catch (error) {
         if (error.name === 'TypeError' && error.message.includes('fetch')) {
-            console.error('❌ Error de conectividad - Backend no disponible');
             throw new Error('No se puede conectar al servidor. Verifica que el backend esté ejecutándose en http://localhost:5000');
         }
-        console.error('❌ Error en petición API:', error);
         throw error;
     }
 }
@@ -301,7 +295,6 @@ export const RankingRestaurantesAPI = {
             const promedio = await fetchAPI(`${API_CONFIG.BASE_URL}/ranking/restaurantes/${restauranteId}`);
             return parseFloat(promedio) || 0;
         } catch (error) {
-            console.warn(`❌ Error obteniendo ranking del restaurante ${restauranteId}:`, error);
             return 0;
         }
     }
@@ -314,7 +307,6 @@ export const RankingPlatosAPI = {
             const promedio = await fetchAPI(`${API_CONFIG.BASE_URL}/ranking/platos/${platoId}`);
             return parseFloat(promedio) || 0;
         } catch (error) {
-            console.warn(`❌ Error obteniendo ranking del plato ${platoId}:`, error);
             return 0;
         }
     }

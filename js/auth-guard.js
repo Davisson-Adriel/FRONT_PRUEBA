@@ -1,4 +1,4 @@
-/* Este script debe ser el primero en cargarse en las páginas protegidas */
+
 (function() {
     const tipoUsuario = localStorage.getItem('tipoUsuario');
     const userId = localStorage.getItem('userId');
@@ -25,7 +25,6 @@
     const userPages = ['principal_usar.html', 'detalle_restaurante.html'];
 
     if (tipoUsuario === 'administrador' && userPages.includes(currentPage)) {
-        console.log('Redirigiendo administrador al panel principal...');
         window.location.href = 'admin_panel.html'; 
         return;
     }

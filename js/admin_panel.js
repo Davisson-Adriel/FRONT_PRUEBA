@@ -2,8 +2,6 @@ import { AuthAPI, RestaurantesAPI, PlatosAPI, ResenasRestaurantesAPI, ReseñasPl
 
 // Obtener nombre de administrador y cargar estadísticas
 document.addEventListener('DOMContentLoaded', async function() {
-    console.log('🚀 DOM Content Loaded - Inicializando admin panel');
-    
     const nombreAdmin = localStorage.getItem('nombreUsuario') || 'Administrador';
     document.getElementById('nombreAdmin').textContent = nombreAdmin;
 
@@ -22,31 +20,17 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 // Configurar event listeners
 function setupEventListeners() {
-    console.log('📋 Configurando event listeners');
-    
-    // Verificar que existen los botones
-    const botonesAccion = document.querySelectorAll('.boton-accion-rapida');
-    console.log('Botones de acción encontrados:', botonesAccion.length);
-    
-    botonesAccion.forEach((boton, index) => {
-        const accion = boton.getAttribute('data-accion');
-        console.log(`Botón ${index + 1}: ${accion}`);
-    });
-    
     // Manejar clics en las tarjetas de gestión
     document.addEventListener('click', function(e) {
-        console.log('Click detectado en:', e.target);
         
         // Clic en acciones rápidas
         if (e.target.closest('.boton-accion-rapida')) {
             const boton = e.target.closest('.boton-accion-rapida');
             const accion = boton.getAttribute('data-accion');
-            console.log('Botón de acción rápida clickeado:', accion);
             
             try {
                 ejecutarAccionRapida(accion);
             } catch (error) {
-                console.error('Error ejecutando acción rápida:', error);
                 alert('Error: ' + error.message);
             }
         }
@@ -55,14 +39,12 @@ function setupEventListeners() {
         if (e.target.closest('.btn-eliminar-restaurante')) {
             const boton = e.target.closest('.btn-eliminar-restaurante');
             const id = boton.getAttribute('data-id');
-            console.log('Eliminar restaurante ID:', id);
             // eliminarRestaurante(id); // Implementar después
         }
 
         if (e.target.closest('.btn-editar-restaurante')) {
             const boton = e.target.closest('.btn-editar-restaurante');
             const id = boton.getAttribute('data-id');
-            console.log('Editar restaurante ID:', id);
             editarRestaurante(id);
         }
 
@@ -70,14 +52,12 @@ function setupEventListeners() {
         if (e.target.closest('.btn-eliminar-plato')) {
             const boton = e.target.closest('.btn-eliminar-plato');
             const id = boton.getAttribute('data-id');
-            console.log('Eliminar plato ID:', id);
             // eliminarPlato(id); // Implementar después
         }
 
         if (e.target.closest('.btn-editar-plato')) {
             const boton = e.target.closest('.btn-editar-plato');
             const id = boton.getAttribute('data-id');
-            console.log('Editar plato ID:', id);
             editarPlato(id);
         }
 
@@ -85,14 +65,12 @@ function setupEventListeners() {
         if (e.target.closest('.btn-eliminar-categoria-restaurante')) {
             const boton = e.target.closest('.btn-eliminar-categoria-restaurante');
             const id = boton.getAttribute('data-id');
-            console.log('Eliminar categoría de restaurante ID:', id);
             // eliminarCategoriaRestaurante(id); // Implementar después
         }
 
         if (e.target.closest('.btn-editar-categoria-restaurante')) {
             const boton = e.target.closest('.btn-editar-categoria-restaurante');
             const id = boton.getAttribute('data-id');
-            console.log('Editar categoría de restaurante ID:', id);
             editarCategoriaRestaurante(id);
         }
 
@@ -100,14 +78,12 @@ function setupEventListeners() {
         if (e.target.closest('.btn-eliminar-categoria-plato')) {
             const boton = e.target.closest('.btn-eliminar-categoria-plato');
             const id = boton.getAttribute('data-id');
-            console.log('Eliminar categoría de plato ID:', id);
             // eliminarCategoriaPlato(id); // Implementar después
         }
 
         if (e.target.closest('.btn-editar-categoria-plato')) {
             const boton = e.target.closest('.btn-editar-categoria-plato');
             const id = boton.getAttribute('data-id');
-            console.log('Editar categoría de plato ID:', id);
             editarCategoriaPlato(id);
         }
     });
@@ -116,7 +92,6 @@ function setupEventListeners() {
     const btnCerrarModal = document.getElementById('btnCerrarModalRestaurantes');
     if (btnCerrarModal) {
         btnCerrarModal.addEventListener('click', function() {
-            console.log('🔒 Cerrando modal de restaurantes');
             cerrarModalListaRestaurantes();
         });
     }
@@ -126,7 +101,6 @@ function setupEventListeners() {
     if (modalListaRestaurantes) {
         modalListaRestaurantes.addEventListener('click', function(e) {
             if (e.target === modalListaRestaurantes) {
-                console.log('🔒 Cerrando modal al hacer clic fuera');
                 cerrarModalListaRestaurantes();
             }
         });
@@ -136,7 +110,6 @@ function setupEventListeners() {
     const btnCerrarModalPlatos = document.getElementById('btnCerrarModalPlatos');
     if (btnCerrarModalPlatos) {
         btnCerrarModalPlatos.addEventListener('click', function() {
-            console.log('🔒 Cerrando modal de platos');
             cerrarModalListaPlatos();
         });
     }
@@ -154,7 +127,6 @@ function setupEventListeners() {
     const btnCerrarModalCategoriasRestaurantes = document.getElementById('btnCerrarModalCategoriasRestaurantes');
     if (btnCerrarModalCategoriasRestaurantes) {
         btnCerrarModalCategoriasRestaurantes.addEventListener('click', function() {
-            console.log('🔒 Cerrando modal de categorías de restaurantes');
             cerrarModalListaCategoriasRestaurantes();
         });
     }
@@ -172,7 +144,6 @@ function setupEventListeners() {
     const btnCerrarModalCategoriasPlatoss = document.getElementById('btnCerrarModalCategoriasPlatoss');
     if (btnCerrarModalCategoriasPlatoss) {
         btnCerrarModalCategoriasPlatoss.addEventListener('click', function() {
-            console.log('🔒 Cerrando modal de categorías de platos');
             cerrarModalListaCategoriasPlatoss();
         });
     }
@@ -190,8 +161,6 @@ function setupEventListeners() {
 // Función para cargar estadísticas reales del backend
 async function cargarEstadisticasDelBackend() {
     try {
-        console.log('📊 Cargando estadísticas del backend...');
-        
         // Mostrar indicadores de carga
         document.getElementById('totalRestaurantes').innerHTML = '<span class="loading-dot">•••</span>';
         document.getElementById('totalPlatos').innerHTML = '<span class="loading-dot">•••</span>';
@@ -200,19 +169,15 @@ async function cargarEstadisticasDelBackend() {
         // Obtener datos en paralelo para mejor rendimiento
         const [restaurantes, platos, resenasRestaurantes, resenasPlatos] = await Promise.all([
             RestaurantesAPI.getAll().catch(err => {
-                console.warn('Error cargando restaurantes:', err);
                 return [];
             }),
             PlatosAPI.getAll().catch(err => {
-                console.warn('Error cargando platos:', err);
                 return [];
             }),
             ResenasRestaurantesAPI.obtenerTodas().catch(err => {
-                console.warn('Error cargando reseñas de restaurantes:', err);
                 return [];
             }),
             ReseñasPlatosAPI.obtenerTodas().catch(err => {
-                console.warn('Error cargando reseñas de platos:', err);
                 return [];
             })
         ]);
@@ -221,12 +186,6 @@ async function cargarEstadisticasDelBackend() {
         const totalRestaurantes = restaurantes.length;
         const totalPlatos = platos.length;
         const totalResenas = resenasRestaurantes.length + resenasPlatos.length;
-
-        console.log('✅ Estadísticas cargadas:', {
-            restaurantes: totalRestaurantes,
-            platos: totalPlatos,
-            resenas: totalResenas
-        });
 
         // Mostrar los números directamente sin animación
         document.getElementById('totalRestaurantes').textContent = totalRestaurantes;
@@ -237,8 +196,6 @@ async function cargarEstadisticasDelBackend() {
         localStorage.setItem('ultimaActualizacionEstadisticas', new Date().toISOString());
 
     } catch (error) {
-        console.error('❌ Error cargando estadísticas:', error);
-        
         // Mostrar valores por defecto en caso de error
         document.getElementById('totalRestaurantes').textContent = '--';
         document.getElementById('totalPlatos').textContent = '--';
@@ -251,8 +208,6 @@ async function cargarEstadisticasDelBackend() {
 
 // Función para navegar a módulos de gestión
 function navegarAModulo(modulo) {
-    console.log(`Navegando a gestión de ${modulo}`);
-    
     switch(modulo) {
         case 'restaurantes':
             window.location.href = 'gestionar_restaurantes.html';
@@ -270,8 +225,6 @@ function navegarAModulo(modulo) {
 }
 
 function ejecutarAccionRapida(accion) {
-    console.log(`Ejecutando acción: ${accion}`);
-    
     switch(accion) {
         case 'agregar-restaurante':
             mostrarModalAgregarRestaurante();
@@ -302,7 +255,7 @@ function ejecutarAccionRapida(accion) {
 
 function cerrarSesion() {
     if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-        AuthAPI.logout().catch(err => console.error("Error en logout del backend:", err))
+        AuthAPI.logout().catch(err => {})
         .finally(() => {
             localStorage.clear();
             window.location.href = '../index.html';
@@ -312,26 +265,18 @@ function cerrarSesion() {
 
 // Funciones para el modal de lista de restaurantes
 async function mostrarListaRestaurantes() {
-    console.log('🍽️ Función mostrarListaRestaurantes llamada');
-    
     const modal = document.getElementById('modalListaRestaurantes');
     const lista = document.getElementById('listaRestaurantes');
     
-    console.log('Modal element:', modal);
-    console.log('Lista element:', lista);
-    
     if (!modal) {
-        console.error('❌ Modal no encontrado');
         return;
     }
     
     // Mostrar el modal
     modal.style.display = 'flex';
-    console.log('✅ Modal mostrado');
     
     // Mostrar loading
     lista.innerHTML = '<div class="loading">Cargando restaurantes...</div>';
-    console.log('⏳ Loading mostrado');
     
     try {
         // Obtener restaurantes del backend
@@ -384,31 +329,23 @@ async function mostrarListaRestaurantes() {
         }
         
     } catch (error) {
-        console.error('Error al cargar restaurantes:', error);
         lista.innerHTML = '<div class="error-message">Error al cargar los restaurantes</div>';
     }
 }
 
 function cerrarModalListaRestaurantes() {
-    console.log('🔒 Cerrando modal de lista de restaurantes');
     const modal = document.getElementById('modalListaRestaurantes');
     if (modal) {
         modal.style.display = 'none';
     }
 }
 
-// Hacer función disponible globalmente para debugging
-window.cerrarModalListaRestaurantes = cerrarModalListaRestaurantes;
-
 // ===== FUNCIONES PARA GESTIÓN DE PLATOS =====
 async function mostrarListaPlatos() {
-    console.log('🍽️ Función mostrarListaPlatos llamada');
-    
     const modal = document.getElementById('modalListaPlatos');
     const lista = document.getElementById('listaPlatos');
     
     if (!modal) {
-        console.error('❌ Modal de platos no encontrado');
         return;
     }
     
@@ -469,7 +406,6 @@ async function mostrarListaPlatos() {
         }
         
     } catch (error) {
-        console.error('Error al cargar platos:', error);
         lista.innerHTML = '<div class="error-message">Error al cargar los platos</div>';
     }
 }
@@ -483,13 +419,10 @@ function cerrarModalListaPlatos() {
 
 // ===== FUNCIONES PARA GESTIÓN DE CATEGORÍAS DE RESTAURANTES =====
 async function mostrarListaCategoriasRestaurantes() {
-    console.log('🏷️ Función mostrarListaCategoriasRestaurantes llamada');
-    
     const modal = document.getElementById('modalListaCategoriasRestaurantes');
     const lista = document.getElementById('listaCategoriasRestaurantes');
     
     if (!modal) {
-        console.error('❌ Modal de categorías de restaurantes no encontrado');
         return;
     }
     
@@ -502,7 +435,6 @@ async function mostrarListaCategoriasRestaurantes() {
     try {
         // Obtener categorías del backend
         const categorias = await CategoriasRestaurantesAPI.obtenerTodas();
-        console.log('Categorías de restaurantes cargadas:', categorias);
         
         // Limpiar la lista
         lista.innerHTML = '';
@@ -551,8 +483,6 @@ async function mostrarListaCategoriasRestaurantes() {
         }
         
     } catch (error) {
-        console.error('Error al cargar categorías de restaurantes:', error);
-        console.error('Error detallado:', error.message);
         lista.innerHTML = `<div class="error-message">Error al cargar las categorías de restaurantes<br><small>${error.message}</small></div>`;
     }
 }
@@ -566,13 +496,10 @@ function cerrarModalListaCategoriasRestaurantes() {
 
 // ===== FUNCIONES PARA GESTIÓN DE CATEGORÍAS DE PLATOS =====
 async function mostrarListaCategoriasPlatoss() {
-    console.log('🏷️ Función mostrarListaCategoriasPlatoss llamada');
-    
     const modal = document.getElementById('modalListaCategoriasPlatoss');
     const lista = document.getElementById('listaCategoriasPlatoss');
     
     if (!modal) {
-        console.error('❌ Modal de categorías de platos no encontrado');
         return;
     }
     
@@ -585,7 +512,6 @@ async function mostrarListaCategoriasPlatoss() {
     try {
         // Obtener categorías del backend
         const categorias = await CategoriasPlatosAPI.obtenerTodas();
-        console.log('Categorías de platos cargadas:', categorias);
         
         // Limpiar la lista
         lista.innerHTML = '';
@@ -634,8 +560,6 @@ async function mostrarListaCategoriasPlatoss() {
         }
         
     } catch (error) {
-        console.error('Error al cargar categorías de platos:', error);
-        console.error('Error detallado:', error.message);
         lista.innerHTML = `<div class="error-message">Error al cargar las categorías de platos<br><small>${error.message}</small></div>`;
     }
 }
@@ -652,11 +576,8 @@ function cerrarModalListaCategoriasPlatoss() {
 // Función para editar restaurante
 async function editarRestaurante(id) {
     try {
-        console.log('📝 Editando restaurante ID:', id);
-        
         // Obtener datos del restaurante usando el endpoint individual
         const restaurante = await RestaurantesAPI.getById(id);
-        console.log('📋 Datos del restaurante:', restaurante);
         
         // Obtener categorías para el select
         const categorias = await CategoriasRestaurantesAPI.obtenerTodas();
@@ -687,7 +608,6 @@ async function editarRestaurante(id) {
         setupEditarRestauranteListeners();
         
     } catch (error) {
-        console.error('Error al cargar datos del restaurante:', error);
         alert('Error al cargar los datos del restaurante: ' + error.message);
     }
 }
@@ -695,11 +615,8 @@ async function editarRestaurante(id) {
 // Función para editar plato
 async function editarPlato(id) {
     try {
-        console.log('📝 Editando plato ID:', id);
-        
         // Obtener datos del plato (usa fallback si el endpoint individual falla)
         const plato = await PlatosAPI.getById(id);
-        console.log('📋 Datos del plato:', plato);
         
         if (!plato) {
             alert('Plato no encontrado');
@@ -749,7 +666,6 @@ async function editarPlato(id) {
         setupEditarPlatoListeners();
         
     } catch (error) {
-        console.error('Error al cargar datos del plato:', error);
         alert('Error al cargar los datos del plato: ' + error.message);
     }
 }
@@ -757,11 +673,8 @@ async function editarPlato(id) {
 // Función para editar categoría de restaurante
 async function editarCategoriaRestaurante(id) {
     try {
-        console.log('📝 Editando categoría de restaurante ID:', id);
-        
         // Obtener datos de la categoría usando el endpoint individual
         const categoria = await CategoriasRestaurantesAPI.obtenerPorId(id);
-        console.log('📋 Datos de la categoría:', categoria);
         
         // Mostrar modal
         const modal = document.getElementById('modalEditarCategoriaRestaurante');
@@ -775,7 +688,6 @@ async function editarCategoriaRestaurante(id) {
         setupEditarCategoriaRestauranteListeners();
         
     } catch (error) {
-        console.error('Error al cargar datos de la categoría de restaurante:', error);
         alert('Error al cargar los datos de la categoría: ' + error.message);
     }
 }
@@ -783,11 +695,8 @@ async function editarCategoriaRestaurante(id) {
 // Función para editar categoría de plato
 async function editarCategoriaPlato(id) {
     try {
-        console.log('📝 Editando categoría de plato ID:', id);
-        
         // Obtener datos de la categoría usando el endpoint individual
         const categoria = await CategoriasPlatosAPI.obtenerPorId(id);
-        console.log('📋 Datos de la categoría:', categoria);
         
         // Mostrar modal
         const modal = document.getElementById('modalEditarCategoriaPlato');
@@ -801,7 +710,6 @@ async function editarCategoriaPlato(id) {
         setupEditarCategoriaPlatoListeners();
         
     } catch (error) {
-        console.error('Error al cargar datos de la categoría de plato:', error);
         alert('Error al cargar los datos de la categoría: ' + error.message);
     }
 }
@@ -894,7 +802,6 @@ async function guardarRestauranteEditado() {
         };
         
         const id = document.getElementById('editRestauranteId').value;
-        console.log('💾 Guardando restaurante:', restauranteData);
         
         await RestaurantesAPI.update(id, restauranteData);
         
@@ -910,7 +817,6 @@ async function guardarRestauranteEditado() {
         await cargarEstadisticasDelBackend();
         
     } catch (error) {
-        console.error('Error al actualizar restaurante:', error);
         alert('Error al actualizar el restaurante: ' + error.message);
     }
 }
@@ -930,7 +836,6 @@ async function guardarPlatoEditado() {
         };
         
         const id = document.getElementById('editPlatoId').value;
-        console.log('💾 Guardando plato:', platoData);
         
         await PlatosAPI.update(id, platoData);
         
@@ -946,7 +851,6 @@ async function guardarPlatoEditado() {
         await cargarEstadisticasDelBackend();
         
     } catch (error) {
-        console.error('Error al actualizar plato:', error);
         alert('Error al actualizar el plato: ' + error.message);
     }
 }
@@ -961,7 +865,6 @@ async function guardarCategoriaRestauranteEditada() {
         };
         
         const id = document.getElementById('editCategoriaRestauranteId').value;
-        console.log('💾 Guardando categoría de restaurante:', categoriaData);
         
         // Necesitamos agregar el método update a la API de categorías
         const response = await fetch(`http://localhost:5000/categorias_restaurantes/${id}`, {
@@ -989,7 +892,6 @@ async function guardarCategoriaRestauranteEditada() {
         await cargarEstadisticasDelBackend();
         
     } catch (error) {
-        console.error('Error al actualizar categoría de restaurante:', error);
         alert('Error al actualizar la categoría: ' + error.message);
     }
 }
@@ -1004,7 +906,6 @@ async function guardarCategoriaPlatoEditada() {
         };
         
         const id = document.getElementById('editCategoriaPlatoId').value;
-        console.log('💾 Guardando categoría de plato:', categoriaData);
         
         // Necesitamos agregar el método update a la API de categorías
         const response = await fetch(`http://localhost:5000/categorias_platos/${id}`, {
@@ -1032,7 +933,6 @@ async function guardarCategoriaPlatoEditada() {
         await cargarEstadisticasDelBackend();
         
     } catch (error) {
-        console.error('Error al actualizar categoría de plato:', error);
         alert('Error al actualizar la categoría: ' + error.message);
     }
 }
@@ -1041,8 +941,6 @@ async function guardarCategoriaPlatoEditada() {
 
 // Función para mostrar modal de agregar restaurante
 async function mostrarModalAgregarRestaurante() {
-    console.log('📝 Abriendo modal para agregar restaurante');
-    
     try {
         // Obtener categorías para el select
         const categorias = await CategoriasRestaurantesAPI.obtenerTodas();
@@ -1068,15 +966,12 @@ async function mostrarModalAgregarRestaurante() {
         setupFormularioAgregarRestaurante();
         
     } catch (error) {
-        console.error('Error al cargar categorías:', error);
         alert('Error al cargar las categorías: ' + error.message);
     }
 }
 
 // Función para mostrar modal de agregar plato
 async function mostrarModalAgregarPlato() {
-    console.log('🍽️ Abriendo modal para agregar plato');
-    
     try {
         // Obtener categorías y restaurantes para los selects
         const [categorias, restaurantes] = await Promise.all([
@@ -1115,15 +1010,12 @@ async function mostrarModalAgregarPlato() {
         setupFormularioAgregarPlato();
         
     } catch (error) {
-        console.error('Error al cargar datos para plato:', error);
         alert('Error al cargar los datos: ' + error.message);
     }
 }
 
 // Función para mostrar modal de agregar categoría de restaurante
 function mostrarModalAgregarCategoriaRestaurante() {
-    console.log('🏷️ Abriendo modal para agregar categoría de restaurante');
-    
     // Mostrar modal
     const modal = document.getElementById('modalAgregarCategoriaRestaurante');
     modal.style.display = 'flex';
@@ -1137,8 +1029,6 @@ function mostrarModalAgregarCategoriaRestaurante() {
 
 // Función para mostrar modal de agregar categoría de plato
 function mostrarModalAgregarCategoriaPlato() {
-    console.log('🏷️ Abriendo modal para agregar categoría de plato');
-    
     // Mostrar modal
     const modal = document.getElementById('modalAgregarCategoriaPlato');
     modal.style.display = 'flex';
@@ -1243,11 +1133,8 @@ async function crearRestaurante() {
             descripcion: formData.get('descripcion') || null
         };
         
-        console.log('📝 Creando restaurante:', restauranteData);
-        
         const nuevoRestaurante = await RestaurantesAPI.create(restauranteData);
         
-        console.log('✅ Restaurante creado:', nuevoRestaurante);
         alert('¡Restaurante creado exitosamente!');
         
         // Cerrar modal y actualizar estadísticas
@@ -1255,7 +1142,6 @@ async function crearRestaurante() {
         await cargarEstadisticasDelBackend();
         
     } catch (error) {
-        console.error('❌ Error al crear restaurante:', error);
         alert('Error al crear el restaurante: ' + error.message);
     }
 }
@@ -1274,11 +1160,8 @@ async function crearPlato() {
             descripcion: formData.get('descripcion') || null
         };
         
-        console.log('🍽️ Creando plato:', platoData);
-        
         const nuevoPlato = await PlatosAPI.create(platoData);
         
-        console.log('✅ Plato creado:', nuevoPlato);
         alert('¡Plato creado exitosamente!');
         
         // Cerrar modal y actualizar estadísticas
@@ -1286,7 +1169,6 @@ async function crearPlato() {
         await cargarEstadisticasDelBackend();
         
     } catch (error) {
-        console.error('❌ Error al crear plato:', error);
         alert('Error al crear el plato: ' + error.message);
     }
 }
@@ -1300,18 +1182,14 @@ async function crearCategoriaRestaurante() {
             nombre: formData.get('nombre')
         };
         
-        console.log('🏷️ Creando categoría de restaurante:', categoriaData);
-        
         const nuevaCategoria = await CategoriasRestaurantesAPI.crear(categoriaData);
         
-        console.log('✅ Categoría de restaurante creada:', nuevaCategoria);
         alert('¡Categoría de restaurante creada exitosamente!');
         
         // Cerrar modal
         document.getElementById('modalAgregarCategoriaRestaurante').style.display = 'none';
         
     } catch (error) {
-        console.error('❌ Error al crear categoría de restaurante:', error);
         alert('Error al crear la categoría: ' + error.message);
     }
 }
@@ -1325,33 +1203,15 @@ async function crearCategoriaPlato() {
             nombre: formData.get('nombre')
         };
         
-        console.log('🏷️ Creando categoría de plato:', categoriaData);
-        
         const nuevaCategoria = await CategoriasPlatosAPI.crear(categoriaData);
         
-        console.log('✅ Categoría de plato creada:', nuevaCategoria);
         alert('¡Categoría de plato creada exitosamente!');
         
         // Cerrar modal
         document.getElementById('modalAgregarCategoriaPlato').style.display = 'none';
         
     } catch (error) {
-        console.error('❌ Error al crear categoría de plato:', error);
         alert('Error al crear la categoría: ' + error.message);
     }
 }
 
-// Función de test para debugging
-window.testModales = function() {
-    console.log('🧪 Testing modales...');
-    console.log('Modal agregar restaurante:', document.getElementById('modalAgregarRestaurante'));
-    console.log('Modal agregar plato:', document.getElementById('modalAgregarPlato'));
-    console.log('Modal agregar categoria restaurante:', document.getElementById('modalAgregarCategoriaRestaurante'));
-    console.log('Modal agregar categoria plato:', document.getElementById('modalAgregarCategoriaPlato'));
-    
-    console.log('Funciones disponibles:');
-    console.log('- mostrarModalAgregarRestaurante:', typeof mostrarModalAgregarRestaurante);
-    console.log('- mostrarModalAgregarPlato:', typeof mostrarModalAgregarPlato);
-    console.log('- mostrarModalAgregarCategoriaRestaurante:', typeof mostrarModalAgregarCategoriaRestaurante);
-    console.log('- mostrarModalAgregarCategoriaPlato:', typeof mostrarModalAgregarCategoriaPlato);
-};
