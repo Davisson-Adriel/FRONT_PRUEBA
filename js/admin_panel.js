@@ -39,7 +39,7 @@ function setupEventListeners() {
         if (e.target.closest('.btn-eliminar-restaurante')) {
             const boton = e.target.closest('.btn-eliminar-restaurante');
             const id = boton.getAttribute('data-id');
-            // eliminarRestaurante(id); // Implementar después
+            eliminarRestaurante(id);
         }
 
         if (e.target.closest('.btn-editar-restaurante')) {
@@ -52,7 +52,7 @@ function setupEventListeners() {
         if (e.target.closest('.btn-eliminar-plato')) {
             const boton = e.target.closest('.btn-eliminar-plato');
             const id = boton.getAttribute('data-id');
-            // eliminarPlato(id); // Implementar después
+            eliminarPlato(id);
         }
 
         if (e.target.closest('.btn-editar-plato')) {
@@ -65,7 +65,7 @@ function setupEventListeners() {
         if (e.target.closest('.btn-eliminar-categoria-restaurante')) {
             const boton = e.target.closest('.btn-eliminar-categoria-restaurante');
             const id = boton.getAttribute('data-id');
-            // eliminarCategoriaRestaurante(id); // Implementar después
+            eliminarCategoriaRestaurante(id);
         }
 
         if (e.target.closest('.btn-editar-categoria-restaurante')) {
@@ -78,7 +78,7 @@ function setupEventListeners() {
         if (e.target.closest('.btn-eliminar-categoria-plato')) {
             const boton = e.target.closest('.btn-eliminar-categoria-plato');
             const id = boton.getAttribute('data-id');
-            // eliminarCategoriaPlato(id); // Implementar después
+            eliminarCategoriaPlato(id);
         }
 
         if (e.target.closest('.btn-editar-categoria-plato')) {
@@ -1216,6 +1216,224 @@ async function crearCategoriaPlato() {
         
     } catch (error) {
         alert('Error al crear la categoría: ' + error.message);
+    }
+}
+
+// ========================
+// FUNCIONES DE ELIMINACIÓN
+// ========================
+
+// Constantes para categorías por defecto
+const CATEGORIAS_POR_DEFECTO = {
+    RESTAURANTES: 'General',
+    PLATOS: 'Sin categoría'
+};
+
+// Función para eliminar restaurante (con eliminación en cascada de platos)
+async function eliminarRestaurante(id) {
+    try {
+        // Confirmar eliminación
+        const confirmacion = confirm(
+            '⚠️ ATENCIÓN: Al eliminar este restaurante también se eliminarán todos sus platos asociados.\n\n' +
+            '¿Estás seguro de que deseas continuar?'
+        );
+        
+        if (!confirmacion) return;
+        
+        // Obtener platos del restaurante para mostrar información
+        const platos = await PlatosAPI.getByRestaurante(id);
+        
+        if (platos.length > 0) {
+            const segundaConfirmacion = confirm(
+                `Este restaurante tiene ${platos.length} plato(s) asociado(s) que también serán eliminados:\n\n` +
+                platos.map(p => `• ${p.nombre}`).join('\n') + '\n\n' +
+                '¿Continuar con la eliminación?'
+            );
+            
+            if (!segundaConfirmacion) return;
+            
+            // Eliminar todos los platos asociados primero
+            for (const plato of platos) {
+                await PlatosAPI.delete(plato.id);
+            }
+        }
+        
+        // Eliminar el restaurante
+        await RestaurantesAPI.delete(id);
+        
+        alert('✅ Restaurante y platos asociados eliminados exitosamente');
+        
+        // Recargar la lista de restaurantes
+        mostrarListaRestaurantes();
+        
+    } catch (error) {
+        console.error('Error al eliminar restaurante:', error);
+        alert('❌ Error al eliminar el restaurante: ' + error.message);
+    }
+}
+
+// Función para eliminar plato
+async function eliminarPlato(id) {
+    try {
+        // Confirmar eliminación
+        const confirmacion = confirm(
+            '¿Estás seguro de que deseas eliminar este plato?\n\n' +
+            'Esta acción no se puede deshacer.'
+        );
+        
+        if (!confirmacion) return;
+        
+        // Eliminar el plato
+        await PlatosAPI.delete(id);
+        
+        alert('✅ Plato eliminado exitosamente');
+        
+        // Recargar la lista de platos
+        mostrarListaPlatos();
+        
+    } catch (error) {
+        console.error('Error al eliminar plato:', error);
+        alert('❌ Error al eliminar el plato: ' + error.message);
+    }
+}
+
+// Función para eliminar categoría de restaurante (con reasignación a categoría por defecto)
+async function eliminarCategoriaRestaurante(id) {
+    try {
+        // Obtener información de la categoría a eliminar
+        const categoria = await CategoriasRestaurantesAPI.obtenerPorId(id);
+        
+        // Obtener restaurantes que usan esta categoría
+        const restaurantes = await RestaurantesAPI.getAll();
+        const restaurantesAfectados = restaurantes.filter(r => r.id_categoria_restaurante == id);
+        
+        if (restaurantesAfectados.length > 0) {
+            // Buscar o crear categoría por defecto
+            const categorias = await CategoriasRestaurantesAPI.obtenerTodas();
+            let categoriaDefecto = categorias.find(c => c.nombre === CATEGORIAS_POR_DEFECTO.RESTAURANTES);
+            
+            if (!categoriaDefecto) {
+                // Crear categoría por defecto si no existe
+                categoriaDefecto = await CategoriasRestaurantesAPI.crear({
+                    nombre: CATEGORIAS_POR_DEFECTO.RESTAURANTES
+                });
+            }
+            
+            // Confirmar eliminación con información de reasignación
+            const confirmacion = confirm(
+                `⚠️ Esta categoría está siendo utilizada por ${restaurantesAfectados.length} restaurante(s):\n\n` +
+                restaurantesAfectados.map(r => `• ${r.nombre}`).join('\n') + '\n\n' +
+                `Los restaurantes serán reasignados a la categoría "${CATEGORIAS_POR_DEFECTO.RESTAURANTES}".\n\n` +
+                '¿Continuar con la eliminación?'
+            );
+            
+            if (!confirmacion) return;
+            
+            // Reasignar restaurantes a categoría por defecto
+            for (const restaurante of restaurantesAfectados) {
+                await RestaurantesAPI.update(restaurante.id, {
+                    ...restaurante,
+                    id_categoria_restaurante: categoriaDefecto.id
+                });
+            }
+        } else {
+            // Confirmación simple si no hay restaurantes afectados
+            const confirmacion = confirm(
+                '¿Estás seguro de que deseas eliminar esta categoría?\n\n' +
+                'Esta acción no se puede deshacer.'
+            );
+            
+            if (!confirmacion) return;
+        }
+        
+        // Eliminar la categoría
+        await CategoriasRestaurantesAPI.eliminar(id);
+        
+        const mensaje = restaurantesAfectados.length > 0 
+            ? `✅ Categoría eliminada y ${restaurantesAfectados.length} restaurante(s) reasignado(s) exitosamente`
+            : '✅ Categoría eliminada exitosamente';
+            
+        alert(mensaje);
+        
+        // Recargar las listas
+        mostrarListaCategoriasRestaurantes();
+        if (restaurantesAfectados.length > 0) {
+            mostrarListaRestaurantes();
+        }
+        
+    } catch (error) {
+        console.error('Error al eliminar categoría de restaurante:', error);
+        alert('❌ Error al eliminar la categoría: ' + error.message);
+    }
+}
+
+// Función para eliminar categoría de plato (con reasignación a categoría por defecto)
+async function eliminarCategoriaPlato(id) {
+    try {
+        // Obtener información de la categoría a eliminar
+        const categoria = await CategoriasPlatosAPI.obtenerPorId(id);
+        
+        // Obtener platos que usan esta categoría
+        const platos = await PlatosAPI.getAll();
+        const platosAfectados = platos.filter(p => p.id_categoria_plato == id);
+        
+        if (platosAfectados.length > 0) {
+            // Buscar o crear categoría por defecto
+            const categorias = await CategoriasPlatosAPI.obtenerTodas();
+            let categoriaDefecto = categorias.find(c => c.nombre === CATEGORIAS_POR_DEFECTO.PLATOS);
+            
+            if (!categoriaDefecto) {
+                // Crear categoría por defecto si no existe
+                categoriaDefecto = await CategoriasPlatosAPI.crear({
+                    nombre: CATEGORIAS_POR_DEFECTO.PLATOS
+                });
+            }
+            
+            // Confirmar eliminación con información de reasignación
+            const confirmacion = confirm(
+                `⚠️ Esta categoría está siendo utilizada por ${platosAfectados.length} plato(s):\n\n` +
+                platosAfectados.map(p => `• ${p.nombre}`).join('\n') + '\n\n' +
+                `Los platos serán reasignados a la categoría "${CATEGORIAS_POR_DEFECTO.PLATOS}".\n\n` +
+                '¿Continuar con la eliminación?'
+            );
+            
+            if (!confirmacion) return;
+            
+            // Reasignar platos a categoría por defecto
+            for (const plato of platosAfectados) {
+                await PlatosAPI.update(plato.id, {
+                    ...plato,
+                    id_categoria_plato: categoriaDefecto.id
+                });
+            }
+        } else {
+            // Confirmación simple si no hay platos afectados
+            const confirmacion = confirm(
+                '¿Estás seguro de que deseas eliminar esta categoría?\n\n' +
+                'Esta acción no se puede deshacer.'
+            );
+            
+            if (!confirmacion) return;
+        }
+        
+        // Eliminar la categoría
+        await CategoriasPlatosAPI.eliminar(id);
+        
+        const mensaje = platosAfectados.length > 0 
+            ? `✅ Categoría eliminada y ${platosAfectados.length} plato(s) reasignado(s) exitosamente`
+            : '✅ Categoría eliminada exitosamente';
+            
+        alert(mensaje);
+        
+        // Recargar las listas
+        mostrarListaCategoriasPlatoss();
+        if (platosAfectados.length > 0) {
+            mostrarListaPlatos();
+        }
+        
+    } catch (error) {
+        console.error('Error al eliminar categoría de plato:', error);
+        alert('❌ Error al eliminar la categoría: ' + error.message);
     }
 }
 
