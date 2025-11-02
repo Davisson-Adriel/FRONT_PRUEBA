@@ -1,4 +1,4 @@
-import { RestaurantesAPI, PlatosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI, UsuariosAPI, RankingRestaurantesAPI, RankingPlatosAPI } from './api.js';
+import { RestaurantesAPI, PlatosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI, UsuariosAPI, RankingRestaurantesAPI, RankingPlatosAPI, CategoriasPlatosAPI } from './api.js';
 
 let restauranteActual = null;
 let itemActualParaResena = '';
@@ -6,6 +6,36 @@ let tipoItemActualParaResena = '';
 let idItemActualParaResena = null;
 let rankingRestaurante = 0;
 let rankingsPlatos = {};
+let platosOriginales = []; // Para mantener la lista completa de platos
+
+// Función para cargar categorías de platos dinámicamente
+async function cargarCategoriasPlatos() {
+    try {
+        console.log('🍕 Cargando categorías de platos...');
+        const categorias = await CategoriasPlatosAPI.obtenerTodas();
+        const selectPlatos = document.getElementById('filtroPlatos');
+        
+        if (!selectPlatos) {
+            console.warn('⚠️ No se encontró el elemento filtroPlatos');
+            return;
+        }
+        
+        // Limpiar opciones existentes (excepto "Todas las categorías")
+        selectPlatos.innerHTML = '<option value="todos">Todas las categorías</option>';
+        
+        // Agregar categorías dinámicamente
+        categorias.forEach(categoria => {
+            const option = document.createElement('option');
+            option.value = categoria.id;
+            option.textContent = categoria.nombre;
+            selectPlatos.appendChild(option);
+        });
+        
+        console.log(`✅ ${categorias.length} categorías de platos cargadas`);
+    } catch (error) {
+        console.error('❌ Error cargando categorías de platos:', error);
+    }
+}
 
 // Inicializar página
 document.addEventListener('DOMContentLoaded', async function() {
@@ -30,6 +60,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         cargarInformacionRestaurante();
         await cargarPlatosRestaurante();
         await cargarResenasRestaurante();
+        await cargarCategoriasPlatos(); // Cargar categorías dinámicamente
         configurarEventos();
         
     } catch (error) {
@@ -57,6 +88,16 @@ function configurarEventos() {
     document.getElementById('cerrarModalCrear').addEventListener('click', cerrarModalCrearResena);
     document.getElementById('cancelarResena').addEventListener('click', cerrarModalCrearResena);
     document.getElementById('formCrearResena').addEventListener('submit', enviarResena);
+
+    // Event listener para el filtro de categorías
+    const filtroPlatos = document.getElementById('filtroPlatos');
+    if (filtroPlatos) {
+        filtroPlatos.addEventListener('change', function() {
+            const categoriaSeleccionada = this.value;
+            console.log('🔍 Filtrando platos por categoría:', categoriaSeleccionada);
+            filtrarPlatosPorCategoria(categoriaSeleccionada);
+        });
+    }
 }
 
 function cargarInformacionRestaurante() {
@@ -105,46 +146,69 @@ function cargarInformacionRestaurante() {
 async function cargarPlatosRestaurante() {
     const grid = document.getElementById('gridPlatos');
     try {
-        const platosDelRestaurante = await PlatosAPI.getByRestaurante(restauranteActual.id);
+        platosOriginales = await PlatosAPI.getByRestaurante(restauranteActual.id);
 
-        if (platosDelRestaurante.length === 0) {
+        if (platosOriginales.length === 0) {
             grid.innerHTML = '<div class="sin-datos">Este restaurante aún no tiene platos registrados.</div>';
             return;
         }
 
         // Cargar rankings de los platos
-        await cargarRankingsPlatos(platosDelRestaurante);
+        await cargarRankingsPlatos(platosOriginales);
 
-        grid.innerHTML = platosDelRestaurante.map(plato => {
-            const imagenPlato = plato.imagen_url || 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=250&fit=crop&crop=center';
-            const rankingPlato = rankingsPlatos[plato.id] || 0;
-            return `
-                <div class="tarjeta-item">
-                    <div class="imagen-container">
-                        <img src="${imagenPlato}" 
-                             alt="${plato.nombre}" 
-                             class="imagen-item"
-                             onerror="this.src='https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=250&fit=crop&crop=center'">
-                    </div>
-                    <div class="info-item">
-                        <h3 class="nombre-item">${plato.nombre}</h3>
-                        <p class="descripcion-item">${plato.descripcion}</p>
-                        <div class="detalles-item">
-                            <span class="precio">💰 $${parseFloat(plato.precio).toFixed(2)}</span>
-                            <span class="ranking-tag">${formatearRanking(rankingPlato)}</span>
-                        </div>
-                        <div class="acciones-item">
-                            <button class="boton-ver-resenas" onclick="window.abrirModalResenas('${plato.nombre}', 'plato', ${plato.id})">
-                                Ver Reseñas
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
+        // Mostrar todos los platos inicialmente
+        mostrarPlatos(platosOriginales);
     } catch (error) {
         grid.innerHTML = '<div class="sin-datos error">❌ Error al cargar los platos.</div>';
         console.error(error);
+    }
+}
+
+// Función separada para mostrar platos (para facilitar el filtrado)
+function mostrarPlatos(platos) {
+    const grid = document.getElementById('gridPlatos');
+    
+    if (platos.length === 0) {
+        grid.innerHTML = '<div class="sin-datos">No se encontraron platos para esta categoría.</div>';
+        return;
+    }
+
+    grid.innerHTML = platos.map(plato => {
+        const imagenPlato = plato.imagen_url || 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=250&fit=crop&crop=center';
+        const rankingPlato = rankingsPlatos[plato.id] || 0;
+        return `
+            <div class="tarjeta-item">
+                <div class="imagen-container">
+                    <img src="${imagenPlato}" 
+                         alt="${plato.nombre}" 
+                         class="imagen-item"
+                         onerror="this.src='https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=250&fit=crop&crop=center'">
+                </div>
+                <div class="info-item">
+                    <h3 class="nombre-item">${plato.nombre}</h3>
+                    <p class="descripcion-item">${plato.descripcion}</p>
+                    <div class="detalles-item">
+                        <span class="precio">💰 $${parseFloat(plato.precio).toFixed(2)}</span>
+                        <span class="ranking-tag">${formatearRanking(rankingPlato)}</span>
+                    </div>
+                    <div class="acciones-item">
+                        <button class="boton-ver-resenas" onclick="window.abrirModalResenas('${plato.nombre}', 'plato', ${plato.id})">
+                            Ver Reseñas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Función para filtrar platos por categoría
+function filtrarPlatosPorCategoria(categoriaId) {
+    if (categoriaId === 'todos') {
+        mostrarPlatos(platosOriginales);
+    } else {
+        const platosFiltrados = platosOriginales.filter(plato => plato.categoriaId == categoriaId);
+        mostrarPlatos(platosFiltrados);
     }
 }
 
