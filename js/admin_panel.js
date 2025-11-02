@@ -1131,10 +1131,8 @@ async function crearRestaurante() {
             nombre: formData.get('nombre'),
             direccion: formData.get('direccion'),
             categoriaId: parseInt(formData.get('categoriaId')),
-            
-            imagen_url: formData.get('nuevoRestauranteImagenUrl') || defaultImageUrl,
-
-            descripcion: formData.get('nuevoRestauranteDescripcion') || defaultDescription
+            imagen_url: formData.get('imagen_url') || defaultImageUrl,
+            descripcion: formData.get('descripcion') || defaultDescription
         };
         
         console.log("Enviando datos del restaurante:", restauranteData);
