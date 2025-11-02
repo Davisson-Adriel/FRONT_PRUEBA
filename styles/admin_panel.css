@@ -1144,6 +1144,112 @@ body {
     font-size: 11px;
 }
 
+/* ===== ESTILOS PARA BOTONES DE PLATOS ===== */
+.btn-editar-plato,
+.btn-eliminar-plato {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 70px;
+    justify-content: center;
+}
+
+.btn-editar-plato {
+    background: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.btn-editar-plato:hover {
+    background: #c8e6c9;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.2);
+}
+
+.btn-eliminar-plato {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+.btn-eliminar-plato:hover {
+    background: #ffcdd2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(198, 40, 40, 0.2);
+}
+
+/* ===== ESTILOS PARA BOTONES DE CATEGORÍAS ===== */
+.btn-editar-categoria-restaurante,
+.btn-eliminar-categoria-restaurante,
+.btn-editar-categoria-plato,
+.btn-eliminar-categoria-plato {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 70px;
+    justify-content: center;
+}
+
+.btn-editar-categoria-restaurante,
+.btn-editar-categoria-plato {
+    background: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.btn-editar-categoria-restaurante:hover,
+.btn-editar-categoria-plato:hover {
+    background: #c8e6c9;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.2);
+}
+
+.btn-eliminar-categoria-restaurante,
+.btn-eliminar-categoria-plato {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+.btn-eliminar-categoria-restaurante:hover,
+.btn-eliminar-categoria-plato:hover {
+    background: #ffcdd2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(198, 40, 40, 0.2);
+}
+
+.btn-editar-plato .icono,
+.btn-eliminar-plato .icono,
+.btn-editar-categoria-restaurante .icono,
+.btn-eliminar-categoria-restaurante .icono,
+.btn-editar-categoria-plato .icono,
+.btn-eliminar-categoria-plato .icono {
+    font-size: 12px;
+}
+
+.btn-editar-plato .texto,
+.btn-eliminar-plato .texto,
+.btn-editar-categoria-restaurante .texto,
+.btn-eliminar-categoria-restaurante .texto,
+.btn-editar-categoria-plato .texto,
+.btn-eliminar-categoria-plato .texto {
+    font-size: 11px;
+}
+
 /* Estados de carga y error */
 .loading, .empty-message, .error-message {
     padding: 40px;

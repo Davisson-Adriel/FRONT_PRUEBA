@@ -1,4 +1,4 @@
-import { AuthAPI, RestaurantesAPI, PlatosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI } from './api.js';
+import { AuthAPI, RestaurantesAPI, PlatosAPI, ResenasRestaurantesAPI, ReseñasPlatosAPI, CategoriasRestaurantesAPI, CategoriasPlatosAPI } from './api.js';
 
 // Obtener nombre de administrador y cargar estadísticas
 document.addEventListener('DOMContentLoaded', async function() {
@@ -44,6 +44,66 @@ function setupEventListeners() {
             console.log('Botón de acción rápida clickeado:', accion);
             ejecutarAccionRapida(accion);
         }
+
+        // Clics en botones de restaurantes
+        if (e.target.closest('.btn-eliminar-restaurante')) {
+            const boton = e.target.closest('.btn-eliminar-restaurante');
+            const id = boton.getAttribute('data-id');
+            console.log('Eliminar restaurante ID:', id);
+            // eliminarRestaurante(id); // Implementar después
+        }
+
+        if (e.target.closest('.btn-editar-restaurante')) {
+            const boton = e.target.closest('.btn-editar-restaurante');
+            const id = boton.getAttribute('data-id');
+            console.log('Editar restaurante ID:', id);
+            // editarRestaurante(id); // Implementar después
+        }
+
+        // Clics en botones de platos
+        if (e.target.closest('.btn-eliminar-plato')) {
+            const boton = e.target.closest('.btn-eliminar-plato');
+            const id = boton.getAttribute('data-id');
+            console.log('Eliminar plato ID:', id);
+            // eliminarPlato(id); // Implementar después
+        }
+
+        if (e.target.closest('.btn-editar-plato')) {
+            const boton = e.target.closest('.btn-editar-plato');
+            const id = boton.getAttribute('data-id');
+            console.log('Editar plato ID:', id);
+            // editarPlato(id); // Implementar después
+        }
+
+        // Clics en botones de categorías de restaurantes
+        if (e.target.closest('.btn-eliminar-categoria-restaurante')) {
+            const boton = e.target.closest('.btn-eliminar-categoria-restaurante');
+            const id = boton.getAttribute('data-id');
+            console.log('Eliminar categoría de restaurante ID:', id);
+            // eliminarCategoriaRestaurante(id); // Implementar después
+        }
+
+        if (e.target.closest('.btn-editar-categoria-restaurante')) {
+            const boton = e.target.closest('.btn-editar-categoria-restaurante');
+            const id = boton.getAttribute('data-id');
+            console.log('Editar categoría de restaurante ID:', id);
+            // editarCategoriaRestaurante(id); // Implementar después
+        }
+
+        // Clics en botones de categorías de platos
+        if (e.target.closest('.btn-eliminar-categoria-plato')) {
+            const boton = e.target.closest('.btn-eliminar-categoria-plato');
+            const id = boton.getAttribute('data-id');
+            console.log('Eliminar categoría de plato ID:', id);
+            // eliminarCategoriaPlato(id); // Implementar después
+        }
+
+        if (e.target.closest('.btn-editar-categoria-plato')) {
+            const boton = e.target.closest('.btn-editar-categoria-plato');
+            const id = boton.getAttribute('data-id');
+            console.log('Editar categoría de plato ID:', id);
+            // editarCategoriaPlato(id); // Implementar después
+        }
     });
 
     // Event listener para cerrar modal de restaurantes
@@ -62,6 +122,60 @@ function setupEventListeners() {
             if (e.target === modalListaRestaurantes) {
                 console.log('🔒 Cerrando modal al hacer clic fuera');
                 cerrarModalListaRestaurantes();
+            }
+        });
+    }
+
+    // Event listeners para modal de platos
+    const btnCerrarModalPlatos = document.getElementById('btnCerrarModalPlatos');
+    if (btnCerrarModalPlatos) {
+        btnCerrarModalPlatos.addEventListener('click', function() {
+            console.log('🔒 Cerrando modal de platos');
+            cerrarModalListaPlatos();
+        });
+    }
+
+    const modalListaPlatos = document.getElementById('modalListaPlatos');
+    if (modalListaPlatos) {
+        modalListaPlatos.addEventListener('click', function(e) {
+            if (e.target === modalListaPlatos) {
+                cerrarModalListaPlatos();
+            }
+        });
+    }
+
+    // Event listeners para modal de categorías de restaurantes
+    const btnCerrarModalCategoriasRestaurantes = document.getElementById('btnCerrarModalCategoriasRestaurantes');
+    if (btnCerrarModalCategoriasRestaurantes) {
+        btnCerrarModalCategoriasRestaurantes.addEventListener('click', function() {
+            console.log('🔒 Cerrando modal de categorías de restaurantes');
+            cerrarModalListaCategoriasRestaurantes();
+        });
+    }
+
+    const modalListaCategoriasRestaurantes = document.getElementById('modalListaCategoriasRestaurantes');
+    if (modalListaCategoriasRestaurantes) {
+        modalListaCategoriasRestaurantes.addEventListener('click', function(e) {
+            if (e.target === modalListaCategoriasRestaurantes) {
+                cerrarModalListaCategoriasRestaurantes();
+            }
+        });
+    }
+
+    // Event listeners para modal de categorías de platos
+    const btnCerrarModalCategoriasPlatoss = document.getElementById('btnCerrarModalCategoriasPlatoss');
+    if (btnCerrarModalCategoriasPlatoss) {
+        btnCerrarModalCategoriasPlatoss.addEventListener('click', function() {
+            console.log('🔒 Cerrando modal de categorías de platos');
+            cerrarModalListaCategoriasPlatoss();
+        });
+    }
+
+    const modalListaCategoriasPlatoss = document.getElementById('modalListaCategoriasPlatoss');
+    if (modalListaCategoriasPlatoss) {
+        modalListaCategoriasPlatoss.addEventListener('click', function(e) {
+            if (e.target === modalListaCategoriasPlatoss) {
+                cerrarModalListaCategoriasPlatoss();
             }
         });
     }
@@ -329,19 +443,19 @@ function ejecutarAccionRapida(accion) {
             alert('Abriendo formulario para agregar nuevo plato...');
             break;
         case 'ver-platos':
-            alert('Mostrando lista de platos...');
+            mostrarListaPlatos();
             break;
         case 'agregar-categoria-restaurante':
             alert('Abriendo formulario para agregar nueva categoría de restaurante...');
             break;
         case 'ver-categorias-restaurantes':
-            alert('Mostrando lista de categorías de restaurantes...');
+            mostrarListaCategoriasRestaurantes();
             break;
         case 'agregar-categoria-plato':
             alert('Abriendo formulario para agregar nueva categoría de plato...');
             break;
         case 'ver-categorias-platos':
-            alert('Mostrando lista de categorías de platos...');
+            mostrarListaCategoriasPlatoss();
             break;
     }
 }
@@ -446,7 +560,252 @@ function cerrarModalListaRestaurantes() {
 // Hacer función disponible globalmente para debugging
 window.cerrarModalListaRestaurantes = cerrarModalListaRestaurantes;
 
+// ===== FUNCIONES PARA GESTIÓN DE PLATOS =====
+async function mostrarListaPlatos() {
+    console.log('🍽️ Función mostrarListaPlatos llamada');
+    
+    const modal = document.getElementById('modalListaPlatos');
+    const lista = document.getElementById('listaPlatos');
+    
+    if (!modal) {
+        console.error('❌ Modal de platos no encontrado');
+        return;
+    }
+    
+    // Mostrar el modal
+    modal.style.display = 'flex';
+    
+    // Mostrar loading
+    lista.innerHTML = '<div class="loading">Cargando platos...</div>';
+    
+    try {
+        // Obtener platos del backend
+        const platos = await PlatosAPI.getAll();
+        
+        // Limpiar la lista
+        lista.innerHTML = '';
+        
+        if (platos && platos.length > 0) {
+            // Crear lista de platos con botones de acción
+            platos.forEach(plato => {
+                const item = document.createElement('div');
+                item.className = 'item-restaurante-con-botones';
+                
+                // Contenedor para el nombre
+                const nombreContainer = document.createElement('div');
+                nombreContainer.className = 'nombre-restaurante-item';
+                nombreContainer.textContent = `${plato.nombre} - $${plato.precio}`;
+                
+                // Contenedor para los botones
+                const botonesContainer = document.createElement('div');
+                botonesContainer.className = 'botones-accion-restaurante';
+                
+                // Botón editar
+                const btnEditar = document.createElement('button');
+                btnEditar.className = 'btn-editar-plato';
+                btnEditar.innerHTML = '<span class="icono">✏️</span><span class="texto">Editar</span>';
+                btnEditar.setAttribute('data-id', plato.id);
+                btnEditar.setAttribute('title', 'Editar plato');
+                
+                // Botón eliminar
+                const btnEliminar = document.createElement('button');
+                btnEliminar.className = 'btn-eliminar-plato';
+                btnEliminar.innerHTML = '<span class="icono">🗑️</span><span class="texto">Eliminar</span>';
+                btnEliminar.setAttribute('data-id', plato.id);
+                btnEliminar.setAttribute('title', 'Eliminar plato');
+                
+                // Agregar botones al contenedor
+                botonesContainer.appendChild(btnEditar);
+                botonesContainer.appendChild(btnEliminar);
+                
+                // Agregar nombre y botones al item
+                item.appendChild(nombreContainer);
+                item.appendChild(botonesContainer);
+                
+                lista.appendChild(item);
+            });
+        } else {
+            lista.innerHTML = '<div class="empty-message">No hay platos registrados</div>';
+        }
+        
+    } catch (error) {
+        console.error('Error al cargar platos:', error);
+        lista.innerHTML = '<div class="error-message">Error al cargar los platos</div>';
+    }
+}
 
+function cerrarModalListaPlatos() {
+    const modal = document.getElementById('modalListaPlatos');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// ===== FUNCIONES PARA GESTIÓN DE CATEGORÍAS DE RESTAURANTES =====
+async function mostrarListaCategoriasRestaurantes() {
+    console.log('🏷️ Función mostrarListaCategoriasRestaurantes llamada');
+    
+    const modal = document.getElementById('modalListaCategoriasRestaurantes');
+    const lista = document.getElementById('listaCategoriasRestaurantes');
+    
+    if (!modal) {
+        console.error('❌ Modal de categorías de restaurantes no encontrado');
+        return;
+    }
+    
+    // Mostrar el modal
+    modal.style.display = 'flex';
+    
+    // Mostrar loading
+    lista.innerHTML = '<div class="loading">Cargando categorías de restaurantes...</div>';
+    
+    try {
+        // Obtener categorías del backend
+        const categorias = await CategoriasRestaurantesAPI.obtenerTodas();
+        console.log('Categorías de restaurantes cargadas:', categorias);
+        
+        // Limpiar la lista
+        lista.innerHTML = '';
+        
+        if (categorias && categorias.length > 0) {
+            // Crear lista de categorías con botones de acción
+            categorias.forEach(categoria => {
+                const item = document.createElement('div');
+                item.className = 'item-restaurante-con-botones';
+                
+                // Contenedor para el nombre
+                const nombreContainer = document.createElement('div');
+                nombreContainer.className = 'nombre-restaurante-item';
+                nombreContainer.textContent = categoria.nombre;
+                
+                // Contenedor para los botones
+                const botonesContainer = document.createElement('div');
+                botonesContainer.className = 'botones-accion-restaurante';
+                
+                // Botón editar
+                const btnEditar = document.createElement('button');
+                btnEditar.className = 'btn-editar-categoria-restaurante';
+                btnEditar.innerHTML = '<span class="icono">✏️</span><span class="texto">Editar</span>';
+                btnEditar.setAttribute('data-id', categoria.id);
+                btnEditar.setAttribute('title', 'Editar categoría');
+                
+                // Botón eliminar
+                const btnEliminar = document.createElement('button');
+                btnEliminar.className = 'btn-eliminar-categoria-restaurante';
+                btnEliminar.innerHTML = '<span class="icono">🗑️</span><span class="texto">Eliminar</span>';
+                btnEliminar.setAttribute('data-id', categoria.id);
+                btnEliminar.setAttribute('title', 'Eliminar categoría');
+                
+                // Agregar botones al contenedor
+                botonesContainer.appendChild(btnEditar);
+                botonesContainer.appendChild(btnEliminar);
+                
+                // Agregar nombre y botones al item
+                item.appendChild(nombreContainer);
+                item.appendChild(botonesContainer);
+                
+                lista.appendChild(item);
+            });
+        } else {
+            lista.innerHTML = '<div class="empty-message">No hay categorías de restaurantes registradas</div>';
+        }
+        
+    } catch (error) {
+        console.error('Error al cargar categorías de restaurantes:', error);
+        console.error('Error detallado:', error.message);
+        lista.innerHTML = `<div class="error-message">Error al cargar las categorías de restaurantes<br><small>${error.message}</small></div>`;
+    }
+}
+
+function cerrarModalListaCategoriasRestaurantes() {
+    const modal = document.getElementById('modalListaCategoriasRestaurantes');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// ===== FUNCIONES PARA GESTIÓN DE CATEGORÍAS DE PLATOS =====
+async function mostrarListaCategoriasPlatoss() {
+    console.log('🏷️ Función mostrarListaCategoriasPlatoss llamada');
+    
+    const modal = document.getElementById('modalListaCategoriasPlatoss');
+    const lista = document.getElementById('listaCategoriasPlatoss');
+    
+    if (!modal) {
+        console.error('❌ Modal de categorías de platos no encontrado');
+        return;
+    }
+    
+    // Mostrar el modal
+    modal.style.display = 'flex';
+    
+    // Mostrar loading
+    lista.innerHTML = '<div class="loading">Cargando categorías de platos...</div>';
+    
+    try {
+        // Obtener categorías del backend
+        const categorias = await CategoriasPlatosAPI.obtenerTodas();
+        console.log('Categorías de platos cargadas:', categorias);
+        
+        // Limpiar la lista
+        lista.innerHTML = '';
+        
+        if (categorias && categorias.length > 0) {
+            // Crear lista de categorías con botones de acción
+            categorias.forEach(categoria => {
+                const item = document.createElement('div');
+                item.className = 'item-restaurante-con-botones';
+                
+                // Contenedor para el nombre
+                const nombreContainer = document.createElement('div');
+                nombreContainer.className = 'nombre-restaurante-item';
+                nombreContainer.textContent = categoria.nombre;
+                
+                // Contenedor para los botones
+                const botonesContainer = document.createElement('div');
+                botonesContainer.className = 'botones-accion-restaurante';
+                
+                // Botón editar
+                const btnEditar = document.createElement('button');
+                btnEditar.className = 'btn-editar-categoria-plato';
+                btnEditar.innerHTML = '<span class="icono">✏️</span><span class="texto">Editar</span>';
+                btnEditar.setAttribute('data-id', categoria.id);
+                btnEditar.setAttribute('title', 'Editar categoría');
+                
+                // Botón eliminar
+                const btnEliminar = document.createElement('button');
+                btnEliminar.className = 'btn-eliminar-categoria-plato';
+                btnEliminar.innerHTML = '<span class="icono">🗑️</span><span class="texto">Eliminar</span>';
+                btnEliminar.setAttribute('data-id', categoria.id);  
+                btnEliminar.setAttribute('title', 'Eliminar categoría');
+                
+                // Agregar botones al contenedor
+                botonesContainer.appendChild(btnEditar);
+                botonesContainer.appendChild(btnEliminar);
+                
+                // Agregar nombre y botones al item
+                item.appendChild(nombreContainer);
+                item.appendChild(botonesContainer);
+                
+                lista.appendChild(item);
+            });
+        } else {
+            lista.innerHTML = '<div class="empty-message">No hay categorías de platos registradas</div>';
+        }
+        
+    } catch (error) {
+        console.error('Error al cargar categorías de platos:', error);
+        console.error('Error detallado:', error.message);
+        lista.innerHTML = `<div class="error-message">Error al cargar las categorías de platos<br><small>${error.message}</small></div>`;
+    }
+}
+
+function cerrarModalListaCategoriasPlatoss() {
+    const modal = document.getElementById('modalListaCategoriasPlatoss');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
 
 // Animaciones de entrada (opcional - mejora la experiencia si funciona)
 window.addEventListener('load', function() {
