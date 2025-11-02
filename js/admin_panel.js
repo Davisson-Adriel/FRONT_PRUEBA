@@ -1341,31 +1341,6 @@ async function crearCategoriaPlato() {
     }
 }
 
-// Animaciones de entrada (opcional - mejora la experiencia si funciona)
-window.addEventListener('load', function() {
-    const tarjetas = document.querySelectorAll('.tarjeta-gestion');
-    const estadisticas = document.querySelectorAll('.estadistica-item');
-    
-    // Solo aplicar animaciones si los elementos están ocultos
-    estadisticas.forEach((stat, index) => {
-        if (window.getComputedStyle(stat).opacity === '0') {
-            setTimeout(() => {
-                stat.style.opacity = '1';
-                stat.style.transform = 'translateY(0) scale(1)';
-            }, index * 200);
-        }
-    });
-    
-    tarjetas.forEach((tarjeta, index) => {
-        if (window.getComputedStyle(tarjeta).opacity === '0') {
-            setTimeout(() => {
-                tarjeta.style.opacity = '1';
-                tarjeta.style.transform = 'translateY(0)';
-            }, (index * 300) + 500);
-        }
-    });
-});
-
 // Función de test para debugging
 window.testModales = function() {
     console.log('🧪 Testing modales...');

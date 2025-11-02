@@ -15,7 +15,7 @@ body {
 /* ===== HEADER ADMINISTRADOR ===== */
 .encabezado-admin {
     background: linear-gradient(135deg, #4e433e 0%, #ad9863 100%);
-    
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     padding: 20px 0;
     position: sticky;
     top: 0;
@@ -116,14 +116,17 @@ body {
     border-radius: 20px;
     padding: 30px;
     text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
     opacity: 1;
+    transform: translateY(0) scale(1);
     border: 2px solid #fed87b;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .estadistica-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(173, 152, 99, 0.2);
     border-color: #ad9863;
-    box-shadow: 0 6px 20px rgba(173, 152, 99, 0.12);
 }
 
 .icono-estadistica {
@@ -152,7 +155,7 @@ body {
     background: white;
     border-radius: 25px;
     padding: 40px;
-    
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
     border: 1px solid #f0f0f0;
 }
 
@@ -189,16 +192,18 @@ body {
     background: white;
     border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+
     cursor: pointer;
     border: 2px solid #e9ecef;
     opacity: 1;
     transform: translateY(0);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .tarjeta-gestion:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(173, 152, 99, 0.2);
     border-color: #ad9863;
-    box-shadow: 0 8px 25px rgba(173, 152, 99, 0.15);
 }
 
 .imagen-gestion {
@@ -211,7 +216,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+
 }
 
 .tarjeta-gestion:hover .imagen-modulo {
@@ -268,11 +273,13 @@ body {
     align-items: center;
     gap: 8px;
     margin: 0 auto;
-    
-    
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(254, 216, 123, 0.4);
 }
 
 .boton-acceder:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(254, 216, 123, 0.6);
     background: linear-gradient(135deg, #fed87b 0%, #f5c842 100%);
 }
 
@@ -317,13 +324,15 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .boton-accion-rapida:hover {
     background: linear-gradient(135deg, #ad9863 0%, #fed87b 100%);
     color: white;
     border-color: #fed87b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(173, 152, 99, 0.3);
 }
 
 .icono-accion {
@@ -335,7 +344,7 @@ body {
     background: white;
     border-radius: 25px;
     padding: 40px;
-    
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
     border: 1px solid #f0f0f0;
 }
 
@@ -353,14 +362,14 @@ body {
     padding: 20px;
     background: #f8f9fa;
     border-radius: 15px;
-    
+    transition: all 0.3s ease;
     border-left: 4px solid transparent;
 }
 
 .item-actividad:hover {
     background: #fff;
     transform: translateX(5px);
-    
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border-left-color: #ad9863;
 }
 
@@ -521,7 +530,7 @@ body {
     max-width: 700px;
     max-height: 90vh;
     overflow: hidden;
-    
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     position: relative;
 }
 
@@ -560,7 +569,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    
+    transition: all 0.3s ease;
 }
 
 .boton-cerrar-modal:hover {
@@ -605,7 +614,7 @@ body {
     border: 2px solid #e0e0e0;
     border-radius: 8px;
     font-size: 14px;
-    
+    transition: all 0.3s ease;
     background: #fff;
 }
 
@@ -614,7 +623,7 @@ body {
 .campo-form textarea:focus {
     outline: none;
     border-color: #ad9863;
-    
+    box-shadow: 0 0 0 3px rgba(173, 152, 99, 0.1);
 }
 
 .campo-form textarea {
@@ -640,7 +649,7 @@ body {
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    
+    transition: all 0.3s ease;
     min-width: 120px;
 }
 
@@ -662,8 +671,8 @@ body {
 
 .boton-guardar:hover {
     background: linear-gradient(135deg, #3d332f 0%, #98854a 100%);
-    
-    
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(78, 67, 62, 0.3);
 }
 
 /* ===== MODAL LISTA RESTAURANTES ===== */
@@ -726,7 +735,7 @@ body {
     background: white;
     border-radius: 10px;
     overflow: hidden;
-    
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .tabla-restaurantes {
@@ -819,13 +828,13 @@ body {
     border-radius: 10px;
     font-size: 16px;
     background: white;
-    
+    transition: all 0.3s ease;
 }
 
 .input-busqueda-simple:focus {
     outline: none;
     border-color: #ad9863;
-    
+    box-shadow: 0 0 0 3px rgba(173, 152, 99, 0.1);
 }
 
 .lista-restaurantes-simple {
@@ -842,7 +851,7 @@ body {
     align-items: center;
     padding: 15px 20px;
     border-bottom: 1px solid #f0f0f0;
-    
+    transition: all 0.3s ease;
 }
 
 .item-restaurante-simple:last-child {
@@ -868,7 +877,7 @@ body {
     padding: 8px 15px;
     font-size: 14px;
     cursor: pointer;
-    
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -876,8 +885,8 @@ body {
 
 .boton-eliminar-simple:hover {
     background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
-    
-    
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);
 }
 
 .boton-eliminar-simple:active {
@@ -1005,7 +1014,7 @@ body {
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    
+    transition: all 0.3s ease;
     min-width: 70px;
     justify-content: center;
 }
@@ -1018,8 +1027,8 @@ body {
 
 .btn-editar-restaurante:hover {
     background: #c8e6c9;
-    
-    
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.2);
 }
 
 .btn-eliminar-restaurante {
@@ -1030,8 +1039,8 @@ body {
 
 .btn-eliminar-restaurante:hover {
     background: #ffcdd2;
-    
-    
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(198, 40, 40, 0.2);
 }
 
 .btn-editar-restaurante .icono,
@@ -1056,7 +1065,7 @@ body {
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    
+    transition: all 0.3s ease;
     min-width: 70px;
     justify-content: center;
 }
@@ -1069,8 +1078,8 @@ body {
 
 .btn-editar-plato:hover {
     background: #c8e6c9;
-    
-    
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.2);
 }
 
 .btn-eliminar-plato {
@@ -1081,8 +1090,8 @@ body {
 
 .btn-eliminar-plato:hover {
     background: #ffcdd2;
-    
-    
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(198, 40, 40, 0.2);
 }
 
 /* ===== ESTILOS PARA BOTONES DE CATEGORÍAS ===== */
@@ -1099,7 +1108,7 @@ body {
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    
+    transition: all 0.3s ease;
     min-width: 70px;
     justify-content: center;
 }
@@ -1114,8 +1123,8 @@ body {
 .btn-editar-categoria-restaurante:hover,
 .btn-editar-categoria-plato:hover {
     background: #c8e6c9;
-    
-    
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.2);
 }
 
 .btn-eliminar-categoria-restaurante,
@@ -1128,8 +1137,8 @@ body {
 .btn-eliminar-categoria-restaurante:hover,
 .btn-eliminar-categoria-plato:hover {
     background: #ffcdd2;
-    
-    
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(198, 40, 40, 0.2);
 }
 
 .btn-editar-plato .icono,
