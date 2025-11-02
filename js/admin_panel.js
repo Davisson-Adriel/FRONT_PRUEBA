@@ -1124,24 +1124,30 @@ async function crearRestaurante() {
     try {
         const form = document.getElementById('formAgregarRestaurante');
         const formData = new FormData(form);
-        
+        const defaultImageUrl = 'https://placehold.co/400x250/ccc/333?text=Imagen+por+Defecto';
+        const defaultDescription = 'Descripción no proporcionada por el administrador.';
+
         const restauranteData = {
             nombre: formData.get('nombre'),
             direccion: formData.get('direccion'),
             categoriaId: parseInt(formData.get('categoriaId')),
-            imagen_url: formData.get('imagen_url') || null,
-            descripcion: formData.get('descripcion') || null
+            
+            imagen_url: formData.get('nuevoRestauranteImagenUrl') || defaultImageUrl,
+
+            descripcion: formData.get('nuevoRestauranteDescripcion') || defaultDescription
         };
+        
+        console.log("Enviando datos del restaurante:", restauranteData);
         
         const nuevoRestaurante = await RestaurantesAPI.create(restauranteData);
         
         alert('¡Restaurante creado exitosamente!');
         
-        // Cerrar modal y actualizar estadísticas
         document.getElementById('modalAgregarRestaurante').style.display = 'none';
         await cargarEstadisticasDelBackend();
         
     } catch (error) {
+        console.error("Error detallado al crear restaurante:", error);
         alert('Error al crear el restaurante: ' + error.message);
     }
 }
