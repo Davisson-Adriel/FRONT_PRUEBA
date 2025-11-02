@@ -312,6 +312,7 @@ async function enviarResena(e) {
     }
 
     const userId = localStorage.getItem('userId');
+    const userNumericId = localStorage.getItem('userNumericId');
     if (!userId) {
         alert('Error de autenticación. Por favor, inicia sesión de nuevo.');
         botonEnviar.disabled = false;
@@ -320,7 +321,7 @@ async function enviarResena(e) {
     }
 
     const nuevaResena = {
-        usuarioId: 8, 
+        usuarioId: parseInt(userNumericId),
         calificacion: parseInt(calificacion),
         comentario: comentario,
         fecha: new Date().toISOString(), 

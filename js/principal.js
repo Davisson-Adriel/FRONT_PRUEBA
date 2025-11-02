@@ -691,6 +691,7 @@ document.getElementById('formCrearResena').addEventListener('submit', async func
         return;
     }
 
+    const userNumericId = localStorage.getItem('userNumericId');
     const userId = localStorage.getItem('userId');
     if (!userId) {
          alert('Error de autenticación. Por favor, inicia sesión de nuevo para crear una reseña.');
@@ -699,7 +700,7 @@ document.getElementById('formCrearResena').addEventListener('submit', async func
 
     try {
         const nuevaResena = {
-            usuarioId: parseInt(userId), // CORRECCIÓN: Usar el ID del usuario logueado
+            usuarioId: parseInt(userNumericId),
             calificacion: calificacion,
             comentario: comentario,
             fecha: new Date().toISOString(),

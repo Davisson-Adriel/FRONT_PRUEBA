@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 localStorage.setItem('nombreUsuario', response.usuario.username);
                 localStorage.setItem('userId', response.usuario.id); 
+                localStorage.setItem('userNumericId', response.usuario.numericId);
                 localStorage.setItem('tipoUsuario', response.usuario.role);
 
                 alert(`¡Bienvenido, ${response.usuario.username}!`);
