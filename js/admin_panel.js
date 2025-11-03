@@ -866,15 +866,12 @@ async function guardarCategoriaRestauranteEditada() {
 
         const id = document.getElementById('editCategoriaRestauranteId').value;
 
-        // Necesitamos agregar el método update a la API de categorías
-        const response = await fetch(`http://localhost:5000/categorias_restaurantes/${id}`, {
+        const response = await fetchAPI(`/categorias_restaurantes/${id}`, {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
             body: JSON.stringify(categoriaData)
         });
+
+        alert('Categoría actualizada exitosamente');
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -907,7 +904,7 @@ async function guardarCategoriaPlatoEditada() {
 
         const id = document.getElementById('editCategoriaPlatoId').value;
 
-        const response = await fetchAPI(`/categorias_restaurantes/${id}`, {
+        const response = await fetchAPI(`/categorias_platos/${id}`, {
             method: 'PATCH',
             body: JSON.stringify(categoriaData)
         });
