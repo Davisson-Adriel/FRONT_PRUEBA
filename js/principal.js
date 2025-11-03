@@ -579,7 +579,7 @@ function crearElementoResenaBackend(resena) {
     const nombreUsuario = obtenerNombreUsuario(resena.usuarioId);
 
     // Comprobar si la reseña pertenece al usuario actual
-    const userIdActual = localStorage.getItem('userId');
+    const userIdActual = localStorage.getItem('userNumericId'); 
     const esMiResena = userIdActual && parseInt(userIdActual) === resena.usuarioId;
 
     const likedByUser = resena.likedBy && resena.likedBy.includes(parseInt(userIdActual));
