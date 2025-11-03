@@ -1,3 +1,17 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-SemiBold.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Open Sans";
+    src: url("../fonts/OpenSans-Regular.ttf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Reseteo básico */
 * {
     margin: 0;
@@ -6,7 +20,7 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: "Open Sans", sans-serif;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     min-height: 100vh;
     color: #333;
@@ -43,6 +57,7 @@ body {
     gap: 8px;
     font-size: 16px;
     font-weight: 600;
+    font-family: "Open Sans", sans-serif;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
 }
@@ -87,6 +102,7 @@ body {
 .nombre-restaurante {
     font-size: 28px;
     font-weight: 700;
+    font-family: "Montserrat", sans-serif;
     margin-bottom: 5px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -157,6 +173,7 @@ body {
 .nombre-restaurante-detalle {
     font-size: 32px;
     font-weight: 700;
+    font-family: "Montserrat", sans-serif;
     color: #4e433e;
     margin-bottom: 15px;
 }
@@ -232,6 +249,7 @@ body {
 .titulo-seccion {
     font-size: 28px;
     font-weight: 700;
+    font-family: "Montserrat", sans-serif;
     color: #4e433e;
     position: relative;
 }
@@ -259,6 +277,7 @@ body {
     border-radius: 25px;
     background: white;
     font-size: 14px;
+    font-family: "Open Sans", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
     outline: none;
@@ -331,6 +350,7 @@ body {
     border-radius: 25px;
     font-size: 14px;
     font-weight: 600;
+    font-family: "Open Sans", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -347,6 +367,7 @@ body {
 .nombre-item {
     font-size: 18px;
     font-weight: 600;
+    font-family: "Montserrat", sans-serif;
     color: #4e433e;
     margin-bottom: 8px;
 }
@@ -408,6 +429,7 @@ body {
     border-radius: 25px;
     font-size: 14px;
     font-weight: 600;
+    font-family: "Open Sans", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
     flex: 1;
@@ -434,6 +456,7 @@ body {
     border-radius: 25px;
     font-size: 16px;
     font-weight: 600;
+    font-family: "Open Sans", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(173, 152, 99, 0.3);
@@ -558,6 +581,7 @@ body {
 .modal-header h2 {
     font-size: 22px;
     font-weight: 600;
+    font-family: "Montserrat", sans-serif;
     margin: 0;
 }
 
@@ -606,6 +630,7 @@ body {
     border-radius: 25px;
     font-size: 16px;
     font-weight: 600;
+    font-family: "Open Sans", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(173, 152, 99, 0.3);
@@ -642,7 +667,7 @@ body {
     border-radius: 8px;
     font-size: 14px;
     transition: border-color 0.3s ease;
-    font-family: inherit;
+    font-family: "Open Sans", sans-serif;
 }
 
 .campo-form input[type="text"]:focus,
@@ -692,6 +717,7 @@ body {
     padding: 10px 25px;
     border-radius: 6px;
     font-size: 14px;
+    font-family: "Open Sans", sans-serif;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -708,6 +734,7 @@ body {
     border-radius: 6px;
     font-size: 14px;
     font-weight: 600;
+    font-family: "Open Sans", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
 }

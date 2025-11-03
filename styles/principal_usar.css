@@ -1,3 +1,17 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-SemiBold.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Open Sans";
+    src: url("../fonts/OpenSans-Regular.ttf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Reseteo básico */
 * {
     margin: 0;
@@ -6,7 +20,7 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: "Open Sans", sans-serif;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     min-height: 100vh;
     color: #333;
@@ -49,6 +63,7 @@ body {
 .mensaje-bienvenida {
     font-size: 28px;
     font-weight: 700;
+    font-family: "Montserrat", sans-serif;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     margin-bottom: 5px;
 }
@@ -78,6 +93,7 @@ body {
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
+    font-family: "Open Sans", sans-serif;
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
 }
@@ -112,6 +128,7 @@ body {
     padding: 15px 30px;
     border-radius: 15px;
     font-size: 18px;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -174,6 +191,7 @@ body {
 .titulo-seccion {
     font-size: 36px;
     color: #4e433e;
+    font-family: "Montserrat", sans-serif;
     font-weight: 700;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -198,6 +216,7 @@ body {
     padding: 12px 20px;
     border-radius: 10px;
     font-size: 14px;
+    font-family: "Open Sans", sans-serif;
     font-weight: 500;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -271,6 +290,7 @@ body {
     padding: 12px 20px;
     border-radius: 10px;
     font-size: 14px;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -290,6 +310,7 @@ body {
     padding: 12px 20px;
     border-radius: 10px;
     font-size: 14px;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -385,6 +406,7 @@ body {
     border-radius: 25px;
     font-size: 14px;
     font-weight: 600;
+    font-family: "Open Sans", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
@@ -404,6 +426,7 @@ body {
 .nombre-item {
     font-size: 24px;
     color: #4e433e;
+    font-family: "Montserrat", sans-serif;
     margin-bottom: 10px;
     font-weight: 700;
 }
@@ -468,6 +491,7 @@ body {
     border: none;
     border-radius: 8px;
     font-size: 12px;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -746,6 +770,7 @@ body {
 
 .modal-header h2 {
     font-size: 22px;
+    font-family: "Montserrat", sans-serif;
     font-weight: 600;
     margin: 0;
 }
@@ -965,8 +990,8 @@ body {
     border: 2px solid #e9ecef;
     border-radius: 8px;
     font-size: 14px;
-    transition: border-color 0.3s ease;
-    font-family: inherit;
+    transition: border-color 0.3s ease;    
+    font-family: "Open Sans", sans-serif;
 }
 
 .campo-form input[type="text"]:focus,
@@ -1016,6 +1041,7 @@ body {
     padding: 10px 25px;
     border-radius: 6px;
     font-size: 14px;
+    font-family: "Open Sans", sans-serif;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -1031,6 +1057,7 @@ body {
     padding: 10px 25px;
     border-radius: 6px;
     font-size: 14px;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;

@@ -7,6 +7,7 @@
 
 body {
     font-family: 'Arial', sans-serif;
+    font-family: "Open Sans", sans-serif;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     min-height: 100vh;
     color: #333;
@@ -46,6 +47,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 14px;
+    font-family: "Open Sans", sans-serif;
 }
 
 .boton-volver:hover {
@@ -56,6 +58,7 @@ body {
 .titulo-seccion h1 {
     color: white;
     font-size: 28px;
+    font-family: "Montserrat", sans-serif;
     margin-bottom: 5px;
 }
 
@@ -72,6 +75,7 @@ body {
 
 .nombre-usuario {
     color: white;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
 }
 
@@ -84,6 +88,7 @@ body {
     cursor: pointer;
     font-size: 12px;
     transition: all 0.3s ease;
+    font-family: "Open Sans", sans-serif;
 }
 
 .boton-cerrar-sesion:hover {
@@ -191,6 +196,7 @@ body {
 .contenido-accion h3 {
     font-size: 20px;
     color: #4e433e;
+    font-family: "Montserrat", sans-serif;
     margin-bottom: 5px;
 }
 
@@ -225,6 +231,7 @@ body {
 
 .header-lista h2 {
     color: #4e433e;
+    font-family: "Montserrat", sans-serif;
     font-size: 28px;
 }
 
@@ -240,6 +247,7 @@ body {
     border-radius: 25px;
     font-size: 14px;
     width: 250px;
+    font-family: "Open Sans", sans-serif;
     transition: all 0.3s ease;
 }
 
@@ -257,6 +265,7 @@ body {
     padding: 12px 20px;
     cursor: pointer;
     font-size: 14px;
+    font-family: "Open Sans", sans-serif;
     transition: all 0.3s ease;
 }
 
@@ -311,6 +320,7 @@ body {
     border-radius: 8px;
     padding: 15px 30px;
     cursor: pointer;
+    font-family: "Open Sans", sans-serif;
     font-size: 16px;
     transition: all 0.3s ease;
 }
@@ -358,6 +368,7 @@ body {
     padding: 6px 12px;
     border-radius: 15px;
     font-size: 12px;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     text-transform: uppercase;
 }
@@ -385,6 +396,7 @@ body {
 
 .header-info h3 {
     color: #4e433e;
+    font-family: "Montserrat", sans-serif;
     font-size: 20px;
     margin: 0;
 }
@@ -399,6 +411,7 @@ body {
     padding: 4px 12px;
     border-radius: 15px;
     font-size: 12px;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     text-transform: capitalize;
     display: inline-block;
@@ -443,6 +456,7 @@ body {
     border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     transition: all 0.3s ease;
 }
@@ -523,6 +537,7 @@ body {
 
 .modal-header h2 {
     margin: 0;
+    font-family: "Montserrat", sans-serif;
     font-size: 24px;
     font-weight: 600;
 }
@@ -571,6 +586,7 @@ body {
 
 .seccion-form h3 {
     color: #4e433e;
+    font-family: "Montserrat", sans-serif;
     margin-bottom: 20px;
     font-size: 18px;
     border-bottom: 2px solid #fed87b;
@@ -603,6 +619,7 @@ body {
     border-radius: 8px;
     font-size: 14px;
     transition: all 0.3s ease;
+    font-family: "Open Sans", sans-serif;
     background: white;
 }
 
@@ -641,6 +658,7 @@ body {
     border-radius: 8px;
     font-size: 14px;
     font-weight: 600;
+    font-family: "Open Sans", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
     min-width: 120px;
