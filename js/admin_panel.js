@@ -866,7 +866,7 @@ async function guardarCategoriaRestauranteEditada() {
 
         const id = document.getElementById('editCategoriaRestauranteId').value;
 
-        const response = await fetchAPI(`/categorias_restaurantes/nombre/${id}`, { 
+        const response = await fetchAPI(`/categorias_restaurantes/${id}`, { 
             method: 'PATCH',
             body: JSON.stringify(categoriaData)
         });
@@ -904,7 +904,7 @@ async function guardarCategoriaPlatoEditada() {
 
         const id = document.getElementById('editCategoriaPlatoId').value;
 
-       const response = await fetchAPI(`/categorias_platos/nombre/${id}`, {
+       const response = await fetchAPI(`/categorias_platos/${id}`, {
             method: 'PATCH',
             body: JSON.stringify(categoriaData)
         });
