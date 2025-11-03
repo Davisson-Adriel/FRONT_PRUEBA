@@ -1,3 +1,17 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/MontserratAlternates-SemiBold.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Open Sans";
+    src: url("../fonts/OpenSans-Regular.ttf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Reseteo básico */
 * {
     margin: 0;
