@@ -866,16 +866,9 @@ async function guardarCategoriaRestauranteEditada() {
 
         const id = document.getElementById('editCategoriaRestauranteId').value;
 
-        const response = await fetchAPI(`/categorias_restaurantes/${id}`, { 
-            method: 'PATCH',
-            body: JSON.stringify(categoriaData)
-        });
+        const response = await CategoriasRestaurantesAPI.actualizar(id, categoriaData);
 
         alert('Categoría actualizada exitosamente');
-
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
 
         alert('Categoría actualizada exitosamente');
         cerrarModalEditarCategoriaRestaurante();
@@ -904,14 +897,7 @@ async function guardarCategoriaPlatoEditada() {
 
         const id = document.getElementById('editCategoriaPlatoId').value;
 
-       const response = await fetchAPI(`/categorias_platos/${id}`, {
-            method: 'PATCH',
-            body: JSON.stringify(categoriaData)
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
+        const response = await CategoriasPlatosAPI.actualizar(id, categoriaData.nombre);
 
         alert('Categoría actualizada exitosamente');
         cerrarModalEditarCategoriaPlato();
