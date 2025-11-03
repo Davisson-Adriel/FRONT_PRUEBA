@@ -154,3 +154,9 @@ Esta sección muestra el proceso de diseño y maquetación de las diferentes pá
 </table>
 
 </div>
+
+## Autores 🥷 🥷
+
+- Joan sebastian Gómez Serrano
+
+- Davisson Adriel Román
